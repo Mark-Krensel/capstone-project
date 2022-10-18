@@ -1,4 +1,12 @@
 import Head from "next/head";
+import Card from "../components/Card";
+import styled from "styled-components";
+
+const fakeDB = [
+  { id: "jkl345", weight: 34, date: "12/01/2022" },
+  { id: "jkr35t5", weight: 6, date: "21/08/2022" },
+  { id: "oin345n", weight: 3.56, date: "18/10/2022" },
+];
 
 export default function Home() {
   return (
@@ -11,7 +19,21 @@ export default function Home() {
 
       <main>
         <h1>My App</h1>
+        <CardContainer>
+          {fakeDB.map((card) => (
+            <Card key={card.id} weight={card.weight} date={card.date} />
+          ))}
+        </CardContainer>
       </main>
     </div>
   );
 }
+
+const CardContainer = styled.div`
+  display: flex;
+  gap: 1em;
+  flex-wrap: wrap;
+  background-color: darkseagreen;
+  justify-content: center;
+  padding: 1em;
+`;
