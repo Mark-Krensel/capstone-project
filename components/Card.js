@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export default function Card({ date, id, weight }) {
+export default function Card({ date, weight }) {
   return (
     <CardElement>
       <p>Date: {date}</p>
@@ -15,6 +15,6 @@ const CardElement = styled.article`
   background-color: lightgrey;
   border-radius: 4%;
   box-shadow: 5px 3px 1px grey;
-  height: 100px;
-  width: 200px;
+  height: 6em;
+  width: 12em;
 `;
