@@ -10,9 +10,16 @@ export default function WeightForm({ onAddWeight }) {
   }
   return (
     <WeightFormElement aria-label="Add weight and date" onSubmit={sendForm}>
-      <input type="number" name="weight" min="0" step="0.001" />
+      <input
+        type="number"
+        name="weight"
+        min="0"
+        step="0.001"
+        aria-label="weight input"
+      />
       <p>Kg</p>
       <input
+        aria-label="date input"
         type="date"
         name="date"
         defaultValue={new Date().toISOString().slice(0, 10)}
@@ -26,7 +33,7 @@ export default function WeightForm({ onAddWeight }) {
 
 const WeightFormElement = styled.form`
   background-color: var(--background-secondary);
-  border: 1px var(--text-secondary) solid;
+  border: 1px solid var(--text-secondary);
   color: var(--text-secondary);
   border-radius: 5%;
   box-shadow: 5px 3px 8px grey;
