@@ -11,10 +11,10 @@ export default function Card({ date, weight }) {
 
 const CardElement = styled.article`
   padding: 0 0.5em;
-  border: 1px grey solid;
-  background-color: lightgrey;
-  border-radius: 4%;
-  box-shadow: 5px 3px 1px grey;
+  border: 1px var(--text-primary) solid;
+  color: var(--text-primary);
+  border-radius: 5%;
+  box-shadow: 5px 3px 8px grey;
   height: 6em;
   width: 12em;
 `;
