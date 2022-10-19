@@ -1,6 +1,8 @@
 import Head from "next/head";
 import Card from "../components/Card";
 import styled from "styled-components";
+import WeightForm from "../components/forms/WeightForm";
+import { useState } from "react";
 
 const fakeDB = [
   { id: "jkl345", weight: 34, date: "12/01/2022" },
@@ -9,6 +11,19 @@ const fakeDB = [
 ];
 
 export default function Home() {
+  const [cardData, setCardData] = useState(fakeDB);
+
+  function appendCard(weight, date) {
+    setCardData((cardData) => [
+      ...cardData,
+      {
+        date,
+        weight,
+        id: Math.random().toString(36).substring(2),
+      },
+    ]);
+  }
+
   return (
     <div>
       <Head>
@@ -20,10 +35,11 @@ export default function Home() {
       <main>
         <h1>My App</h1>
         <CardContainer>
-          {fakeDB.map((card) => (
+          {cardData.map((card) => (
             <Card key={card.id} weight={card.weight} date={card.date} />
           ))}
         </CardContainer>
+        <WeightForm onAddWeight={appendCard} />
       </main>
     </div>
   );
@@ -33,7 +49,6 @@ const CardContainer = styled.div`
   display: flex;
   gap: 1em;
   flex-wrap: wrap;
-  background-color: darkseagreen;
   justify-content: center;
   padding: 1em;
 `;
