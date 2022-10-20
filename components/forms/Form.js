@@ -61,11 +61,13 @@ const FormElement = styled.form`
     background-color: var(--background-primary);
     border-radius: 12%;
     height: 2em;
-    width: 2em;
+    width: 3em;
+    padding: 0 1em;
+    margin: 0 60%;
   }
 
   input {
-    max-width: 8em;
+    width: 8em;
     max-height: 2em;
     border-radius: 5px;
   }
@@ -73,5 +75,6 @@ const FormElement = styled.form`
   p {
     max-height: 2em;
     position: relative;
+    margin: 0 10% 0 0;
   }
 `;
