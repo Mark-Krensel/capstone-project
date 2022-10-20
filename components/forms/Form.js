@@ -16,6 +16,8 @@ export default function Form({ onAddData }) {
         type="date"
         name="date"
         defaultValue={new Date().toISOString().slice(0, 10)}
+        max={new Date().toISOString().slice(0, 10)}
+        min="2021-01-01"
       />
       <input
         type="number"
