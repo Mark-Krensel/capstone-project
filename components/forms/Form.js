@@ -5,18 +5,15 @@ export default function Form({ onAddData }) {
     event.preventDefault();
     const formData = new FormData(event.target);
     const { weight, date, height } = Object.fromEntries(formData);
-
-    onAddData(weight, date, height);
-    event.target.reset();
-  }
-
-  function empty() {
-    let weightInput = document.getElementById("weight").value;
-    let heightInput = document.getElementById("height").value;
+    const weightInput = document.getElementById("weight").value;
+    const heightInput = document.getElementById("height").value;
     if (weightInput == "" && heightInput == "") {
       alert("empty");
       return false;
     }
+
+    onAddData(weight, date, height);
+    event.target.reset();
   }
 
   return (
@@ -49,7 +46,7 @@ export default function Form({ onAddData }) {
         max="200"
       />
       <p>cm</p>
-      <button type="submit" aria-label="submit data" onClick={() => empty()}>
+      <button type="submit" aria-label="submit data">
         ok
       </button>
     </FormElement>
