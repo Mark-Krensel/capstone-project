@@ -1,43 +1,47 @@
 import styled from "styled-components";
 
-export default function WeightForm({ onAddWeight }) {
+export default function Form({ onAddData }) {
   function sendForm(event) {
     event.preventDefault();
     const formData = new FormData(event.target);
-    const { weight, date } = Object.fromEntries(formData);
+    const { weight, date, height } = Object.fromEntries(formData);
 
-    onAddWeight(weight, date);
+    onAddData(weight, date, height);
   }
   return (
-    <WeightFormElement aria-label="Add weight and date" onSubmit={sendForm}>
-      <input
-        type="number"
-        name="weight"
-        min="0"
-        step="0.001"
-        aria-label="weight input"
-      />
-      <p>Kg</p>
+    <FormElement aria-label="Add weight and date" onSubmit={sendForm}>
       <input
         aria-label="date input"
         type="date"
         name="date"
         defaultValue={new Date().toISOString().slice(0, 10)}
       />
+      <input
+        type="number"
+        name="weight"
+        min="0"
+        max="50"
+        step="0.001"
+        aria-label="weight input"
+      />
+      <p>Kg</p>
+
+      <input aria-label="height input" type="number" name="height" />
+      <p>cm</p>
       <button type="submit" aria-label="submit weight">
         ok
       </button>
-    </WeightFormElement>
+    </FormElement>
   );
 }
 
-const WeightFormElement = styled.form`
+const FormElement = styled.form`
   background-color: var(--background-secondary);
   border: 1px solid var(--text-secondary);
   color: var(--text-secondary);
   border-radius: 5%;
   box-shadow: 5px 3px 8px grey;
-  height: 8em;
+  height: 12em;
   width: 12em;
   display: flex;
   flex-wrap: wrap;
@@ -62,6 +66,5 @@ const WeightFormElement = styled.form`
   p {
     max-height: 2em;
     position: relative;
-    bottom: 1em;
   }
 `;
