@@ -9,6 +9,16 @@ export default function Form({ onAddData }) {
     onAddData(weight, date, height);
     event.target.reset();
   }
+
+  function empty() {
+    let weightInput = document.getElementById("weight").value;
+    let heightInput = document.getElementById("height").value;
+    if (weightInput == "" && heightInput == "") {
+      alert("empty");
+      return false;
+    }
+  }
+
   return (
     <FormElement aria-label="Add weight and date" onSubmit={sendForm}>
       <input
@@ -22,6 +32,7 @@ export default function Form({ onAddData }) {
       <input
         type="number"
         name="weight"
+        id="weight"
         min="0"
         max="50"
         step="0.001"
@@ -33,11 +44,12 @@ export default function Form({ onAddData }) {
         aria-label="height input"
         type="number"
         name="height"
+        id="height"
         min="0"
         max="200"
       />
       <p>cm</p>
-      <button type="submit" aria-label="submit data">
+      <button type="submit" aria-label="submit data" onClick={() => empty()}>
         ok
       </button>
     </FormElement>
