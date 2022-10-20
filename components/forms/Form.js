@@ -7,6 +7,7 @@ export default function Form({ onAddData }) {
     const { weight, date, height } = Object.fromEntries(formData);
 
     onAddData(weight, date, height);
+    event.target.reset();
   }
   return (
     <FormElement aria-label="Add weight and date" onSubmit={sendForm}>
