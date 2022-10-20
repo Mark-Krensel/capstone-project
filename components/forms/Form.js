@@ -27,9 +27,15 @@ export default function Form({ onAddData }) {
       />
       <p>Kg</p>
 
-      <input aria-label="height input" type="number" name="height" />
+      <input
+        aria-label="height input"
+        type="number"
+        name="height"
+        min="0"
+        max="200"
+      />
       <p>cm</p>
-      <button type="submit" aria-label="submit weight">
+      <button type="submit" aria-label="submit data">
         ok
       </button>
     </FormElement>
