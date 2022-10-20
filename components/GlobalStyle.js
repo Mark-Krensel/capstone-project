@@ -6,6 +6,8 @@ const GlobalStyle = createGlobalStyle`
           --text-secondary:#6393A6;
           --background-primary: #F2AEBB;
           --background-secondary:#F2CBBD;
+          --not-black:#323E40;
+          --not-white:#F2F2F2;
       }
 
       /* noto-sans-regular - latin */
@@ -28,6 +30,10 @@ const GlobalStyle = createGlobalStyle`
           font-family: 'Noto Sans', sans-serif;
           background-color: var(--background-primary);
           color: var(--text-primary);
+      }
+
+      ul, ol{
+        list-style:none;
       }
   `;
 
