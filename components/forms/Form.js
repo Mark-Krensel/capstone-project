@@ -5,8 +5,8 @@ export default function Form({ onAddData }) {
     event.preventDefault();
     const formData = new FormData(event.target);
     const { weight, date, height } = Object.fromEntries(formData);
-    const weightInput = document.getElementById("weight").value;
-    const heightInput = document.getElementById("height").value;
+    const weightInput = event.target.weight.value;
+    const heightInput = event.target.height.value;
     if (weightInput == "" && heightInput == "") {
       alert("empty");
       return false;
@@ -29,7 +29,6 @@ export default function Form({ onAddData }) {
       <input
         type="number"
         name="weight"
-        id="weight"
         min="0"
         max="50"
         step="0.001"
@@ -41,7 +40,6 @@ export default function Form({ onAddData }) {
         aria-label="height input"
         type="number"
         name="height"
-        id="height"
         min="0"
         max="200"
       />
