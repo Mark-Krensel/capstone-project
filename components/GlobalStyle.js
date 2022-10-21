@@ -8,6 +8,7 @@ const GlobalStyle = createGlobalStyle`
           --background-secondary:#F2CBBD;
           --not-black:#323E40;
           --not-white:#F2F2F2;
+          --background-hover: #4B4952;
       }
 
       /* noto-sans-regular - latin */

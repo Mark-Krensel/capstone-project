@@ -3,6 +3,7 @@ import Card from "../components/Card";
 import styled from "styled-components";
 import Form from "../components/forms/Form";
 import { useState } from "react";
+import Header from "../components/Header";
 
 const fakeDB = [
   { id: "jkl345", weight: 34, height: 3, date: "12/01/2022" },
@@ -34,7 +35,7 @@ export default function Home() {
       </Head>
 
       <main>
-        <h1>My App</h1>
+        <Header />
         <CardContainer>
           {cardData.map((card) => (
             <Card
