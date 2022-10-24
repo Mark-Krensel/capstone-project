@@ -13,7 +13,7 @@ export default function NavMenu() {
 
   return (
     <NavWrapper>
-      <NavButton onClick={toggleHamburgerMenu}>XXX</NavButton>
+      <NavButton onClick={toggleHamburgerMenu}>MENU</NavButton>
       <BurgerMenu hamburgerMenu={hamburgerMenu}>
         <li>
           <Link href="/" passHref>
