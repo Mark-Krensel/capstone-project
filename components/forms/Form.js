@@ -42,6 +42,7 @@ export default function Form({ onAddData }) {
         name="height"
         min="0"
         max="200"
+        step="0.1"
       />
       <p>cm</p>
       <button type="submit" aria-label="submit data">
