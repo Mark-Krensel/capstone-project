@@ -14,20 +14,22 @@ export default function NavMenu() {
   return (
     <NavWrapper>
       <NavButton onClick={toggleHamburgerMenu}>MENU</NavButton>
-      <BurgerMenu hamburgerMenu={hamburgerMenu}>
-        <li>
-          <Link href="/" passHref>
-            <StyledNavLink active={pathname === "/"}>Home</StyledNavLink>
-          </Link>
-        </li>
-        <li>
-          <Link href="/weight" passHref>
-            <StyledNavLink active={pathname === "/weight"}>
-              Weight
-            </StyledNavLink>
-          </Link>
-        </li>
-      </BurgerMenu>
+      {hamburgerMenu && (
+        <BurgerMenu>
+          <li>
+            <Link href="/" passHref>
+              <StyledNavLink active={pathname === "/"}>Home</StyledNavLink>
+            </Link>
+          </li>
+          <li>
+            <Link href="/weight" passHref>
+              <StyledNavLink active={pathname === "/weight"}>
+                Weight
+              </StyledNavLink>
+            </Link>
+          </li>
+        </BurgerMenu>
+      )}
     </NavWrapper>
   );
 }
@@ -45,7 +47,6 @@ const NavButton = styled.div`
   cursor: pointer;
 `;
 const BurgerMenu = styled.ul`
-  display: ${(props) => (props.hamburgerMenu ? "inline" : "none")};
   z-index: 15;
 
   li {
