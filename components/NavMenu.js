@@ -6,15 +6,15 @@ import { useRouter } from "next/router";
 export default function NavMenu() {
   const { pathname } = useRouter();
 
-  const [hamburgerMenu, setHamburgerMenu] = useState(false);
+  const [showHamburgerMenu, setHamburgerMenu] = useState(false);
   const toggleHamburgerMenu = () => {
-    setHamburgerMenu(!hamburgerMenu);
+    setHamburgerMenu(!showHamburgerMenu);
   };
 
   return (
     <NavWrapper>
       <NavButton onClick={toggleHamburgerMenu}>MENU</NavButton>
-      {hamburgerMenu && (
+      {showHamburgerMenu && (
         <BurgerMenu>
           <li>
             <Link href="/" passHref>
