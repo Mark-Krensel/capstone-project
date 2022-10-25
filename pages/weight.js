@@ -2,12 +2,19 @@ import Card from "../components/Card";
 import styled from "styled-components";
 import { getAllDays } from "../services/dayService";
 
-export default function WeightPage() {
-  //   const days = await getAllDays();
+export async function getServerSideProps() {
+  const days = await getAllDays();
+
+  return {
+    props: { days: days },
+  };
+}
+
+export default function WeightPage({ days }) {
   return (
     <>
       <p>You will see a graph here soon </p>
-      {/* <CardContainer>
+      <CardContainer>
         {days.map((day) => (
           <Card
             key={day.id}
@@ -16,7 +23,7 @@ export default function WeightPage() {
             height={day.height}
           />
         ))}
-      </CardContainer> */}
+      </CardContainer>
     </>
   );
 }

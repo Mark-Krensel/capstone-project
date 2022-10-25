@@ -8,7 +8,7 @@ export async function getAllDays() {
 
   const sanitizedDays = days.map((day) => ({
     id: day.id,
-    date: day.name,
+    date: day.date,
     weight: day.weight,
     height: day.height,
   }));

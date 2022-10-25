@@ -3,6 +3,7 @@ import Card from "../components/Card";
 import styled from "styled-components";
 import Form from "../components/forms/Form";
 import { useState } from "react";
+import { getAllDays } from "../services/dayService";
 
 const fakeDB = [
   { id: "jkl345", weight: 34, height: 3, date: "12/01/2022" },
@@ -10,7 +11,15 @@ const fakeDB = [
   { id: "oin345n", weight: 3.56, height: 54, date: "18/10/2022" },
 ];
 
-export default function Home() {
+export async function getServerSideProps() {
+  const days = await getAllDays();
+
+  return {
+    props: { days: days },
+  };
+}
+
+export default function Home({ days }) {
   const [cardData, setCardData] = useState(fakeDB);
 
   function appendCard(weight, date, height) {
@@ -35,12 +44,12 @@ export default function Home() {
 
       <main>
         <CardContainer>
-          {cardData.map((card) => (
+          {days.map((day) => (
             <Card
-              key={card.id}
-              weight={card.weight}
-              date={card.date}
-              height={card.height}
+              key={day.id}
+              weight={day.weight}
+              date={day.date}
+              height={day.height}
             />
           ))}
         </CardContainer>
