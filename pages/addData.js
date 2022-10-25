@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import FormDB from "../components/forms/FormDB";
 import { getAllDays } from "../services/dayService";
+import { CardContainer } from "../components/CardContainer";
 
 export async function getServerSideProps() {
   const days = await getAllDays();
@@ -29,9 +30,9 @@ export default function AddData({ days }) {
   }
 
   return (
-    <>
+    <CardContainer>
       <h2>Add data</h2>
       <FormDB onSubmit={handleSubmit} days={days} />
-    </>
+    </CardContainer>
   );
 }

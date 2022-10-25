@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export default function Form({ days, onSubmit }) {
+export default function Form({ onSubmit }) {
   function sendForm(event) {
     event.preventDefault();
     const formData = new FormData(event.target);
