@@ -28,6 +28,13 @@ export default function NavMenu() {
               </StyledNavLink>
             </Link>
           </li>
+          <li>
+            <Link href="/addData" passHref>
+              <StyledNavLink active={pathname === "/addData"}>
+                New Data
+              </StyledNavLink>
+            </Link>
+          </li>
         </BurgerMenu>
       )}
     </NavWrapper>

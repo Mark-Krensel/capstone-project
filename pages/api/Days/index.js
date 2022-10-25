@@ -1,5 +1,5 @@
 import dbConnect from "../../../lib/dbConnect";
-import Card from "../../../components/Card";
+import Day from "../../../models/Day";
 import { getAllDays } from "../../../services/dayService";
 
 export default async function handler(request, response) {
