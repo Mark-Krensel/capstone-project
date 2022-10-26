@@ -58,10 +58,10 @@ const BurgerMenu = styled.ul`
 
   li {
     background-color: var(--not-black);
-    width: 5em;
-    height: 1.7em;
+    width: auto;
+    height: auto;
     text-align: right;
-    padding-right: 0.8em;
+    padding: 0.2em 0.8em;
   }
   &:hover {
     background-color: var(--background-hover);
