@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export default function Form({ onAddData }) {
+export default function Form({ onSubmit }) {
   function sendForm(event) {
     event.preventDefault();
     const formData = new FormData(event.target);
@@ -12,7 +12,7 @@ export default function Form({ onAddData }) {
       return false;
     }
 
-    onAddData(weight, date, height);
+    onSubmit({ weight, date, height });
     event.target.reset();
   }
 
@@ -25,6 +25,7 @@ export default function Form({ onAddData }) {
         defaultValue={new Date().toISOString().slice(0, 10)}
         max={new Date().toISOString().slice(0, 10)}
         min="2021-01-01"
+        required
       />
       <input
         type="number"
