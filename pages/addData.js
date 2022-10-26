@@ -1,19 +1,8 @@
 import { useRouter } from "next/router";
 import FormDB from "../components/forms/FormDB";
-import { getAllDays } from "../services/dayService";
 import { CardContainer } from "../components/CardContainer";
 
-export async function getServerSideProps() {
-  const days = await getAllDays();
-
-  return {
-    props: {
-      days,
-    },
-  };
-}
-
-export default function AddData({ days }) {
+export default function AddData() {
   const router = useRouter();
 
   async function handleSubmit(data) {
@@ -23,6 +12,7 @@ export default function AddData({ days }) {
         body: JSON.stringify(data),
       });
       const result = await response.json();
+
       router.push(`/`);
     } catch (error) {
       console.error(error);
@@ -32,7 +22,7 @@ export default function AddData({ days }) {
   return (
     <CardContainer>
       <h2>Add data</h2>
-      <FormDB onSubmit={handleSubmit} days={days} />
+      <FormDB onSubmit={handleSubmit} />
     </CardContainer>
   );
 }
