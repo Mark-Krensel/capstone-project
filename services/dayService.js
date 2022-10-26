@@ -23,7 +23,7 @@ export async function getDayById(id) {
 
   const sanitizedDay = {
     id: day.id,
-    date: day.name,
+    date: day.date,
     weight: day.weight,
     height: day.height,
   };
