@@ -25,6 +25,7 @@ export default function Form({ onSubmit }) {
         defaultValue={new Date().toISOString().slice(0, 10)}
         max={new Date().toISOString().slice(0, 10)}
         min="2021-01-01"
+        required
       />
       <input
         type="number"
