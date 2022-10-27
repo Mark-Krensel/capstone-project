@@ -3,19 +3,30 @@ import Day from "../../../models/Day";
 import { getAllDays } from "../../../services/dayService";
 
 export default async function handler(request, response) {
-  if (request.method === "GET") {
-    const days = await getAllDays();
-    return response.status(200).json(days);
-  } else if (request.method === "POST") {
-    await dbConnect();
+  await dbConnect();
+  const id = request.query.id;
 
-    const postData = JSON.parse(request.body);
-    const newDay = await Day.create(postData);
+  switch (request.method) {
+    case "GET":
+      const days = await getAllDays();
+      return response.status(200).json(days);
 
-    return response
-      .status(201)
-      .json({ message: "Data saved", createdId: newDay.id });
+    case "POST":
+      const postData = JSON.parse(request.body);
+      const newDay = await Day.create(postData);
+
+      return response
+        .status(201)
+        .json({ message: "Data saved", createdId: newDay.id });
+
+    case "DELETE":
+      await Day.findByIdAndDelete(id);
+      return response
+        .status(200)
+        .json({ message: "Entry deleted", deletedId: id });
+    default:
+      return response
+        .status(405)
+        .json({ message: "HTTP method is not allowed" });
   }
-
-  return response.status(405).json({ message: "HTTP method is not allowed" });
 }
