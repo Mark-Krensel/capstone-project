@@ -4,6 +4,7 @@ import { getAllDays } from "../../../services/dayService";
 
 export default async function handler(request, response) {
   await dbConnect();
+  const id = request.query.id;
 
   switch (request.method) {
     case "GET":
@@ -19,7 +20,7 @@ export default async function handler(request, response) {
         .json({ message: "Data saved", createdId: newDay.id });
 
     case "DELETE":
-      await Product.findByIdAndDelete(id);
+      await Day.findByIdAndDelete(id);
       return response
         .status(200)
         .json({ message: "Entry deleted", deletedId: id });
