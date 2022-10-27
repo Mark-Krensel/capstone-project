@@ -3,7 +3,13 @@ import styled from "styled-components";
 export default function Card({ date, weight, height, handleDelete, id }) {
   return (
     <CardElement>
-      <DeleteButton onClick={() => handleDelete(id)}>X</DeleteButton>
+      <DeleteButton
+        type="button"
+        aria-label="delete data"
+        onClick={() => handleDelete(id)}
+      >
+        X
+      </DeleteButton>
       <p>Date: {date}</p>
       <p>Weight: {weight}</p>
       <p>Height: {height}</p>
