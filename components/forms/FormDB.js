@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import Stopwatch from "./Stopwatch";
 
 export default function Form({ onSubmit }) {
   function sendForm(event) {
@@ -49,6 +50,7 @@ export default function Form({ onSubmit }) {
       <button type="submit" aria-label="submit data">
         ok
       </button>
+      <Stopwatch />
     </FormElement>
   );
 }
