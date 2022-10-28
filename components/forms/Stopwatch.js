@@ -1,13 +1,15 @@
 import { useEffect, useState } from "react";
 
-export default function Stopwatch() {
-  const [startTime, setStartTime] = useState();
+export default function Stopwatch({ setStoppedTime }) {
+  const storedStartTime =
+    typeof window !== "undefined" ? localStorage.getItem("startTime") : null;
+  const [startTime, setStartTime] = useState(storedStartTime ?? []);
   const [hours, setHours] = useState(0);
   const [minutes, setMinutes] = useState(0);
   const [seconds, setSeconds] = useState(0);
 
   useEffect(() => {
-    if (startTime) {
+    if (typeof startTime !== "undefined") {
       const interval = setInterval(() => {
         const now = new Date();
         const difference = now.getTime() - startTime;
@@ -25,7 +27,12 @@ export default function Stopwatch() {
         localStorage.setItem("startTime", startTime);
       }, 1000);
 
-      return () => clearInterval(interval);
+      return () => {
+        clearInterval(interval);
+        setHours(0);
+        setMinutes(0);
+        setSeconds(0);
+      };
     }
   }, [startTime]);
 
@@ -34,12 +41,18 @@ export default function Stopwatch() {
       {startTime && (
         <>
           <div>
-            {hours}:{minutes}:{seconds}
+            {String(hours).padStart(2, "0")}:{String(minutes).padStart(2, "0")}:
+            {String(seconds).padStart(2, "0")}
           </div>
           <button
             type="button"
             aria-label="stop stopwatch"
             onClick={() => {
+              setStoppedTime(
+                String(hours).padStart(2, "0") +
+                  String(minutes).padStart(2, "0") +
+                  String(seconds).padStart(2, "0")
+              );
               setStartTime("");
               localStorage.removeItem("startTime");
             }}
