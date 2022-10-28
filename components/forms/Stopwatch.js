@@ -7,32 +7,35 @@ export default function Stopwatch() {
   const [seconds, setSeconds] = useState(0);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      const now = new Date();
-      const difference = now.getTime() - startTime;
+    if (startTime) {
+      const interval = setInterval(() => {
+        const now = new Date();
+        const difference = now.getTime() - startTime;
 
-      const h = Math.floor(
-        (difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-      );
-      setHours(h);
+        const h = Math.floor(
+          (difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+        );
+        setHours(h);
 
-      const m = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
-      setMinutes(m);
+        const m = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+        setMinutes(m);
 
-      const s = Math.floor((difference % (1000 * 60)) / 1000);
-      setSeconds(s);
-      localStorage.setItem("startTime", startTime);
-    }, 1000);
+        const s = Math.floor((difference % (1000 * 60)) / 1000);
+        setSeconds(s);
+        localStorage.setItem("startTime", startTime);
+      }, 1000);
 
-    return () => clearInterval(interval);
+      return () => clearInterval(interval);
+    }
   }, [startTime]);
+
   return (
     <>
       {startTime && (
         <>
-          <div>hours{hours}</div>
-          <div>minutes{minutes}</div>
-          <div>seconds{seconds}</div>
+          <div>
+            {hours}:{minutes}:{seconds}
+          </div>
           <button
             type="button"
             aria-label="stop stopwatch"
@@ -53,7 +56,6 @@ export default function Stopwatch() {
             setStartTime(new Date().getTime());
           }}
         >
-          {" "}
           Start
         </button>
       )}
