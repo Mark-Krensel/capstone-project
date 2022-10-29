@@ -63,7 +63,10 @@ export default function Form({ onSubmit }) {
         ok
       </button>
       <Suspense fallback={`Loading...`}>
-        <DynamicStopwatch setStoppedTime={setStoppedTime} />
+        <DynamicStopwatch
+          setStoppedTime={setStoppedTime}
+          stoppedTime={stoppedTime}
+        />
       </Suspense>
     </FormElement>
   );

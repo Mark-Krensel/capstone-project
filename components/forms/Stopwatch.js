@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-export default function Stopwatch({ setStoppedTime }) {
+export default function Stopwatch({ setStoppedTime, stoppedTime }) {
   const storedStartTime =
     typeof window !== "undefined" ? localStorage.getItem("startTime") : null;
   const [startTime, setStartTime] = useState(storedStartTime ?? []);
@@ -62,15 +62,25 @@ export default function Stopwatch({ setStoppedTime }) {
         </>
       )}
       {!startTime && (
-        <button
-          type="button"
-          aria-label="start stopwatch"
-          onClick={() => {
-            setStartTime(new Date().getTime());
-          }}
-        >
-          Start
-        </button>
+        <>
+          {stoppedTime ? (
+            <div>
+              {stoppedTime.substr(0, 2)}:{stoppedTime.substr(2, 2)}:
+              {stoppedTime.substr(4, 2)}
+            </div>
+          ) : (
+            <div>00:00:00</div>
+          )}
+          <button
+            type="button"
+            aria-label="start stopwatch"
+            onClick={() => {
+              setStartTime(new Date().getTime());
+            }}
+          >
+            Start
+          </button>
+        </>
       )}
     </>
   );
