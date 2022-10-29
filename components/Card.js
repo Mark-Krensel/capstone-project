@@ -33,9 +33,11 @@ const CardElement = styled.article`
   border: 1px solid var(--text-primary);
   color: var(--text-primary);
   border-radius: 5%;
-  box-shadow: 5px 3px 8px grey;
+  box-shadow: var(--shadow-elevation);
   height: auto;
+  max-height: auto;
   width: 12em;
+  backdrop-filter: blur(10px);
 `;
 
 const DeleteButton = styled.div`
