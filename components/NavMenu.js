@@ -3,6 +3,7 @@ import { useState } from "react";
 import styled from "styled-components";
 import { useRouter } from "next/router";
 import HamburgerMenu from "./icons/HamburgerMenu";
+import { Button } from "./Button";
 
 export default function NavMenu() {
   const { pathname } = useRouter();
@@ -15,7 +16,7 @@ export default function NavMenu() {
   return (
     <NavWrapper>
       <NavButton onClick={toggleHamburgerMenu} open={showHamburgerMenu}>
-        <HamburgerMenu height={28} width={28} alt="burger menu" />
+        <HamburgerMenu fontSize="40px" alt="burger menu" />
       </NavButton>
       {showHamburgerMenu && (
         <BurgerMenu>
@@ -59,16 +60,14 @@ const NavWrapper = styled.nav`
   color: var(--not-white);
   position: absolute;
   right: 0;
+  background-color: var(--not-black);
+  border-bottom-left-radius: 7px;
+  border-top-left-radius: 7px;
 `;
 
-const NavButton = styled.div`
-  background-color: var(--not-black);
-  padding: 0.7em;
-  border-bottom-left-radius: ${(props) => (props.open ? "0" : "7px")};
-
-  border-top-left-radius: 7px;
-
-  cursor: pointer;
+const NavButton = styled(Button)`
+  padding: 0.7em 0.7em;
+  max-height: 2.1em;
 `;
 const BurgerMenu = styled.ul`
   z-index: 15;

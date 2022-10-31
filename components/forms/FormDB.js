@@ -22,7 +22,7 @@ export default function Form({ onSubmit }) {
     const heightInput = event.target.height.value;
     const timeInput = event.target.feastTime.value;
 
-    if (weightInput == "" && heightInput == "") {
+    if (weightInput == "" && heightInput == "" && timeInput == "") {
       alert("empty");
       return false;
     }
