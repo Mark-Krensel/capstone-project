@@ -2,6 +2,7 @@ import Image from "next/image";
 import styled from "styled-components";
 import { Button } from "./Button";
 import Delete from "./icons/Delete";
+import { useRouter } from "next/router";
 
 export default function Card({
   date,
@@ -11,15 +12,19 @@ export default function Card({
   height,
   feastTime,
 }) {
+  const { pathname } = useRouter();
+
   return (
     <CardElement>
-      <DeleteButton
-        type="button"
-        aria-label="delete data"
-        onClick={() => handleDelete(id)}
-      >
-        <Delete height={20} width={20} alt="delete" />
-      </DeleteButton>
+      {pathname === "/" && (
+        <DeleteButton
+          type="button"
+          aria-label="delete data"
+          onClick={() => handleDelete(id)}
+        >
+          <Delete height={20} width={20} alt="delete" />
+        </DeleteButton>
+      )}
       <p>Date: {date}</p>
       {weight && <p>Weight: {weight}</p>}
       {height && <p>Height: {height}</p>}
