@@ -3,23 +3,32 @@ import styled from "styled-components";
 import { Button } from "./Button";
 import Delete from "./icons/Delete";
 
-export default function Card({ day, handleDelete }) {
+export default function Card({
+  date,
+  id,
+  weight,
+  handleDelete,
+  height,
+  feastTime,
+}) {
   return (
     <CardElement>
       <DeleteButton
         type="button"
         aria-label="delete data"
-        onClick={() => handleDelete(day.id)}
+        onClick={() => handleDelete(id)}
       >
         <Delete height={20} width={20} alt="delete" />
       </DeleteButton>
-      <p>Date: {day.date}</p>
-      <p>Weight: {day.weight}</p>
-      <p>Height: {day.height}</p>
-      <p>
-        Nurse time: {day.feastTime.substr(0, 2)}:{day.feastTime.substr(2, 2)}:
-        {day.feastTime.substr(4, 2)}
-      </p>
+      <p>Date: {date}</p>
+      {weight && <p>Weight: {weight}</p>}
+      {height && <p>Height: {height}</p>}
+      {feastTime && (
+        <p>
+          Nurse time: {feastTime.substr(0, 2)}:{feastTime.substr(2, 2)}:
+          {feastTime.substr(4, 2)}
+        </p>
+      )}
     </CardElement>
   );
 }
