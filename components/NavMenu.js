@@ -2,6 +2,7 @@ import Link from "next/link";
 import { useState } from "react";
 import styled from "styled-components";
 import { useRouter } from "next/router";
+import Image from "next/image";
 
 export default function NavMenu() {
   const { pathname } = useRouter();
@@ -13,7 +14,15 @@ export default function NavMenu() {
 
   return (
     <NavWrapper>
-      <NavButton onClick={toggleHamburgerMenu}>MENU</NavButton>
+      <NavButton onClick={toggleHamburgerMenu}>
+        <Image
+          src="/images/svgs/hamburger-menu.svg"
+          height={28}
+          width={28}
+          alt="burger menu"
+          style={{ color: "red" }}
+        />
+      </NavButton>
       {showHamburgerMenu && (
         <BurgerMenu>
           <li>

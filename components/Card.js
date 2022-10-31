@@ -1,4 +1,6 @@
+import Image from "next/image";
 import styled from "styled-components";
+import { Button } from "./Button";
 
 export default function Card({
   date,
@@ -15,7 +17,13 @@ export default function Card({
         aria-label="delete data"
         onClick={() => handleDelete(id)}
       >
-        X
+        <Image
+          src="/delete.svg"
+          height="22px"
+          width="22px"
+          alt="delete"
+          color="green"
+        />
       </DeleteButton>
       <p>Date: {date}</p>
       <p>Weight: {weight}</p>
@@ -40,11 +48,8 @@ const CardElement = styled.article`
   backdrop-filter: blur(10px);
 `;
 
-const DeleteButton = styled.div`
-  cursor: pointer;
-  border: 1px solid black;
-  border-radius: 50%;
-  width: 1.5em;
-  height: 1.5em;
-  text-align: center;
+const DeleteButton = styled(Button)`
+  position: absolute;
+  right: 0.2em;
+  top: 0.2em;
 `;

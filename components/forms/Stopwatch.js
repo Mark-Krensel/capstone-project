@@ -1,4 +1,6 @@
+import Image from "next/image";
 import { useEffect, useState } from "react";
+import { Button } from "../Button";
 
 export default function Stopwatch({ setStoppedTime, stoppedTime }) {
   const storedStartTime =
@@ -44,7 +46,7 @@ export default function Stopwatch({ setStoppedTime, stoppedTime }) {
             {String(hours).padStart(2, "0")}:{String(minutes).padStart(2, "0")}:
             {String(seconds).padStart(2, "0")}
           </div>
-          <button
+          {/* <button
             type="button"
             aria-label="stop stopwatch"
             onClick={() => {
@@ -57,8 +59,28 @@ export default function Stopwatch({ setStoppedTime, stoppedTime }) {
               localStorage.removeItem("startTime");
             }}
           >
-            Stop
-          </button>
+            
+          </button> */}
+          <Button
+            type="button"
+            aria-label="stop stopwatch"
+            onClick={() => {
+              setStoppedTime(
+                String(hours).padStart(2, "0") +
+                  String(minutes).padStart(2, "0") +
+                  String(seconds).padStart(2, "0")
+              );
+              setStartTime("");
+              localStorage.removeItem("startTime");
+            }}
+          >
+            <Image
+              src="/images/svgs/stop.svg"
+              width={30}
+              height={30}
+              alt="stop"
+            />
+          </Button>
         </>
       )}
       {!startTime && (
@@ -71,15 +93,21 @@ export default function Stopwatch({ setStoppedTime, stoppedTime }) {
           ) : (
             <div>00:00:00</div>
           )}
-          <button
+
+          <Button
             type="button"
             aria-label="start stopwatch"
             onClick={() => {
               setStartTime(new Date().getTime());
             }}
           >
-            Start
-          </button>
+            <Image
+              src="/images/svgs/play.svg"
+              width={30}
+              height={30}
+              alt="play"
+            />
+          </Button>
         </>
       )}
     </>
