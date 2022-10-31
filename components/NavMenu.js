@@ -2,7 +2,6 @@ import Link from "next/link";
 import { useState } from "react";
 import styled from "styled-components";
 import { useRouter } from "next/router";
-import Image from "next/image";
 import HamburgerMenu from "./icons/HamburgerMenu";
 
 export default function NavMenu() {
@@ -15,7 +14,7 @@ export default function NavMenu() {
 
   return (
     <NavWrapper>
-      <NavButton onClick={toggleHamburgerMenu}>
+      <NavButton onClick={toggleHamburgerMenu} open={showHamburgerMenu}>
         <HamburgerMenu height={28} width={28} alt="burger menu" />
       </NavButton>
       {showHamburgerMenu && (
@@ -65,11 +64,15 @@ const NavWrapper = styled.nav`
 const NavButton = styled.div`
   background-color: var(--not-black);
   padding: 0.7em;
+  border-bottom-left-radius: ${(props) => (props.open ? "0" : "7px")};
+
+  border-top-left-radius: 7px;
 
   cursor: pointer;
 `;
 const BurgerMenu = styled.ul`
   z-index: 15;
+  border-radius: 5px;
 
   li {
     background-color: var(--not-black);
@@ -77,9 +80,14 @@ const BurgerMenu = styled.ul`
     height: auto;
     text-align: right;
     padding: 0.2em 0.8em;
+
+    &:hover {
+      background-color: var(--background-hover);
+    }
   }
-  &:hover {
-    background-color: var(--background-hover);
+  li:last-child {
+    border-bottom-left-radius: 7px;
+    border-bottom-right-radius: 7px;
   }
 `;
 const StyledNavLink = styled.a`

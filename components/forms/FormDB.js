@@ -110,4 +110,5 @@ const CheckButton = styled(Button)`
   position: absolute;
   bottom: 0.8em;
   right: 0.5em;
+  color: #51bd7c;
 `;

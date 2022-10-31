@@ -6,7 +6,7 @@ const SvgHamburgerMenu = (props) => (
       enableBackground: "new 0 0 32 32",
     }}
     viewBox="0 0 32 32"
-    width="2em"
+    width="1em"
     xmlSpace="preserve"
     xmlns="http://www.w3.org/2000/svg"
     fill="currentColor"

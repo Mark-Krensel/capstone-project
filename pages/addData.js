@@ -21,7 +21,6 @@ export default function AddData() {
 
   return (
     <CardContainer>
-      <h2>Add data</h2>
       <FormDB onSubmit={handleSubmit} />
     </CardContainer>
   );
