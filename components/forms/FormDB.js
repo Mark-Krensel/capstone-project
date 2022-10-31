@@ -1,9 +1,12 @@
 import styled from "styled-components";
 import { useState } from "react";
+import SvgCheck from "../icons/Check";
 
 //----- import dynamic component to not get hydration error -----
 import dynamic from "next/dynamic";
 import { Suspense } from "react";
+import { Button } from "../Button";
+import Image from "next/image";
 const DynamicStopwatch = dynamic(() => import("./Stopwatch"), {
   ssr: false,
 });
@@ -18,8 +21,8 @@ export default function Form({ onSubmit }) {
     const weightInput = event.target.weight.value;
     const heightInput = event.target.height.value;
     const timeInput = event.target.feastTime.value;
-    console.log(timeInput);
-    if (weightInput == "" && heightInput == "") {
+
+    if (weightInput == "" && heightInput == "" && timeInput == "") {
       alert("empty");
       return false;
     }
@@ -59,42 +62,36 @@ export default function Form({ onSubmit }) {
       />
       <p>cm</p>
       <input type="hidden" value={stoppedTime} name="feastTime" />
-      <button type="submit" aria-label="submit data">
-        ok
-      </button>
       <Suspense fallback={`Loading...`}>
         <DynamicStopwatch
           setStoppedTime={setStoppedTime}
           stoppedTime={stoppedTime}
         />
       </Suspense>
+
+      <CheckButton>
+        <SvgCheck width={40} height={40} alt="check" />
+      </CheckButton>
     </FormElement>
   );
 }
 
 const FormElement = styled.form`
-  background-color: var(--background-secondary);
+  background: var(--background-secondary-blur);
   border: 1px solid var(--text-secondary);
   color: var(--text-secondary);
   border-radius: 5%;
-  box-shadow: 5px 3px 8px grey;
+  box-shadow: var(--shadow-elevation);
+  backdrop-filter: blur(10px);
   height: 12em;
   width: 12em;
   display: flex;
+  position: relative;
   flex-wrap: wrap;
   justify-content: center;
   gap: 0 0.5em;
   padding: 1em;
   margin: 0 auto;
-
-  button {
-    background-color: var(--background-primary);
-    border-radius: 12%;
-    height: 2em;
-    width: 3em;
-    padding: 0 1em;
-    margin: 0 60%;
-  }
 
   input {
     width: 8em;
@@ -107,4 +104,11 @@ const FormElement = styled.form`
     position: relative;
     margin: 0 10% 0 0;
   }
+`;
+
+const CheckButton = styled(Button)`
+  position: absolute;
+  bottom: 0.8em;
+  right: 0.5em;
+  color: #51bd7c;
 `;

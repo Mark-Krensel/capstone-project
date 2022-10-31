@@ -1,28 +1,24 @@
+import Image from "next/image";
 import styled from "styled-components";
+import { Button } from "./Button";
+import Delete from "./icons/Delete";
 
-export default function Card({
-  date,
-  weight,
-  height,
-  handleDelete,
-  id,
-  feastTime,
-}) {
+export default function Card({ day, handleDelete }) {
   return (
     <CardElement>
       <DeleteButton
         type="button"
         aria-label="delete data"
-        onClick={() => handleDelete(id)}
+        onClick={() => handleDelete(day.id)}
       >
-        X
+        <Delete height={20} width={20} alt="delete" />
       </DeleteButton>
-      <p>Date: {date}</p>
-      <p>Weight: {weight}</p>
-      <p>Height: {height}</p>
+      <p>Date: {day.date}</p>
+      <p>Weight: {day.weight}</p>
+      <p>Height: {day.height}</p>
       <p>
-        Nurse time: {feastTime.substr(0, 2)}:{feastTime.substr(2, 2)}:
-        {feastTime.substr(4, 2)}
+        Nurse time: {day.feastTime.substr(0, 2)}:{day.feastTime.substr(2, 2)}:
+        {day.feastTime.substr(4, 2)}
       </p>
     </CardElement>
   );
@@ -33,16 +29,16 @@ const CardElement = styled.article`
   border: 1px solid var(--text-primary);
   color: var(--text-primary);
   border-radius: 5%;
-  box-shadow: 5px 3px 8px grey;
+  box-shadow: var(--shadow-elevation);
   height: auto;
+  max-height: auto;
   width: 12em;
+  backdrop-filter: blur(10px);
+  background: var(--background-secondary-blur);
 `;
 
-const DeleteButton = styled.div`
-  cursor: pointer;
-  border: 1px solid black;
-  border-radius: 50%;
-  width: 1.5em;
-  height: 1.5em;
-  text-align: center;
+const DeleteButton = styled(Button)`
+  position: absolute;
+  right: 0.2em;
+  top: 0.2em;
 `;

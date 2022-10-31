@@ -37,22 +37,10 @@ export default function Home({ days }) {
   }
 
   return (
-    <div>
-      <main>
-        <CardContainer>
-          {days.map((day) => (
-            <Card
-              key={day.id}
-              id={day.id}
-              weight={day.weight}
-              date={day.date}
-              height={day.height}
-              feastTime={day.feastTime}
-              handleDelete={handleDelete}
-            />
-          ))}
-        </CardContainer>
-      </main>
-    </div>
+    <CardContainer>
+      {days.map((day) => (
+        <Card key={day.id} day={day} handleDelete={handleDelete} />
+      ))}
+    </CardContainer>
   );
 }

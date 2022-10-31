@@ -7,6 +7,8 @@ const CardContainer = styled.div`
   justify-content: center;
   padding: 1em;
   margin-top: 3.5em;
+  max-height: calc(100vh - 3.5em);
+  overflow-y: scroll;
 `;
 
 export { CardContainer };
