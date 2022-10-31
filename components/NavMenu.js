@@ -27,19 +27,30 @@ export default function NavMenu() {
         <BurgerMenu>
           <li>
             <Link href="/" passHref>
-              <StyledNavLink active={pathname === "/"}>Home</StyledNavLink>
+              <StyledNavLink
+                active={pathname === "/"}
+                onClick={toggleHamburgerMenu}
+              >
+                Home
+              </StyledNavLink>
             </Link>
           </li>
           <li>
             <Link href="/weight" passHref>
-              <StyledNavLink active={pathname === "/weight"}>
+              <StyledNavLink
+                active={pathname === "/weight"}
+                onClick={toggleHamburgerMenu}
+              >
                 Weight
               </StyledNavLink>
             </Link>
           </li>
           <li>
             <Link href="/addData" passHref>
-              <StyledNavLink active={pathname === "/addData"}>
+              <StyledNavLink
+                active={pathname === "/addData"}
+                onClick={toggleHamburgerMenu}
+              >
                 New Data
               </StyledNavLink>
             </Link>
