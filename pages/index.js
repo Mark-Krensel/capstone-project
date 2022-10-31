@@ -47,6 +47,7 @@ export default function Home({ days }) {
               weight={day.weight}
               date={day.date}
               height={day.height}
+              feastTime={day.feastTime}
               handleDelete={handleDelete}
             />
           ))}

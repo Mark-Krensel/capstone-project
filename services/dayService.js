@@ -11,6 +11,7 @@ export async function getAllDays() {
     date: day.date,
     weight: day.weight,
     height: day.height,
+    feastTime: day.feastTime,
   }));
 
   return sanitizedDays;
@@ -26,6 +27,7 @@ export async function getDayById(id) {
     date: day.date,
     weight: day.weight,
     height: day.height,
+    feastTime: day.feastTime,
   };
 
   return sanitizedDay;

@@ -1,18 +1,30 @@
 import styled from "styled-components";
+import { useState } from "react";
+
+//----- import dynamic component to not get hydration error -----
+import dynamic from "next/dynamic";
+import { Suspense } from "react";
+const DynamicStopwatch = dynamic(() => import("./Stopwatch"), {
+  ssr: false,
+});
 
 export default function Form({ onSubmit }) {
+  const [stoppedTime, setStoppedTime] = useState();
+
   function sendForm(event) {
     event.preventDefault();
     const formData = new FormData(event.target);
-    const { weight, date, height } = Object.fromEntries(formData);
+    const { weight, date, height, feastTime } = Object.fromEntries(formData);
     const weightInput = event.target.weight.value;
     const heightInput = event.target.height.value;
+    const timeInput = event.target.feastTime.value;
+    console.log(timeInput);
     if (weightInput == "" && heightInput == "") {
       alert("empty");
       return false;
     }
 
-    onSubmit({ weight, date, height });
+    onSubmit({ weight, date, height, feastTime });
     event.target.reset();
   }
 
@@ -46,9 +58,16 @@ export default function Form({ onSubmit }) {
         step="0.1"
       />
       <p>cm</p>
+      <input type="hidden" value={stoppedTime} name="feastTime" />
       <button type="submit" aria-label="submit data">
         ok
       </button>
+      <Suspense fallback={`Loading...`}>
+        <DynamicStopwatch
+          setStoppedTime={setStoppedTime}
+          stoppedTime={stoppedTime}
+        />
+      </Suspense>
     </FormElement>
   );
 }
