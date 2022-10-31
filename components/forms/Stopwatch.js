@@ -46,21 +46,7 @@ export default function Stopwatch({ setStoppedTime, stoppedTime }) {
             {String(hours).padStart(2, "0")}:{String(minutes).padStart(2, "0")}:
             {String(seconds).padStart(2, "0")}
           </div>
-          {/* <button
-            type="button"
-            aria-label="stop stopwatch"
-            onClick={() => {
-              setStoppedTime(
-                String(hours).padStart(2, "0") +
-                  String(minutes).padStart(2, "0") +
-                  String(seconds).padStart(2, "0")
-              );
-              setStartTime("");
-              localStorage.removeItem("startTime");
-            }}
-          >
-            
-          </button> */}
+
           <Button
             type="button"
             aria-label="stop stopwatch"

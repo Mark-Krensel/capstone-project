@@ -3,6 +3,7 @@ import { useState } from "react";
 import styled from "styled-components";
 import { useRouter } from "next/router";
 import Image from "next/image";
+import HamburgerMenu from "./icons/HamburgerMenu";
 
 export default function NavMenu() {
   const { pathname } = useRouter();
@@ -15,13 +16,7 @@ export default function NavMenu() {
   return (
     <NavWrapper>
       <NavButton onClick={toggleHamburgerMenu}>
-        <Image
-          src="/images/svgs/hamburger-menu.svg"
-          height={28}
-          width={28}
-          alt="burger menu"
-          style={{ color: "red" }}
-        />
+        <HamburgerMenu height={28} width={28} alt="burger menu" />
       </NavButton>
       {showHamburgerMenu && (
         <BurgerMenu>

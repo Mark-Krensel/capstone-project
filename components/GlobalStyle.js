@@ -6,6 +6,7 @@ const GlobalStyle = createGlobalStyle`
           --text-secondary:#6393A6;
           --background-primary: #F2AEBB;
           --background-secondary:#F2CBBD;
+          --background-secondary-blur: rgba(242, 203, 189, 0.1);
           --not-black:#323E40;
           --not-white:#F2F2F2;
           --background-hover: #4B4952;

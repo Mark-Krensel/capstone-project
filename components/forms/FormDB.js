@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { useState } from "react";
+import SvgCheck from "../icons/Check";
 
 //----- import dynamic component to not get hydration error -----
 import dynamic from "next/dynamic";
@@ -61,28 +62,27 @@ export default function Form({ onSubmit }) {
       />
       <p>cm</p>
       <input type="hidden" value={stoppedTime} name="feastTime" />
-      {/* <button type="submit" aria-label="submit data">
-        ok
-      </button> */}
       <Suspense fallback={`Loading...`}>
         <DynamicStopwatch
           setStoppedTime={setStoppedTime}
           stoppedTime={stoppedTime}
         />
       </Suspense>
-      <CheckButton button-type="submit" aria-label="submit data">
-        <Image src="/images/svgs/check.svg" width={40} height={40} alt="stop" />
+
+      <CheckButton>
+        <SvgCheck width={40} height={40} alt="check" />
       </CheckButton>
     </FormElement>
   );
 }
 
 const FormElement = styled.form`
-  background-color: var(--background-secondary);
+  background: var(--background-secondary-blur);
   border: 1px solid var(--text-secondary);
   color: var(--text-secondary);
   border-radius: 5%;
   box-shadow: var(--shadow-elevation);
+  backdrop-filter: blur(10px);
   height: 12em;
   width: 12em;
   display: flex;

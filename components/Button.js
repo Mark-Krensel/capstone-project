@@ -5,7 +5,6 @@ const Button = styled.button`
   cursor: pointer;
   flex-shrink: 0;
   max-height: 2em;
-  justify-content: center;
 `;
 
 export { Button };
