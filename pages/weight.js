@@ -4,6 +4,7 @@ import { getAllDays } from "../services/dayService";
 
 import React, { useEffect, useRef } from "react";
 import Chart from "chart.js/auto";
+import { CanvasContainer } from "../components/CanvasContainer";
 
 export async function getServerSideProps() {
   const days = await getAllDays();
@@ -16,9 +17,11 @@ export default function WeightPage({ days }) {
   const canvasEl = useRef(null);
 
   const filteredDays = days.filter((day) => Boolean(day.weight));
-  const ascendingFilteredDays = filteredDays.sort((a, b) =>
-    a.date > b.date ? 1 : -1
-  );
+
+  const ascendingFilteredDays = Array.from(filteredDays).reverse();
+
+  console.table(filteredDays);
+  console.table(ascendingFilteredDays);
 
   const colors = {
     purple: {
@@ -42,16 +45,21 @@ export default function WeightPage({ days }) {
     gradient.addColorStop(1, colors.purple.zero);
 
     const data = {
-      labels: ascendingFilteredDays.map((day) => day.date),
+      labels: ascendingFilteredDays.map(
+        (day) =>
+          `${day.date.toString().substr(8, 2)}.${day.date
+            .toString()
+            .substr(5, 2)}`
+      ),
       datasets: [
         {
           backgroundColor: gradient,
-          label: "My First Dataset",
+          label: "Weight",
           data: ascendingFilteredDays.map((day) => day.weight),
           fill: true,
           borderWidth: 2,
-          borderColor: colors.purple.default,
-          lineTension: 0.2,
+          borderColor: colors.purple.half,
+          lineTension: 0.3,
           pointBackgroundColor: colors.purple.default,
           pointRadius: 3,
         },
@@ -71,7 +79,10 @@ export default function WeightPage({ days }) {
   return (
     <>
       <CardContainer>
-        <canvas id="myChart" ref={canvasEl} height="200" max-height="250" />
+        <CanvasContainer>
+          <canvas id="myChart" ref={canvasEl} height="200" max-height="250" />
+        </CanvasContainer>
+
         {filteredDays.map((filteredDay) => (
           <Card
             key={filteredDay.id}
