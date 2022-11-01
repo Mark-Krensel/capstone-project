@@ -1,4 +1,3 @@
-import Image from "next/image";
 import styled from "styled-components";
 import { Button } from "./Button";
 import Delete from "./icons/Delete";
@@ -17,11 +16,7 @@ export default function Card({
   return (
     <CardElement>
       {pathname === "/" && (
-        <DeleteButton
-          type="button"
-          aria-label="delete data"
-          onClick={() => handleDelete(id)}
-        >
+        <DeleteButton aria-label="delete data" onClick={() => handleDelete(id)}>
           <Delete height={20} width={20} alt="delete" />
         </DeleteButton>
       )}
