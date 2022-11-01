@@ -39,7 +39,15 @@ export default function Home({ days }) {
   return (
     <CardContainer>
       {days.map((day) => (
-        <Card key={day.id} day={day} handleDelete={handleDelete} />
+        <Card
+          key={day.id}
+          id={day.id}
+          date={day.date}
+          weight={day.weight}
+          height={day.height}
+          feastTime={day.feastTime}
+          handleDelete={handleDelete}
+        />
       ))}
     </CardContainer>
   );

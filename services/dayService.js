@@ -6,7 +6,9 @@ export async function getAllDays() {
 
   const days = await Day.find();
 
-  const sanitizedDays = days.map((day) => ({
+  const sortedDays = days.sort((a, b) => (a.date < b.date ? 1 : -1));
+
+  const sanitizedDays = sortedDays.map((day) => ({
     id: day.id,
     date: day.date,
     weight: day.weight,
