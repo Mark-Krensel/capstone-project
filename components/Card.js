@@ -21,14 +21,21 @@ export default function Card({
         </DeleteButton>
       )}
       <p>Date: {date}</p>
-      {weight && <p>Weight: {weight}</p>}
-      {height && <p>Height: {height}</p>}
-      {feastTime && (
-        <p>
-          Nurse time: {feastTime.substr(0, 2)}:{feastTime.substr(2, 2)}:
-          {feastTime.substr(4, 2)}
-        </p>
-      )}
+      {weight &&
+        weight.map((entry) => {
+          <p>Weight: {entry}</p>;
+        })}
+      {height &&
+        height.map((entry) => {
+          <p>Height: {entry}</p>;
+        })}
+      {feastTime &&
+        feastTime.map((entry) => {
+          <p>
+            Nurse time: {entry.substr(0, 2)}:{entry.substr(2, 2)}:
+            {entry.substr(4, 2)}
+          </p>;
+        })}
     </CardElement>
   );
 }
