@@ -24,7 +24,10 @@ export default async function handler(request, response) {
       return response
         .status(200)
         .json({ message: "Entry deleted", deletedId: id });
-    default:
+
+      //     case"PATCH":
+      //     await
+      // default:
       return response
         .status(405)
         .json({ message: "HTTP method is not allowed" });
