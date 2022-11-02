@@ -25,9 +25,15 @@ export default async function handler(request, response) {
         .status(200)
         .json({ message: "Entry deleted", deletedId: id });
 
-      //     case"PATCH":
-      //     await
-      // default:
+    case "PATCH":
+      const updateData = JSON.parse(request.body);
+      const updatedDay = await Day.findByIdAndUpdate(id, updateData);
+
+      return response
+        .status(201)
+        .json({ message: "Data updated", updatedId: updatedDay.id });
+
+    default:
       return response
         .status(405)
         .json({ message: "HTTP method is not allowed" });

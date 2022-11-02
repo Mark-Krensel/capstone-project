@@ -34,3 +34,12 @@ export async function getDayById(id) {
 
   return sanitizedDay;
 }
+
+export async function getDateId(dateToBeChecked) {
+  await dbConnect();
+
+  const day = await Day.findOne({ date: dateToBeChecked });
+  if (day) {
+    return day.id;
+  } else console.log("day not in db");
+}
