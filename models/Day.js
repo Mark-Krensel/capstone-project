@@ -1,16 +1,16 @@
 import mongoose from "mongoose";
 
 const { Schema } = mongoose;
-const weightSchema = new Schema({ type: Number });
-const heightSchema = new Schema({ type: Number });
-const feasttime = new Schema({ type: Number });
+// const weightSchema = new Schema({ type: Number });
+// const heightSchema = new Schema({ type: Number });
+// const feastTimeSchema = new Schema({ type: String });
 
 const daySchema = new Schema(
   {
     date: { type: String, required: true },
-    weight: [weightSchema],
-    height: [heightSchema],
-    feastTime: [feasttime],
+    weight: [Number],
+    height: [Number],
+    feastTime: [String],
   },
   { versionKey: false }
 );

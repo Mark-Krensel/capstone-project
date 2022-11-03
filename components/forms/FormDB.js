@@ -60,7 +60,12 @@ export default function Form({ onSubmit }) {
         step="0.1"
       />
       <p>cm</p>
-      <input type="hidden" value={stoppedTime} name="feastTime" />
+      <input
+        type="hidden"
+        value={stoppedTime}
+        defaultValue={null}
+        name="feastTime"
+      />
       <Suspense fallback={`Loading...`}>
         <DynamicStopwatch
           setStoppedTime={setStoppedTime}

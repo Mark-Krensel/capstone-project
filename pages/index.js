@@ -7,11 +7,12 @@ import { useRouter } from "next/router";
 export async function getServerSideProps() {
   const days = await getAllDays();
   return {
-    props: { days: days },
+    props: { days: JSON.parse(JSON.stringify(days)) },
   };
 }
 
 export default function Home({ days }) {
+  // console.log(days.map((day) => day.weight));
   //----- update data -----
   const [isUpdating, setIsUpdating] = useState(false);
   const router = useRouter();

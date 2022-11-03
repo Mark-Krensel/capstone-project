@@ -8,7 +8,7 @@ import LineChart from "../components/charts/LineChart";
 export async function getServerSideProps() {
   const days = await getAllDays();
   return {
-    props: { days: days },
+    props: { days: JSON.parse(JSON.stringify(days)) },
   };
 }
 

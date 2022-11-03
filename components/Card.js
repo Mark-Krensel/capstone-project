@@ -12,7 +12,7 @@ export default function Card({
   feastTime,
 }) {
   const { pathname } = useRouter();
-
+  weight.forEach((element) => console.log(element));
   return (
     <CardElement>
       {pathname === "/" && (
@@ -21,21 +21,30 @@ export default function Card({
         </DeleteButton>
       )}
       <p>Date: {date}</p>
-      {weight &&
-        weight.map((entry) => {
-          <p>Weight: {entry}</p>;
-        })}
-      {height &&
-        height.map((entry) => {
-          <p>Height: {entry}</p>;
-        })}
-      {feastTime &&
-        feastTime.map((entry) => {
-          <p>
-            Nurse time: {entry.substr(0, 2)}:{entry.substr(2, 2)}:
-            {entry.substr(4, 2)}
-          </p>;
-        })}
+      {weight?.[0] && (
+        <ul>
+          {weight.map((weight, index) => (
+            <li key={index}>Weight: {weight} </li>
+          ))}
+        </ul>
+      )}
+      {height?.[0] && (
+        <ul>
+          {height.map((height, index) => (
+            <li key={index}>Height: {height} </li>
+          ))}
+        </ul>
+      )}
+      {feastTime?.[0] && (
+        <ul>
+          {feastTime.map((entry, index) => (
+            <li key={index}>
+              Nurse time: {entry.substr(0, 2)}:{entry.substr(2, 2)}:
+              {entry.substr(4, 2)}
+            </li>
+          ))}
+        </ul>
+      )}
     </CardElement>
   );
 }
