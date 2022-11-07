@@ -18,13 +18,22 @@ export default async function handler(request, response) {
 
       if (existingDay) {
         const updatedWeight = postData.weight
-          ? [...existingDay.weights, postData.weight]
+          ? [
+              ...existingDay.weights,
+              { value: postData.weight, timeStamp: postData.timeStamp },
+            ]
           : [...existingDay.weights];
         const updatedHeight = postData.height
-          ? [...existingDay.heights, postData.height]
+          ? [
+              ...existingDay.heights,
+              { value: postData.height, timeStamp: postData.timeStamp },
+            ]
           : [...existingDay.heights];
         const updatedFeastTime = postData.feastTime
-          ? [...existingDay.feastTimes, postData.feastTime]
+          ? [
+              ...existingDay.feastTimes,
+              { value: postData.feastTime, timeStamp: postData.timeStamp },
+            ]
           : [...existingDay.feastTimes];
 
         const updatedDay = {
@@ -43,11 +52,20 @@ export default async function handler(request, response) {
           .status(201)
           .json({ message: "Data saved", updatedId: updatedDayInDb.id });
       } else {
-        postData.weights = postData.weight ? [postData.weight] : [];
-        postData.heights = postData.height ? [postData.height] : [];
-        postData.feastTimes = postData.feastTime ? [postData.feastTime] : [];
+        const newPostData = {
+          date: postData.date,
+          weights: postData.weight
+            ? [{ value: postData.weight, timeStamp: postData.timeStamp }]
+            : [],
+          heights: postData.height
+            ? [{ value: postData.height, timeStamp: postData.timeStamp }]
+            : [],
+          feastTimes: postData.feastTime
+            ? [{ value: postData.feastTime, timeStamp: postData.timeStamp }]
+            : [],
+        };
 
-        const newDay = await Day.create(postData);
+        const newDay = await Day.create(newPostData);
 
         return response
           .status(201)

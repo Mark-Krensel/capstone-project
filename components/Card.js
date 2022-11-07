@@ -21,21 +21,21 @@ export default function Card({
         </DeleteButton>
       )}
       <p>Date: {date}</p>
-      {weights?.[0] && (
+      {/* {weights.lenght !== 0 && (
         <ul>
           {weights.map((weight, index) => (
             <li key={index}>Weight: {weight} </li>
           ))}
         </ul>
       )}
-      {heights?.[0] && (
+      {heights.lenght !== 0 && (
         <ul>
           {heights.map((height, index) => (
             <li key={index}>Height: {height} </li>
           ))}
         </ul>
       )}
-      {feastTimes?.[0] && (
+      {feastTimes.lenght !== 0 && (
         <ul>
           {feastTimes.map((entry, index) => (
             <li key={index}>
@@ -44,7 +44,7 @@ export default function Card({
             </li>
           ))}
         </ul>
-      )}
+      )} */}
     </CardElement>
   );
 }

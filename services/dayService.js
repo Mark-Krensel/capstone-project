@@ -48,5 +48,6 @@ export async function checkAndGetDate(dateToBeChecked) {
       feastTimes: day.feastTimes,
     };
     return sanitizedDay;
-  } else console.log("day not in db");
+  }
+  console.log("day not in db");
 }

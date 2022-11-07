@@ -16,7 +16,9 @@ export default function Form({ onSubmit }) {
   function sendForm(event) {
     event.preventDefault();
     const formData = new FormData(event.target);
+    const timeStamp = new Date().getTime();
     const { weight, date, height, feastTime } = Object.fromEntries(formData);
+
     const weightInput = event.target.weight.value;
     const heightInput = event.target.height.value;
     const timeInput = event.target.feastTime.value;
@@ -26,7 +28,7 @@ export default function Form({ onSubmit }) {
       return false;
     }
 
-    onSubmit({ weight, date, height, feastTime });
+    onSubmit({ weight, date, height, feastTime, timeStamp });
     event.target.reset();
   }
 
