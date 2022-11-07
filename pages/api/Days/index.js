@@ -18,20 +18,20 @@ export default async function handler(request, response) {
 
       if (existingDay) {
         const updatedWeight = postData.weight
-          ? [...existingDay.weight, postData.weight]
-          : [...existingDay.weight];
+          ? [...existingDay.weights, postData.weight]
+          : [...existingDay.weights];
         const updatedHeight = postData.height
-          ? [...existingDay.height, postData.height]
-          : [...existingDay.height];
+          ? [...existingDay.heights, postData.height]
+          : [...existingDay.heights];
         const updatedFeastTime = postData.feastTime
-          ? [...existingDay.feastTime, postData.feastTime]
-          : [...existingDay.feastTime];
+          ? [...existingDay.feastTimes, postData.feastTime]
+          : [...existingDay.feastTimes];
 
         const updatedDay = {
           ...existingDay,
-          weight: updatedWeight,
-          height: updatedHeight,
-          feastTime: updatedFeastTime,
+          weights: updatedWeight,
+          heights: updatedHeight,
+          feastTimes: updatedFeastTime,
         };
 
         const updatedDayInDb = await Day.findByIdAndUpdate(
@@ -43,9 +43,9 @@ export default async function handler(request, response) {
           .status(201)
           .json({ message: "Data saved", updatedId: updatedDayInDb.id });
       } else {
-        postData.weight = postData.weight ? [postData.weight] : [];
-        postData.height = postData.height ? [postData.height] : [];
-        postData.feastTime = postData.feastTime ? [postData.feastTime] : [];
+        postData.weights = postData.weight ? [postData.weight] : [];
+        postData.heights = postData.height ? [postData.height] : [];
+        postData.feastTimes = postData.feastTime ? [postData.feastTime] : [];
 
         const newDay = await Day.create(postData);
 
@@ -59,14 +59,6 @@ export default async function handler(request, response) {
       return response
         .status(200)
         .json({ message: "Entry deleted", deletedId: id });
-
-    case "PATCH":
-      const updateData = JSON.parse(request.body);
-      const updatedDay = await Day.findByIdAndUpdate(id, updateData);
-
-      return response
-        .status(201)
-        .json({ message: "Data updated", updatedId: updatedDay.id });
 
     default:
       return response

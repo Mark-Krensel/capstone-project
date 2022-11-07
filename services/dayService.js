@@ -11,9 +11,9 @@ export async function getAllDays() {
   const sanitizedDays = sortedDays.map((day) => ({
     id: day.id,
     date: day.date,
-    weight: day.weight,
-    height: day.height,
-    feastTime: day.feastTime,
+    weights: day.weights,
+    heights: day.heights,
+    feastTimes: day.feastTimes,
   }));
 
   return sanitizedDays;
@@ -27,9 +27,9 @@ export async function getDayById(id) {
   const sanitizedDay = {
     id: day.id,
     date: day.date,
-    weight: day.weight,
-    height: day.height,
-    feastTime: day.feastTime,
+    weights: day.weights,
+    heights: day.heights,
+    feastTimes: day.feastTimes,
   };
 
   return sanitizedDay;
@@ -43,9 +43,9 @@ export async function checkAndGetDate(dateToBeChecked) {
     const sanitizedDay = {
       id: day.id,
       date: day.date,
-      weight: day.weight,
-      height: day.height,
-      feastTime: day.feastTime,
+      weights: day.weights,
+      heights: day.heights,
+      feastTimes: day.feastTimes,
     };
     return sanitizedDay;
   } else console.log("day not in db");

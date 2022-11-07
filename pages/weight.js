@@ -13,7 +13,7 @@ export async function getServerSideProps() {
 }
 
 export default function WeightPage({ days }) {
-  const filteredDays = days.filter((day) => Boolean(day.weight));
+  const filteredDays = days.filter((day) => Boolean(day.weights));
 
   const ascendingFilteredDays = Array.from(filteredDays).reverse();
 
@@ -21,7 +21,7 @@ export default function WeightPage({ days }) {
     (day) =>
       `${day.date.toString().substr(8, 2)}.${day.date.toString().substr(5, 2)}`
   );
-  const chartData = ascendingFilteredDays.map((day) => day.weight);
+  const chartData = ascendingFilteredDays.map((day) => day.weights);
   const meanChartData = chartData.map(
     (array) => array.reduce((a, b) => a + b, 0) / array.length
   );
@@ -38,7 +38,7 @@ export default function WeightPage({ days }) {
           <Card
             key={filteredDay.id}
             date={filteredDay.date}
-            weight={filteredDay.weight}
+            weights={filteredDay.weights}
           />
         ))}
       </CardContainer>

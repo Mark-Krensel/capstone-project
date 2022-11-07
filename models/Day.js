@@ -8,9 +8,9 @@ const { Schema } = mongoose;
 const daySchema = new Schema(
   {
     date: { type: String, required: true },
-    weight: [Number],
-    height: [Number],
-    feastTime: [String],
+    weights: [Number],
+    heights: [Number],
+    feastTimes: [String],
   },
   { versionKey: false }
 );

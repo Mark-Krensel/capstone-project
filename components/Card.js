@@ -6,13 +6,13 @@ import { useRouter } from "next/router";
 export default function Card({
   date,
   id,
-  weight,
+  weights,
   handleDelete,
-  height,
-  feastTime,
+  heights,
+  feastTimes,
 }) {
   const { pathname } = useRouter();
-  weight.forEach((element) => console.log(element));
+
   return (
     <CardElement>
       {pathname === "/" && (
@@ -21,23 +21,23 @@ export default function Card({
         </DeleteButton>
       )}
       <p>Date: {date}</p>
-      {weight?.[0] && (
+      {weights?.[0] && (
         <ul>
-          {weight.map((weight, index) => (
+          {weights.map((weight, index) => (
             <li key={index}>Weight: {weight} </li>
           ))}
         </ul>
       )}
-      {height?.[0] && (
+      {heights?.[0] && (
         <ul>
-          {height.map((height, index) => (
+          {heights.map((height, index) => (
             <li key={index}>Height: {height} </li>
           ))}
         </ul>
       )}
-      {feastTime?.[0] && (
+      {feastTimes?.[0] && (
         <ul>
-          {feastTime.map((entry, index) => (
+          {feastTimes.map((entry, index) => (
             <li key={index}>
               Nurse time: {entry.substr(0, 2)}:{entry.substr(2, 2)}:
               {entry.substr(4, 2)}

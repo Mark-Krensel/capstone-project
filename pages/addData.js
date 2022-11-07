@@ -15,6 +15,7 @@ export default function AddData() {
   const router = useRouter();
 
   async function handleSubmit(data) {
+    console.log(data);
     const checkDate = data.date;
 
     try {
