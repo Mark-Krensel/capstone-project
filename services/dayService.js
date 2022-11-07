@@ -35,11 +35,18 @@ export async function getDayById(id) {
   return sanitizedDay;
 }
 
-export async function getDateId(dateToBeChecked) {
+export async function checkAndGetDate(dateToBeChecked) {
   await dbConnect();
 
   const day = await Day.findOne({ date: dateToBeChecked });
   if (day) {
-    return day.id;
+    const sanitizedDay = {
+      id: day.id,
+      date: day.date,
+      weight: day.weight,
+      height: day.height,
+      feastTime: day.feastTime,
+    };
+    return sanitizedDay;
   } else console.log("day not in db");
 }

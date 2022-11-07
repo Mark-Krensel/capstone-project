@@ -12,7 +12,6 @@ export async function getServerSideProps() {
 }
 
 export default function Home({ days }) {
-  // console.log(days.map((day) => day.weight));
   //----- update data -----
   const [isUpdating, setIsUpdating] = useState(false);
   const router = useRouter();
