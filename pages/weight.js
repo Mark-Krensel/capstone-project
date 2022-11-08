@@ -28,7 +28,6 @@ export default function WeightPage({ days }) {
   const meanChartData = chartData.map(
     (array) => array.reduce((a, b) => a + b, 0) / array.length
   );
-  console.log(meanChartData);
   const title = "Average Weight";
 
   return (
@@ -37,20 +36,15 @@ export default function WeightPage({ days }) {
         <LineChart labels={labels} chartData={meanChartData} title={title} />
       </CanvasContainer>
       <CardContainer>
-        {filteredDays.map(
-          (filteredDay) => (
-            console.log(filteredDay),
-            (
-              <Card
-                key={filteredDay.id}
-                date={filteredDay.date}
-                weights={filteredDay.weights}
-                heights={[]}
-                feastTimes={[]}
-              />
-            )
-          )
-        )}
+        {filteredDays.map((filteredDay) => (
+          <Card
+            key={filteredDay.id}
+            date={filteredDay.date}
+            weights={filteredDay.weights}
+            heights={[]}
+            feastTimes={[]}
+          />
+        ))}
       </CardContainer>
     </>
   );

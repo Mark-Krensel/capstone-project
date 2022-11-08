@@ -49,5 +49,4 @@ export async function checkAndGetDate(dateToBeChecked) {
     };
     return sanitizedDay;
   }
-  console.log("day not in db");
 }
