@@ -21,26 +21,36 @@ export default function WeightPage({ days }) {
     (day) =>
       `${day.date.toString().substr(8, 2)}.${day.date.toString().substr(5, 2)}`
   );
-  const chartData = ascendingFilteredDays.map((day) => day.weights);
+  const chartData = ascendingFilteredDays.map((day) =>
+    day.weights.map((weight) => weight.value)
+  );
+
   const meanChartData = chartData.map(
     (array) => array.reduce((a, b) => a + b, 0) / array.length
   );
-  const mergedChartData = meanChartData.flat(1);
+  console.log(meanChartData);
   const title = "Average Weight";
 
   return (
     <>
       <CanvasContainer>
-        <LineChart labels={labels} chartData={mergedChartData} title={title} />
+        <LineChart labels={labels} chartData={meanChartData} title={title} />
       </CanvasContainer>
       <CardContainer>
-        {filteredDays.map((filteredDay) => (
-          <Card
-            key={filteredDay.id}
-            date={filteredDay.date}
-            weights={filteredDay.weights}
-          />
-        ))}
+        {filteredDays.map(
+          (filteredDay) => (
+            console.log(filteredDay),
+            (
+              <Card
+                key={filteredDay.id}
+                date={filteredDay.date}
+                weights={filteredDay.weights}
+                heights={[]}
+                feastTimes={[]}
+              />
+            )
+          )
+        )}
       </CardContainer>
     </>
   );

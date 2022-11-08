@@ -21,30 +21,30 @@ export default function Card({
         </DeleteButton>
       )}
       <p>Date: {date}</p>
-      {/* {weights.lenght !== 0 && (
+      {weights.lenght !== 0 && (
         <ul>
-          {weights.map((weight, index) => (
-            <li key={index}>Weight: {weight} </li>
+          {weights.map((weight) => (
+            <li key={weight._id}>Weight: {weight.value} </li>
           ))}
         </ul>
       )}
       {heights.lenght !== 0 && (
         <ul>
-          {heights.map((height, index) => (
-            <li key={index}>Height: {height} </li>
+          {heights.map((height) => (
+            <li key={height._id}>Height: {height.value} </li>
           ))}
         </ul>
       )}
       {feastTimes.lenght !== 0 && (
         <ul>
-          {feastTimes.map((entry, index) => (
-            <li key={index}>
-              Nurse time: {entry.substr(0, 2)}:{entry.substr(2, 2)}:
-              {entry.substr(4, 2)}
+          {feastTimes.map((feastTime) => (
+            <li key={feastTime._id}>
+              Nurse time: {feastTime.value.substr(0, 2)}:
+              {feastTime.value.substr(2, 2)}:{feastTime.value.substr(4, 2)}
             </li>
           ))}
         </ul>
-      )} */}
+      )}
     </CardElement>
   );
 }
