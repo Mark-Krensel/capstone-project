@@ -7,7 +7,7 @@ import { useRouter } from "next/router";
 export async function getServerSideProps() {
   const days = await getAllDays();
   return {
-    props: { days: days },
+    props: { days: JSON.parse(JSON.stringify(days)) },
   };
 }
 
@@ -43,9 +43,9 @@ export default function Home({ days }) {
           key={day.id}
           id={day.id}
           date={day.date}
-          weight={day.weight}
-          height={day.height}
-          feastTime={day.feastTime}
+          weights={day.weights}
+          heights={day.heights}
+          feastTimes={day.feastTimes}
           handleDelete={handleDelete}
         />
       ))}

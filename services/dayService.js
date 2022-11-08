@@ -11,9 +11,9 @@ export async function getAllDays() {
   const sanitizedDays = sortedDays.map((day) => ({
     id: day.id,
     date: day.date,
-    weight: day.weight,
-    height: day.height,
-    feastTime: day.feastTime,
+    weights: day.weights,
+    heights: day.heights,
+    feastTimes: day.feastTimes,
   }));
 
   return sanitizedDays;
@@ -27,10 +27,26 @@ export async function getDayById(id) {
   const sanitizedDay = {
     id: day.id,
     date: day.date,
-    weight: day.weight,
-    height: day.height,
-    feastTime: day.feastTime,
+    weights: day.weights,
+    heights: day.heights,
+    feastTimes: day.feastTimes,
   };
 
   return sanitizedDay;
+}
+
+export async function checkAndGetDate(dateToBeChecked) {
+  await dbConnect();
+
+  const day = await Day.findOne({ date: dateToBeChecked });
+  if (day) {
+    const sanitizedDay = {
+      id: day.id,
+      date: day.date,
+      weights: day.weights,
+      heights: day.heights,
+      feastTimes: day.feastTimes,
+    };
+    return sanitizedDay;
+  }
 }
