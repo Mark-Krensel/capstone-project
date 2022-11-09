@@ -14,7 +14,7 @@ export default function Modal({ toggleModal, children }) {
 const ModalBox = styled.section`
   width: 90vw;
   padding: 2em;
-  background-color: #fff;
+  background-color: var(--not-black);
   border-radius: 2em;
   display: flex;
   flex-direction: column;

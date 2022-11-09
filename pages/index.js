@@ -43,6 +43,7 @@ export default function Home({ days }) {
 
   return (
     <CardContainer>
+      {days.length === 0 && <h2>You don't have any data saved right now</h2>}
       {days.map((day) => (
         <Card
           key={day.id}
