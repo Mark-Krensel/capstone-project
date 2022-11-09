@@ -1,38 +1,32 @@
 import mongoose from "mongoose";
 import nanoid from "nanoid";
 
-// let id = mongoose.Types.ObjectId();
 const { Schema } = mongoose;
-// const weightSchema = new Schema({ type: Number });
-// const heightSchema = new Schema({ type: Number });
-// const feastTimeSchema = new Schema({ type: String });
 
-// [{ timeStamp: { type: String }, value: { type: Number }, id: nanoid() }];
+const weightSchema = new Schema({
+  timeStamp: { type: String },
+  value: { type: Number },
+  id: { type: mongoose.Types.ObjectId },
+});
+
+const heightSchema = new Schema({
+  timeStamp: { type: String },
+  value: { type: Number },
+  id: { type: mongoose.Types.ObjectId },
+});
+
+const feastTimeSchema = new Schema({
+  timeStamp: { type: String },
+  value: { type: String },
+  id: { type: mongoose.Types.ObjectId },
+});
 
 const daySchema = new Schema(
   {
     date: { type: String, required: true },
-    weights: [
-      {
-        timeStamp: { type: String },
-        value: { type: Number },
-        id: { type: mongoose.Types.ObjectId },
-      },
-    ],
-    heights: [
-      {
-        timeStamp: { type: String },
-        value: { type: Number },
-        id: { type: mongoose.Types.ObjectId },
-      },
-    ],
-    feastTimes: [
-      {
-        timeStamp: { type: String },
-        value: { type: String },
-        id: { type: mongoose.Types.ObjectId },
-      },
-    ],
+    weights: [weightSchema],
+    heights: [heightSchema],
+    feastTimes: [feastTimeSchema],
   },
   { versionKey: false }
 );

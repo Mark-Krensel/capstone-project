@@ -13,7 +13,7 @@ export async function getServerSideProps() {
 }
 
 export default function WeightPage({ days }) {
-  const filteredDays = days.filter((day) => Boolean(day.weights));
+  const filteredDays = days.filter((day) => Boolean(day.weights.length > 0));
 
   const ascendingFilteredDays = Array.from(filteredDays).reverse();
 

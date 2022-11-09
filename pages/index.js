@@ -24,11 +24,16 @@ export default function Home({ days }) {
   }, [days]);
 
   //----- delete card -----
-  async function handleDelete(id) {
+  async function handleDelete(id, dataPointId, attribute) {
+    dataPointId = typeof dataPointId !== "undefined" ? dataPointId : "";
+    attribute = typeof attribute !== "undefined" ? attribute : "";
     try {
-      const response = await fetch(`/api/Days?id=${id}`, {
-        method: "DELETE",
-      });
+      const response = await fetch(
+        `/api/Days?id=${id}&dataPointId=${dataPointId}&attribute=${attribute}`,
+        {
+          method: "DELETE",
+        }
+      );
       await response.json();
       refreshData();
     } catch (error) {

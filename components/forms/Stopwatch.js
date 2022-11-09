@@ -31,9 +31,9 @@ export default function Stopwatch({ setStoppedTime, stoppedTime }) {
 
       return () => {
         clearInterval(interval);
-        setHours(0);
-        setMinutes(0);
-        setSeconds(0);
+        setHours("");
+        setMinutes("");
+        setSeconds("");
       };
     }
   }, [startTime]);
