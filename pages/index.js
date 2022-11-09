@@ -25,6 +25,8 @@ export default function Home({ days }) {
 
   //----- delete card -----
   async function handleDelete(id, dataPointId, attribute) {
+    dataPointId = typeof dataPointId !== "undefined" ? dataPointId : "";
+    attribute = typeof attribute !== "undefined" ? attribute : "";
     try {
       const response = await fetch(
         `/api/Days?id=${id}&dataPointId=${dataPointId}&attribute=${attribute}`,

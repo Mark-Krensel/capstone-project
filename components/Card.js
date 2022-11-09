@@ -17,10 +17,7 @@ export default function Card({
   return (
     <CardElement>
       {pathname === "/" && (
-        <DeleteButton
-          aria-label="delete data"
-          onClick={() => handleDelete(id, "", "")}
-        >
+        <DeleteButton aria-label="delete data" onClick={() => handleDelete(id)}>
           <Delete height={20} width={20} alt="delete" />
         </DeleteButton>
       )}
