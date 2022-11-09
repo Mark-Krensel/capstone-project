@@ -1,6 +1,7 @@
 import Head from "next/head";
 import Header from "./Header";
 import Background from "./Background";
+import Footer from "./Footer";
 
 const Layout = ({ children }) => {
   return (
@@ -15,6 +16,7 @@ const Layout = ({ children }) => {
         <Background />
         {children}
       </main>
+      <Footer />
     </>
   );
 };
