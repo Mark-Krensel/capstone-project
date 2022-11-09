@@ -90,8 +90,8 @@ export default async function handler(request, response) {
         console.log(day);
         if (
           day.heights.length === 0 &&
-          day.weights.length == 0 &&
-          day.feastTimes.length == 0
+          day.weights.length === 0 &&
+          day.feastTimes.length === 0
         ) {
           await Day.findByIdAndDelete(id);
           return response
