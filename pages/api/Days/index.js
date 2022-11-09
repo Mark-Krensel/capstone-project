@@ -87,7 +87,6 @@ export default async function handler(request, response) {
       } else {
         await Day.updateMany({ $pull: { [attribute]: { _id: dataPointId } } });
         const day = await getDayById(id);
-        console.log(day);
         if (
           day.heights.length === 0 &&
           day.weights.length === 0 &&
