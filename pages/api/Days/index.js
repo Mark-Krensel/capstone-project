@@ -1,10 +1,16 @@
 import dbConnect from "../../../lib/dbConnect";
 import Day from "../../../models/Day";
-import { getAllDays, checkAndGetDate } from "../../../services/dayService";
+import {
+  getAllDays,
+  checkAndGetDate,
+  getDayById,
+} from "../../../services/dayService";
 
 export default async function handler(request, response) {
   await dbConnect();
   const id = request.query.id;
+  const dataPointId = request.query.dataPointId;
+  const attribute = request.query.attribute;
 
   switch (request.method) {
     case "GET":
@@ -73,10 +79,29 @@ export default async function handler(request, response) {
       }
 
     case "DELETE":
-      await Day.findByIdAndDelete(id);
-      return response
-        .status(200)
-        .json({ message: "Entry deleted", deletedId: id });
+      if (!dataPointId) {
+        await Day.findByIdAndDelete(id);
+        return response
+          .status(200)
+          .json({ message: "Entry deleted", deletedId: id });
+      } else {
+        await Day.updateMany({ $pull: { [attribute]: { _id: dataPointId } } });
+        const day = await getDayById(id);
+        console.log(day);
+        if (
+          day.heights.length === 0 &&
+          day.weights.length == 0 &&
+          day.feastTimes.length == 0
+        ) {
+          await Day.findByIdAndDelete(id);
+          return response
+            .status(200)
+            .json({ message: "Entry deleted", deletedId: id });
+        }
+        return response
+          .status(200)
+          .json({ message: "Entry deleted", deletedId: dataPointId });
+      }
 
     default:
       return response
