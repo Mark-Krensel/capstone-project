@@ -35,7 +35,6 @@ export default function AddMenu() {
   // const toggleAddMenu = (menuState) => {
   //   setAddMenu(menuState);
   // };
-  console.log(addAttribute);
   return (
     <MenuContainer>
       {showAddMenu && (
@@ -73,7 +72,7 @@ export default function AddMenu() {
         </ul>
       )}
       {addAttribute && (
-        <Modal>
+        <Modal setAttribute={setAttribute}>
           <CardContainer>
             <FormDB
               onSubmit={handleSubmit}

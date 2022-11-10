@@ -1,8 +1,8 @@
 import styled from "styled-components";
 
-export default function Modal({ toggleModal, children }) {
+export default function Modal({ setAttribute, children }) {
   return (
-    <BlurBackground onClick={toggleModal}>
+    <BlurBackground onClick={() => setAttribute("")}>
       <ModalBox onClick={(event) => event.stopPropagation()}>
         <h2>Hallo, bitte text</h2>
         {children}

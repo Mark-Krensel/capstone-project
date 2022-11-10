@@ -10,7 +10,7 @@ const DynamicStopwatch = dynamic(() => import("./Stopwatch"), {
   ssr: false,
 });
 
-export default function Form({ onSubmit }) {
+export default function Form({ onSubmit, setAttribute, addAttribute }) {
   const [stoppedTime, setStoppedTime] = useState();
 
   function sendForm(event) {
@@ -19,9 +19,14 @@ export default function Form({ onSubmit }) {
     const timeStamp = new Date().getTime();
     const { weight, date, height, feastTime } = Object.fromEntries(formData);
 
-    const weightInput = event.target.weight.value;
-    const heightInput = event.target.height.value;
-    const timeInput = event.target.feastTime.value;
+    // const weightInput = event.target.weight?.value;
+    // const heightInput = event.target.height?.value;
+    // const timeInput = event.target.feastTime?.value;
+
+    const weightInput = typeof weight !== "undefined" ? weight : "";
+    const heightInput = typeof height !== "undefined" ? height : "";
+    const timeInput = typeof feastTime !== "undefined" ? feastTime : "";
+    console.log(heightInput);
 
     if (weightInput == "" && heightInput == "" && timeInput == "") {
       alert("empty");
@@ -29,11 +34,16 @@ export default function Form({ onSubmit }) {
     }
 
     onSubmit({ weight, date, height, feastTime, timeStamp });
+    setAttribute("");
     event.target.reset();
   }
 
   return (
-    <FormElement aria-label="Add weight and date" onSubmit={sendForm}>
+    <FormElement
+      aria-label="Add weight and date"
+      onSubmit={sendForm}
+      // onSubmit={(event) => sendForm(event)}
+    >
       <input
         aria-label="date input"
         type="date"
@@ -43,38 +53,48 @@ export default function Form({ onSubmit }) {
         min="2021-01-01"
         required
       />
-      <input
-        type="number"
-        name="weight"
-        min="0"
-        max="50"
-        step="0.001"
-        aria-label="weight input"
-      />
-      <p>Kg</p>
-
-      <input
-        aria-label="height input"
-        type="number"
-        name="height"
-        min="0"
-        max="200"
-        step="0.1"
-      />
-      <p>cm</p>
+      {addAttribute === "weight" && (
+        <>
+          <input
+            type="number"
+            name="weight"
+            min="0"
+            max="50"
+            step="0.001"
+            aria-label="weight input"
+          />
+          <p>Kg</p>
+        </>
+      )}
+      {addAttribute === "height" && (
+        <>
+          <input
+            aria-label="height input"
+            type="number"
+            name="height"
+            min="0"
+            max="200"
+            step="0.1"
+          />
+          <p>cm</p>
+        </>
+      )}
       <input
         type="hidden"
         value={stoppedTime}
         defaultValue={null}
         name="feastTime"
       />
-      <Suspense fallback={`Loading...`}>
-        <DynamicStopwatch
-          setStoppedTime={setStoppedTime}
-          stoppedTime={stoppedTime}
-        />
-      </Suspense>
-
+      {addAttribute === "feastTime" && (
+        <>
+          <Suspense fallback={`Loading...`}>
+            <DynamicStopwatch
+              setStoppedTime={setStoppedTime}
+              stoppedTime={stoppedTime}
+            />
+          </Suspense>
+        </>
+      )}
       <CheckButton>
         <SvgCheck width={40} height={40} alt="check" />
       </CheckButton>
