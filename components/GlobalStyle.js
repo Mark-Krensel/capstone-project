@@ -12,7 +12,7 @@ const GlobalStyle = createGlobalStyle`
           --background-hover: #4B4952;
 
           --iconSize:4rem;
-          --form-fontSize:3rem;
+          --form-fontSize:2rem;
 
           
           --shadow-color: 341deg 7% 56%;

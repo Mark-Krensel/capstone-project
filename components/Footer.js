@@ -14,7 +14,7 @@ const FooterWrapper = styled.footer`
   justify-content: center;
   position: fixed;
   z-index: 10;
-  bottom: 1em;
+  bottom: 2em;
   width: 100%;
   margin: 0 auto;
 `;

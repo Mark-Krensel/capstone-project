@@ -6,9 +6,9 @@ import { CardContainer } from "../components/CardContainer";
 import { Button } from "./Button";
 import Modal from "./modal";
 import Add from "./icons/Add";
-import Clock from "./icons/Clock";
-import Ruler from "./icons/Ruler";
-import Scale from "./icons/Scale";
+import Clock from "./icons/XClock";
+import Ruler from "./icons/XRuler";
+import Scale from "./icons/XScale";
 
 export default function AddMenu() {
   const router = useRouter();
@@ -38,7 +38,7 @@ export default function AddMenu() {
   return (
     <MenuContainer>
       {showAddMenu && (
-        <ul>
+        <StyledList>
           <li>
             <Button
               onClick={() => {
@@ -69,7 +69,7 @@ export default function AddMenu() {
               <Scale fontSize="3rem" />
             </Button>
           </li>
-        </ul>
+        </StyledList>
       )}
       {addAttribute && (
         <Modal setAttribute={setAttribute}>
@@ -91,7 +91,20 @@ export default function AddMenu() {
 }
 
 const MenuContainer = styled.div`
-  border-color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  flex-direction: column;
+`;
+const StyledList = styled.ul`
+  display: flex;
+  justify-content: center;
+  gap: 0.8em;
+  /* flex-direction: column; */
 `;
 
-const MenuButton = styled(Button)``;
+const MenuButton = styled(Button)`
+  max-width: 4em;
+  width: 100%;
+`;

@@ -58,9 +58,9 @@ export default function Form({ onSubmit, setAttribute, addAttribute }) {
           placeholder="-- kg --"
           type="number"
           name="weight"
-          min="0"
+          min="0.01"
           max="50"
-          step="0.001"
+          step="0.01"
           aria-label="weight input"
         />
       )}
@@ -70,7 +70,7 @@ export default function Form({ onSubmit, setAttribute, addAttribute }) {
           placeholder="-- cm --"
           type="number"
           name="height"
-          min="0"
+          min="0.1"
           max="200"
           step="0.1"
         />

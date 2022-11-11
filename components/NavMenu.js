@@ -2,7 +2,7 @@ import Link from "next/link";
 import { useState } from "react";
 import styled from "styled-components";
 import { useRouter } from "next/router";
-import HamburgerMenu from "./icons/HamburgerMenu";
+import HamburgerMenu from "./icons/XHamburgerMenu";
 import { Button } from "./Button";
 
 export default function NavMenu() {
@@ -37,16 +37,6 @@ export default function NavMenu() {
                 onClick={toggleHamburgerMenu}
               >
                 Weight
-              </StyledNavLink>
-            </Link>
-          </li>
-          <li>
-            <Link href="/addData" passHref>
-              <StyledNavLink
-                active={pathname === "/addData"}
-                onClick={toggleHamburgerMenu}
-              >
-                New Data
               </StyledNavLink>
             </Link>
           </li>
