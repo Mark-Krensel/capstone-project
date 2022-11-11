@@ -116,24 +116,27 @@ const CardElement = styled.article`
 
 const DeleteButton = styled(Button)`
   position: absolute;
-  right: 0.2em;
-  top: 0.3em;
+  right: 1.1em;
+  top: 0.6em;
 `;
 
 const DeleteSingleButton = styled(Button)`
   position: absolute;
-  right: 0.2em;
+  right: 0.8em;
 `;
 
 const AttributeText = styled.h3`
   text-align: center;
   border-top: 1px var(--not-white) solid;
   margin: 0.2em 1em;
+  padding-top: 0.5em;
+  font-size: 1.3em;
 `;
 
 const DateText = styled.h2`
   text-align: center;
   font-weight: bold;
+  padding-bottom: 0.2em;
 `;
 
 const AttributeList = styled.ul`
