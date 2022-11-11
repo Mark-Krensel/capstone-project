@@ -1,7 +1,8 @@
 import { CardContainer } from "../components/CardContainer";
+import lottie from "lottie-web";
 import Card from "../components/Card";
 import { getAllDays } from "../services/dayService";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/router";
 
 export async function getServerSideProps() {
@@ -41,9 +42,24 @@ export default function Home({ days }) {
     }
   }
 
+  const container = useRef(null);
+  useEffect(() => {
+    lottie.loadAnimation({
+      container: container.current,
+      renderer: "svg",
+      loop: false,
+      animationData: require("../public/loader.json"),
+    });
+  }, []);
+
   return (
     <CardContainer>
-      {days.length === 0 && <h2>You don't have any data saved right now</h2>}
+      {days.length === 0 && (
+        <>
+          <div ref={container} />
+          <h2>{"You don't have any data saved right now"}</h2>
+        </>
+      )}
       {days.map((day) => (
         <Card
           key={day.id}

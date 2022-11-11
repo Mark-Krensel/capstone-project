@@ -54,30 +54,26 @@ export default function Form({ onSubmit, setAttribute, addAttribute }) {
         required
       />
       {addAttribute === "weight" && (
-        <>
-          <input
-            type="number"
-            name="weight"
-            min="0"
-            max="50"
-            step="0.001"
-            aria-label="weight input"
-          />
-          <p>Kg</p>
-        </>
+        <input
+          placeholder="-- kg --"
+          type="number"
+          name="weight"
+          min="0"
+          max="50"
+          step="0.001"
+          aria-label="weight input"
+        />
       )}
       {addAttribute === "height" && (
-        <>
-          <input
-            aria-label="height input"
-            type="number"
-            name="height"
-            min="0"
-            max="200"
-            step="0.1"
-          />
-          <p>cm</p>
-        </>
+        <input
+          aria-label="height input"
+          placeholder="-- cm --"
+          type="number"
+          name="height"
+          min="0"
+          max="200"
+          step="0.1"
+        />
       )}
       <input
         type="hidden"
@@ -95,9 +91,7 @@ export default function Form({ onSubmit, setAttribute, addAttribute }) {
           </Suspense>
         </>
       )}
-      <CheckButton>
-        <SvgCheck width={40} height={40} alt="check" />
-      </CheckButton>
+      <CheckButton>SAVE</CheckButton>
     </FormElement>
   );
 }
@@ -106,35 +100,48 @@ const FormElement = styled.form`
   background: var(--background-secondary-blur);
   border: 1px solid var(--text-secondary);
   color: var(--text-secondary);
-  border-radius: 5%;
+  border-radius: 2em;
   box-shadow: var(--shadow-elevation);
   backdrop-filter: blur(10px);
-  height: 12em;
-  width: 12em;
+  height: 50%;
+  width: 100%;
   display: flex;
   position: relative;
   flex-wrap: wrap;
   justify-content: center;
   gap: 0 0.5em;
-  padding: 1em;
-  margin: 0 auto;
+  /* padding: 2em; */
+  margin: 2em 1em 6em 1em;
 
   input {
     width: 8em;
     max-height: 2em;
-    border-radius: 5px;
+    border-radius: 0.5em;
+    font-size: var(--form-fontSize);
+    font-family: "Noto Sans";
+    color: var(--not-black);
+    margin: 0.5em 0.5em;
+    padding: 0 0.2em;
+
+    ::placeholder {
+      text-align: center;
+    }
   }
 
   p {
     max-height: 2em;
     position: relative;
     margin: 0 10% 0 0;
+    font-size: var(--form-fontSize);
   }
 `;
 
 const CheckButton = styled(Button)`
   position: absolute;
-  bottom: 0.8em;
-  right: 0.5em;
-  color: #51bd7c;
+  bottom: -3em;
+  font-size: 2em;
+  background-color: var(--background-primary);
+  padding: 0.2em 1em;
+  border-radius: 1em;
+  border: 0.1em var(--text-secondary) solid;
 `;

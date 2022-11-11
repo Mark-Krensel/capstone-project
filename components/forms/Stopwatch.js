@@ -1,6 +1,8 @@
-import Image from "next/image";
 import { useEffect, useState } from "react";
 import { Button } from "../Button";
+import styled from "styled-components";
+import Play from "../icons/XPlay";
+import Stop from "../icons/XStop";
 
 export default function Stopwatch({ setStoppedTime, stoppedTime }) {
   const storedStartTime =
@@ -42,60 +44,64 @@ export default function Stopwatch({ setStoppedTime, stoppedTime }) {
     <>
       {startTime && (
         <>
-          <div>
+          <TimeWrapper>
             {String(hours).padStart(2, "0")}:{String(minutes).padStart(2, "0")}:
             {String(seconds).padStart(2, "0")}
-          </div>
-
-          <Button
-            type="button"
-            aria-label="stop stopwatch"
-            onClick={() => {
-              setStoppedTime(
-                String(hours).padStart(2, "0") +
-                  String(minutes).padStart(2, "0") +
-                  String(seconds).padStart(2, "0")
-              );
-              setStartTime("");
-              localStorage.removeItem("startTime");
-            }}
-          >
-            <Image
-              src="/images/svgs/stop.svg"
-              width={30}
-              height={30}
-              alt="stop"
-            />
-          </Button>
+          </TimeWrapper>
+          <ButtonWrapper>
+            <Button
+              type="button"
+              aria-label="stop stopwatch"
+              onClick={() => {
+                setStoppedTime(
+                  String(hours).padStart(2, "0") +
+                    String(minutes).padStart(2, "0") +
+                    String(seconds).padStart(2, "0")
+                );
+                setStartTime("");
+                localStorage.removeItem("startTime");
+              }}
+            >
+              <Stop fontSize="6rem" />
+            </Button>
+          </ButtonWrapper>
         </>
       )}
       {!startTime && (
         <>
           {stoppedTime ? (
-            <div>
+            <TimeWrapper>
               {stoppedTime.substr(0, 2)}:{stoppedTime.substr(2, 2)}:
               {stoppedTime.substr(4, 2)}
-            </div>
+            </TimeWrapper>
           ) : (
-            <div>00:00:00</div>
+            <TimeWrapper>00:00:00</TimeWrapper>
           )}
-
-          <Button
-            type="button"
-            aria-label="start stopwatch"
-            onClick={() => {
-              setStartTime(new Date().getTime());
-            }}
-          >
-            <Image
-              src="/images/svgs/play.svg"
-              width={30}
-              height={30}
-              alt="play"
-            />
-          </Button>
+          <ButtonWrapper>
+            <Button
+              type="button"
+              aria-label="start stopwatch"
+              onClick={() => {
+                setStartTime(new Date().getTime());
+              }}
+            >
+              <Play fontSize="6rem" />
+            </Button>
+          </ButtonWrapper>
         </>
       )}
     </>
   );
 }
+
+const ButtonWrapper = styled.span`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  height: 6em;
+  margin: 1em 0;
+`;
+
+const TimeWrapper = styled.div`
+  font-size: 4em;
+`;
