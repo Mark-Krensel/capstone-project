@@ -48,7 +48,7 @@ export default function Home({ days }) {
       container: container.current,
       renderer: "svg",
       loop: false,
-      animationData: require("../public/loader.json"),
+      animationData: require("../public/MomBaby.json"),
     });
   }, []);
 
