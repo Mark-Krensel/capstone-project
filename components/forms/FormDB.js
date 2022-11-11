@@ -19,14 +19,9 @@ export default function Form({ onSubmit, setAttribute, addAttribute }) {
     const timeStamp = new Date().getTime();
     const { weight, date, height, feastTime } = Object.fromEntries(formData);
 
-    // const weightInput = event.target.weight?.value;
-    // const heightInput = event.target.height?.value;
-    // const timeInput = event.target.feastTime?.value;
-
     const weightInput = typeof weight !== "undefined" ? weight : "";
     const heightInput = typeof height !== "undefined" ? height : "";
     const timeInput = typeof feastTime !== "undefined" ? feastTime : "";
-    console.log(heightInput);
 
     if (weightInput == "" && heightInput == "" && timeInput == "") {
       alert("empty");
@@ -39,11 +34,7 @@ export default function Form({ onSubmit, setAttribute, addAttribute }) {
   }
 
   return (
-    <FormElement
-      aria-label="Add weight and date"
-      onSubmit={sendForm}
-      // onSubmit={(event) => sendForm(event)}
-    >
+    <FormElement aria-label="Add weight and date" onSubmit={sendForm}>
       <input
         aria-label="date input"
         type="date"
@@ -110,7 +101,6 @@ const FormElement = styled.form`
   flex-wrap: wrap;
   justify-content: center;
   gap: 0 0.5em;
-  /* padding: 2em; */
   margin: 2em 1em 6em 1em;
 
   input {
