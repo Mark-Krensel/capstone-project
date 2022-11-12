@@ -1,3 +1,4 @@
+import { useSession, signIn, signOut } from "next-auth/react";
 import { CardContainer } from "../components/CardContainer";
 import lottie from "lottie-web";
 import Card from "../components/Card";
@@ -43,6 +44,7 @@ export default function Home({ days }) {
     }
   }
 
+  //----- LottieFile -----
   const container = useRef(null);
   useEffect(() => {
     const instance = lottie.loadAnimation({
@@ -54,28 +56,40 @@ export default function Home({ days }) {
     return () => instance.destroy();
   }, []);
 
+  //----- Session -----
+  const { data: session } = useSession();
+  if (session) {
+    return (
+      <CardContainer>
+        {days.length === 0 && (
+          <>
+            <EmptyHeading>
+              {"You don't have any data saved right now"}
+            </EmptyHeading>
+            <LottieContainer ref={container} />
+          </>
+        )}
+        {days.map((day) => (
+          <Card
+            key={day.id}
+            id={day.id}
+            date={day.date}
+            weights={day.weights}
+            heights={day.heights}
+            feastTimes={day.feastTimes}
+            handleDelete={handleDelete}
+          />
+        ))}
+      </CardContainer>
+    );
+  }
   return (
-    <CardContainer>
-      {days.length === 0 && (
-        <>
-          <EmptyHeading>
-            {"You don't have any data saved right now"}
-          </EmptyHeading>
-          <LottieContainer ref={container} />
-        </>
-      )}
-      {days.map((day) => (
-        <Card
-          key={day.id}
-          id={day.id}
-          date={day.date}
-          weights={day.weights}
-          heights={day.heights}
-          feastTimes={day.feastTimes}
-          handleDelete={handleDelete}
-        />
-      ))}
-    </CardContainer>
+    <>
+      <CardContainer>
+        <p>Not signed in</p>
+        <button onClick={() => signIn()}>Sign in</button>
+      </CardContainer>
+    </>
   );
 }
 
