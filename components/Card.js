@@ -14,65 +14,87 @@ export default function Card({
 }) {
   const { pathname } = useRouter();
 
+  function calcTime(timeStamp) {
+    const h = Math.floor(
+      (timeStamp % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+    );
+    const m = Math.floor((timeStamp % (1000 * 60 * 60)) / (1000 * 60));
+    const time = ` @${h}:${m}h`;
+    return time;
+  }
+
   return (
     <CardElement>
       {pathname === "/" && (
         <DeleteButton aria-label="delete data" onClick={() => handleDelete(id)}>
-          <Delete height={20} width={20} alt="delete" />
+          <Delete fontSize="1.5em" alt="bin" />
         </DeleteButton>
       )}
-      <p>Date: {date}</p>
+      <DateText>{date}</DateText>
       {weights.length !== 0 && (
-        <ul>
-          {weights.map((weight) => (
-            <li key={weight._id}>
-              Weight: {weight.value}
-              {pathname === "/" && (
-                <DeleteSingleButton
-                  aria-label="delete single data point"
-                  onClick={() => handleDelete(id, weight._id, "weights")}
-                >
-                  <X height={20} width={20} alt="delete single data point" />
-                </DeleteSingleButton>
-              )}
-            </li>
-          ))}
-        </ul>
+        <>
+          <AttributeText>Weight</AttributeText>
+          <AttributeList>
+            {weights.map((weight) => (
+              <li key={weight._id}>
+                {weight.value} kg
+                {pathname === "/" && (
+                  <DeleteSingleButton
+                    aria-label="delete single data point"
+                    onClick={() => handleDelete(id, weight._id, "weights")}
+                  >
+                    <X fontSize="1.5em" alt="x" />
+                  </DeleteSingleButton>
+                )}
+              </li>
+            ))}
+          </AttributeList>
+        </>
       )}
       {heights.length !== 0 && (
-        <ul>
-          {heights.map((height) => (
-            <li key={height._id}>
-              Height: {height.value}
-              {pathname === "/" && (
-                <DeleteSingleButton
-                  aria-label="delete single data point"
-                  onClick={() => handleDelete(id, height._id, "heights")}
-                >
-                  <X height={20} width={20} alt="delete single data point" />
-                </DeleteSingleButton>
-              )}
-            </li>
-          ))}
-        </ul>
+        <>
+          <AttributeText>Height</AttributeText>
+          <AttributeList>
+            {heights.map((height) => (
+              <li key={height._id}>
+                {height.value} cm
+                {pathname === "/" && (
+                  <DeleteSingleButton
+                    aria-label="delete single data point"
+                    onClick={() => handleDelete(id, height._id, "heights")}
+                  >
+                    <X fontSize="1.5em" alt="x" />
+                  </DeleteSingleButton>
+                )}
+              </li>
+            ))}
+          </AttributeList>
+        </>
       )}
       {feastTimes.length !== 0 && (
-        <ul>
-          {feastTimes.map((feastTime) => (
-            <li key={feastTime._id}>
-              Nurse time: {feastTime.value.substr(0, 2)}:
-              {feastTime.value.substr(2, 2)}:{feastTime.value.substr(4, 2)}
-              {pathname === "/" && (
-                <DeleteSingleButton
-                  aria-label="delete single data point"
-                  onClick={() => handleDelete(id, feastTime._id, "feastTimes")}
-                >
-                  <X height={20} width={20} alt="delete single data point" />
-                </DeleteSingleButton>
-              )}
-            </li>
-          ))}
-        </ul>
+        <>
+          <AttributeText>Feeding Time</AttributeText>
+
+          <AttributeList>
+            {feastTimes.map((feastTime) => (
+              <li key={feastTime._id}>
+                {feastTime.value.substr(2, 2)}:{feastTime.value.substr(4, 2)}{" "}
+                min
+                {pathname === "/" && (
+                  <DeleteSingleButton
+                    aria-label="delete single data point"
+                    onClick={() =>
+                      handleDelete(id, feastTime._id, "feastTimes")
+                    }
+                  >
+                    <X fontSize="1.5em" alt="x" />
+                  </DeleteSingleButton>
+                )}
+                <TimeStamp> --{calcTime(feastTime.timeStamp)}</TimeStamp>
+              </li>
+            ))}
+          </AttributeList>
+        </>
       )}
     </CardElement>
   );
@@ -82,22 +104,52 @@ const CardElement = styled.article`
   padding: 0.5em;
   border: 1px solid var(--text-primary);
   color: var(--text-primary);
-  border-radius: 5%;
+  border-radius: 1em;
   box-shadow: var(--shadow-elevation);
   height: auto;
   max-height: auto;
-  width: 14em;
+  width: 85%;
+  max-width: 30em;
   backdrop-filter: blur(10px);
   background: var(--background-secondary-blur);
 `;
 
 const DeleteButton = styled(Button)`
   position: absolute;
-  right: 0.2em;
-  top: 0.2em;
+  right: 1.1em;
+  top: 0.6em;
 `;
 
 const DeleteSingleButton = styled(Button)`
   position: absolute;
-  right: 0.2em;
+  right: 0.8em;
+`;
+
+const AttributeText = styled.h3`
+  text-align: center;
+  border-top: 1px var(--not-white) solid;
+  margin: 0.2em 0.6em;
+  padding-top: 0.5em;
+  font-size: 1.3em;
+`;
+
+const DateText = styled.h2`
+  text-align: center;
+  font-weight: bold;
+  padding-bottom: 0.2em;
+`;
+
+const AttributeList = styled.ul`
+  margin: 0 1em;
+
+  li {
+    font-size: 1.3rem;
+    margin: 0.3em 0;
+  }
+`;
+const TimeStamp = styled.p`
+  text-align: left;
+  font-size: 1rem;
+  color: var(--not-black);
+  margin-bottom: 1em;
 `;

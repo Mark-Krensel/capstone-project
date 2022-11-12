@@ -11,6 +11,9 @@ const GlobalStyle = createGlobalStyle`
           --not-white:#F2F2F2;
           --background-hover: #4B4952;
 
+          --iconSize:4rem;
+          --form-fontSize:2rem;
+
           
           --shadow-color: 341deg 7% 56%;
           --shadow-elevation:

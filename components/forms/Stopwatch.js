@@ -1,17 +1,19 @@
-import Image from "next/image";
 import { useEffect, useState } from "react";
 import { Button } from "../Button";
+import styled from "styled-components";
+import Play from "../icons/XPlay";
+import Stop from "../icons/XStop";
 
 export default function Stopwatch({ setStoppedTime, stoppedTime }) {
   const storedStartTime =
     typeof window !== "undefined" ? localStorage.getItem("startTime") : null;
-  const [startTime, setStartTime] = useState(storedStartTime ?? []);
+  const [startTime, setStartTime] = useState(storedStartTime ?? "");
   const [hours, setHours] = useState(0);
   const [minutes, setMinutes] = useState(0);
   const [seconds, setSeconds] = useState(0);
 
   useEffect(() => {
-    if (typeof startTime !== "undefined") {
+    if (typeof startTime !== "undefined" || startTime == "") {
       const interval = setInterval(() => {
         const now = new Date();
         const difference = now.getTime() - startTime;
@@ -42,60 +44,68 @@ export default function Stopwatch({ setStoppedTime, stoppedTime }) {
     <>
       {startTime && (
         <>
-          <div>
-            {String(hours).padStart(2, "0")}:{String(minutes).padStart(2, "0")}:
+          <TimeWrapper>
+            {/* {String(hours).padStart(2, "0")}: */}
+            {String(minutes).padStart(2, "0")}:
             {String(seconds).padStart(2, "0")}
-          </div>
-
-          <Button
-            type="button"
-            aria-label="stop stopwatch"
-            onClick={() => {
-              setStoppedTime(
-                String(hours).padStart(2, "0") +
-                  String(minutes).padStart(2, "0") +
-                  String(seconds).padStart(2, "0")
-              );
-              setStartTime("");
-              localStorage.removeItem("startTime");
-            }}
-          >
-            <Image
-              src="/images/svgs/stop.svg"
-              width={30}
-              height={30}
-              alt="stop"
-            />
-          </Button>
+          </TimeWrapper>
+          <ButtonWrapper>
+            <Button
+              type="button"
+              aria-label="stop stopwatch"
+              onClick={() => {
+                setStoppedTime(
+                  String(hours).padStart(2, "0") +
+                    String(minutes).padStart(2, "0") +
+                    String(seconds).padStart(2, "0")
+                );
+                setStartTime("");
+                localStorage.removeItem("startTime");
+              }}
+            >
+              <Stop fontSize="6rem" alt="stop" />
+            </Button>
+          </ButtonWrapper>
         </>
       )}
       {!startTime && (
         <>
           {stoppedTime ? (
-            <div>
-              {stoppedTime.substr(0, 2)}:{stoppedTime.substr(2, 2)}:
-              {stoppedTime.substr(4, 2)}
-            </div>
+            <TimeWrapper>
+              {/* {stoppedTime.substr(0, 2)}: */}
+              {stoppedTime.substr(2, 2)}:{stoppedTime.substr(4, 2)}
+            </TimeWrapper>
           ) : (
-            <div>00:00:00</div>
+            <TimeWrapper>
+              {/* 00: */}
+              00:00
+            </TimeWrapper>
           )}
-
-          <Button
-            type="button"
-            aria-label="start stopwatch"
-            onClick={() => {
-              setStartTime(new Date().getTime());
-            }}
-          >
-            <Image
-              src="/images/svgs/play.svg"
-              width={30}
-              height={30}
-              alt="play"
-            />
-          </Button>
+          <ButtonWrapper>
+            <Button
+              type="button"
+              aria-label="start stopwatch"
+              onClick={() => {
+                setStartTime(new Date().getTime());
+              }}
+            >
+              <Play fontSize="6rem" alt="start" />
+            </Button>
+          </ButtonWrapper>
         </>
       )}
     </>
   );
 }
+
+const ButtonWrapper = styled.span`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  height: 6em;
+  margin: 1em 0;
+`;
+
+const TimeWrapper = styled.div`
+  font-size: 4em;
+`;
