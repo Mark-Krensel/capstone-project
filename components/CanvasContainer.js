@@ -5,7 +5,7 @@ const CanvasContainer = styled.div`
   width: 100%;
   backdrop-filter: blur(10px);
   display: block;
-  margin: 1em auto 0.5em auto;
+  margin: -15px auto 0.5em auto;
   border-bottom: 1px solid var(--text-primary);
   @media (min-width: 840px) {
     width: 800px;
