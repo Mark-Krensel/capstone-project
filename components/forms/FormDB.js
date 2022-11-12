@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { useState } from "react";
-import SvgCheck from "../icons/Check";
+import { useSession } from "next-auth/react";
 
 //----- import dynamic component to not get hydration error -----
 import dynamic from "next/dynamic";
@@ -12,6 +12,7 @@ const DynamicStopwatch = dynamic(() => import("./Stopwatch"), {
 
 export default function Form({ onSubmit, setShownAttribute, shownAttribute }) {
   const [stoppedTime, setStoppedTime] = useState();
+  const { data: session } = useSession();
 
   function sendForm(event) {
     event.preventDefault();
@@ -19,6 +20,7 @@ export default function Form({ onSubmit, setShownAttribute, shownAttribute }) {
     const timeStamp = new Date().getTime();
     const { weight, date, height, feastTime } = Object.fromEntries(formData);
 
+    const userEmail = session.user.email;
     const weightInput = typeof weight !== "undefined" ? weight : "";
     const heightInput = typeof height !== "undefined" ? height : "";
     const timeInput = typeof feastTime !== "undefined" ? feastTime : "";
@@ -28,7 +30,7 @@ export default function Form({ onSubmit, setShownAttribute, shownAttribute }) {
       return false;
     }
 
-    onSubmit({ weight, date, height, feastTime, timeStamp });
+    onSubmit({ weight, date, height, feastTime, timeStamp, userEmail });
     setShownAttribute("");
     event.target.reset();
   }
