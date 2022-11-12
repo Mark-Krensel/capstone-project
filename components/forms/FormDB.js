@@ -135,4 +135,5 @@ const CheckButton = styled(Button)`
   padding: 0.2em 1em;
   border-radius: 1em;
   border: 0.1em var(--text-secondary) solid;
+  box-shadow: var(--shadow-elevation);
 `;
