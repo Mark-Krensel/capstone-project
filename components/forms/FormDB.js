@@ -10,7 +10,7 @@ const DynamicStopwatch = dynamic(() => import("./Stopwatch"), {
   ssr: false,
 });
 
-export default function Form({ onSubmit, setAttribute, addAttribute }) {
+export default function Form({ onSubmit, setShownAttribute, shownAttribute }) {
   const [stoppedTime, setStoppedTime] = useState();
 
   function sendForm(event) {
@@ -29,7 +29,7 @@ export default function Form({ onSubmit, setAttribute, addAttribute }) {
     }
 
     onSubmit({ weight, date, height, feastTime, timeStamp });
-    setAttribute("");
+    setShownAttribute("");
     event.target.reset();
   }
 
@@ -44,7 +44,7 @@ export default function Form({ onSubmit, setAttribute, addAttribute }) {
         min="2021-01-01"
         required
       />
-      {addAttribute === "weight" && (
+      {shownAttribute === "weight" && (
         <input
           placeholder="-- kg --"
           type="number"
@@ -55,7 +55,7 @@ export default function Form({ onSubmit, setAttribute, addAttribute }) {
           aria-label="weight input"
         />
       )}
-      {addAttribute === "height" && (
+      {shownAttribute === "height" && (
         <input
           aria-label="height input"
           placeholder="-- cm --"
@@ -72,7 +72,7 @@ export default function Form({ onSubmit, setAttribute, addAttribute }) {
         defaultValue={null}
         name="feastTime"
       />
-      {addAttribute === "feastTime" && (
+      {shownAttribute === "feastTime" && (
         <>
           <Suspense fallback={`Loading...`}>
             <DynamicStopwatch
@@ -82,7 +82,7 @@ export default function Form({ onSubmit, setAttribute, addAttribute }) {
           </Suspense>
         </>
       )}
-      <CheckButton>SAVE</CheckButton>
+      <CheckButton aria-label="save data">SAVE</CheckButton>
     </FormElement>
   );
 }

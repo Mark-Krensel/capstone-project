@@ -27,7 +27,7 @@ export default function Card({
     <CardElement>
       {pathname === "/" && (
         <DeleteButton aria-label="delete data" onClick={() => handleDelete(id)}>
-          <Delete fontSize="1.5em" alt="delete" />
+          <Delete fontSize="1.5em" alt="bin" />
         </DeleteButton>
       )}
       <DateText>{date}</DateText>
@@ -43,7 +43,7 @@ export default function Card({
                     aria-label="delete single data point"
                     onClick={() => handleDelete(id, weight._id, "weights")}
                   >
-                    <X fontSize="1.5em" alt="delete single data point" />
+                    <X fontSize="1.5em" alt="x" />
                   </DeleteSingleButton>
                 )}
               </li>
@@ -63,7 +63,7 @@ export default function Card({
                     aria-label="delete single data point"
                     onClick={() => handleDelete(id, height._id, "heights")}
                   >
-                    <X fontSize="1.5em" alt="delete single data point" />
+                    <X fontSize="1.5em" alt="x" />
                   </DeleteSingleButton>
                 )}
               </li>
@@ -87,7 +87,7 @@ export default function Card({
                       handleDelete(id, feastTime._id, "feastTimes")
                     }
                   >
-                    <X fontSize="1.5em" alt="delete single data point" />
+                    <X fontSize="1.5em" alt="x" />
                   </DeleteSingleButton>
                 )}
                 <TimeStamp> --{calcTime(feastTime.timeStamp)}</TimeStamp>
@@ -128,7 +128,7 @@ const DeleteSingleButton = styled(Button)`
 const AttributeText = styled.h3`
   text-align: center;
   border-top: 1px var(--not-white) solid;
-  margin: 0.2em 1em;
+  margin: 0.2em 0.6em;
   padding-top: 0.5em;
   font-size: 1.3em;
 `;
@@ -144,10 +144,12 @@ const AttributeList = styled.ul`
 
   li {
     font-size: 1.3rem;
+    margin: 0.3em 0;
   }
 `;
 const TimeStamp = styled.p`
-  text-align: right;
+  text-align: left;
   font-size: 1rem;
   color: var(--not-black);
+  margin-bottom: 1em;
 `;

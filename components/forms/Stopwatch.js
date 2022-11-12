@@ -13,7 +13,7 @@ export default function Stopwatch({ setStoppedTime, stoppedTime }) {
   const [seconds, setSeconds] = useState(0);
 
   useEffect(() => {
-    if (typeof startTime !== "undefined") {
+    if (typeof startTime !== "undefined" || startTime == "") {
       const interval = setInterval(() => {
         const now = new Date();
         const difference = now.getTime() - startTime;
@@ -45,7 +45,8 @@ export default function Stopwatch({ setStoppedTime, stoppedTime }) {
       {startTime && (
         <>
           <TimeWrapper>
-            {String(hours).padStart(2, "0")}:{String(minutes).padStart(2, "0")}:
+            {/* {String(hours).padStart(2, "0")}: */}
+            {String(minutes).padStart(2, "0")}:
             {String(seconds).padStart(2, "0")}
           </TimeWrapper>
           <ButtonWrapper>
@@ -62,7 +63,7 @@ export default function Stopwatch({ setStoppedTime, stoppedTime }) {
                 localStorage.removeItem("startTime");
               }}
             >
-              <Stop fontSize="6rem" />
+              <Stop fontSize="6rem" alt="stop" />
             </Button>
           </ButtonWrapper>
         </>
@@ -71,11 +72,14 @@ export default function Stopwatch({ setStoppedTime, stoppedTime }) {
         <>
           {stoppedTime ? (
             <TimeWrapper>
-              {stoppedTime.substr(0, 2)}:{stoppedTime.substr(2, 2)}:
-              {stoppedTime.substr(4, 2)}
+              {/* {stoppedTime.substr(0, 2)}: */}
+              {stoppedTime.substr(2, 2)}:{stoppedTime.substr(4, 2)}
             </TimeWrapper>
           ) : (
-            <TimeWrapper>00:00:00</TimeWrapper>
+            <TimeWrapper>
+              {/* 00: */}
+              00:00
+            </TimeWrapper>
           )}
           <ButtonWrapper>
             <Button
@@ -85,7 +89,7 @@ export default function Stopwatch({ setStoppedTime, stoppedTime }) {
                 setStartTime(new Date().getTime());
               }}
             >
-              <Play fontSize="6rem" />
+              <Play fontSize="6rem" alt="start" />
             </Button>
           </ButtonWrapper>
         </>

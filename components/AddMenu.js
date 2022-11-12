@@ -27,64 +27,66 @@ export default function AddMenu() {
   }
 
   const [showAddMenu, setAddMenu] = useState(false);
-  //legitimate useStates: none, buttonActive, weight, height, feastTime
+
   const toggleAddMenu = () => {
     setAddMenu(!showAddMenu);
   };
-  const [addAttribute, setAttribute] = useState("");
-  // const toggleAddMenu = (menuState) => {
-  //   setAddMenu(menuState);
-  // };
+  //legitimate useStates: weight, height, feastTime, ""
+  const [shownAttribute, setShownAttribute] = useState("");
+
   return (
     <MenuContainer>
       {showAddMenu && (
         <StyledList>
           <li>
             <Button
+              aria-label="open timer"
               onClick={() => {
-                setAttribute("feastTime");
+                setShownAttribute("feastTime");
                 toggleAddMenu();
               }}
             >
-              <Clock fontSize="3rem" />
+              <Clock fontSize="3rem" alt="clock" />
             </Button>
           </li>
           <li>
             <Button
+              aria-label="open height input"
               onClick={() => {
-                setAttribute("height");
+                setShownAttribute("height");
                 toggleAddMenu();
               }}
             >
-              <Ruler fontSize="3rem" />
+              <Ruler fontSize="3rem" alt="ruler" />
             </Button>
           </li>
           <li>
             <Button
+              aria-label="open weight input"
               onClick={() => {
-                setAttribute("weight");
+                setShownAttribute("weight");
                 toggleAddMenu();
               }}
             >
-              <Scale fontSize="3rem" />
+              <Scale fontSize="3rem" alt="scale" />
             </Button>
           </li>
         </StyledList>
       )}
-      {addAttribute && (
-        <Modal setAttribute={setAttribute}>
+      {shownAttribute && (
+        <Modal setShownAttribute={setShownAttribute}>
           <CardContainer>
             <FormDB
               onSubmit={handleSubmit}
-              setAttribute={setAttribute}
-              addAttribute={addAttribute}
+              setShownAttribute={setShownAttribute}
+              shownAttribute={shownAttribute}
             />
           </CardContainer>
-          <Button onClick={() => setAttribute("")}>Cancel</Button>
+          <Button onClick={() => setShownAttribute("")}>Cancel</Button>
         </Modal>
       )}
-      <MenuButton onClick={toggleAddMenu}>
-        <Add fontSize="4rem" />
+      <MenuButton onClick={toggleAddMenu} aria-label="open attribute menu">
+        <Add fontSize="4rem" alt="+" />
       </MenuButton>
     </MenuContainer>
   );
@@ -100,11 +102,11 @@ const MenuContainer = styled.div`
 const StyledList = styled.ul`
   display: flex;
   justify-content: center;
-  gap: 0.8em;
-  /* flex-direction: column; */
+  gap: 3em;
 `;
 
 const MenuButton = styled(Button)`
   max-width: 4em;
   width: 100%;
+  margin: 0.8em;
 `;
