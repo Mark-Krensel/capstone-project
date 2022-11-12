@@ -24,6 +24,7 @@ const feastTimeSchema = new Schema({
 const daySchema = new Schema(
   {
     date: { type: String, required: true },
+    userEmail: { type: String, required: true },
     weights: [weightSchema],
     heights: [heightSchema],
     feastTimes: [feastTimeSchema],
