@@ -102,6 +102,7 @@ const FormElement = styled.form`
   justify-content: center;
   gap: 0 0.5em;
   margin: 2em 1em 6em 1em;
+  padding-top: 1em;
 
   input {
     width: 8em;
