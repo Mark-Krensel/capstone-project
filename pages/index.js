@@ -4,6 +4,7 @@ import Card from "../components/Card";
 import { getAllDays } from "../services/dayService";
 import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/router";
+import styled from "styled-components";
 
 export async function getServerSideProps() {
   const days = await getAllDays();
@@ -44,20 +45,23 @@ export default function Home({ days }) {
 
   const container = useRef(null);
   useEffect(() => {
-    lottie.loadAnimation({
+    const instance = lottie.loadAnimation({
       container: container.current,
       renderer: "svg",
       loop: false,
       animationData: require("../public/MomBaby.json"),
     });
+    return () => instance.destroy();
   }, []);
 
   return (
     <CardContainer>
       {days.length === 0 && (
         <>
-          <div ref={container} />
-          <h2>{"You don't have any data saved right now"}</h2>
+          <EmptyHeading>
+            {"You don't have any data saved right now"}
+          </EmptyHeading>
+          <LottieContainer ref={container} />
         </>
       )}
       {days.map((day) => (
@@ -74,3 +78,13 @@ export default function Home({ days }) {
     </CardContainer>
   );
 }
+
+const LottieContainer = styled.div`
+  width: 100%;
+  max-width: 35em;
+  margin: 5em;
+`;
+const EmptyHeading = styled.h2`
+  width: 100%;
+  text-align: center;
+`;
