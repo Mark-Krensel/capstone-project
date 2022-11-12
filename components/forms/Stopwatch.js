@@ -7,7 +7,7 @@ import Stop from "../icons/XStop";
 export default function Stopwatch({ setStoppedTime, stoppedTime }) {
   const storedStartTime =
     typeof window !== "undefined" ? localStorage.getItem("startTime") : null;
-  const [startTime, setStartTime] = useState(storedStartTime ?? []);
+  const [startTime, setStartTime] = useState(storedStartTime ?? "");
   const [hours, setHours] = useState(0);
   const [minutes, setMinutes] = useState(0);
   const [seconds, setSeconds] = useState(0);
