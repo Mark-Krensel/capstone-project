@@ -35,20 +35,20 @@ export default async function handler(request, response) {
       if (existingDay) {
         const updatedWeight = postData.weight
           ? [
-              ...existingDay.weights,
               { value: postData.weight, timeStamp: postData.timeStamp },
+              ...existingDay.weights,
             ]
           : [...existingDay.weights];
         const updatedHeight = postData.height
           ? [
-              ...existingDay.heights,
               { value: postData.height, timeStamp: postData.timeStamp },
+              ...existingDay.heights,
             ]
           : [...existingDay.heights];
         const updatedFeastTime = postData.feastTime
           ? [
-              ...existingDay.feastTimes,
               { value: postData.feastTime, timeStamp: postData.timeStamp },
+              ...existingDay.feastTimes,
             ]
           : [...existingDay.feastTimes];
 
