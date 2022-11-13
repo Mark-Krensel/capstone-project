@@ -46,6 +46,26 @@ export default function NavMenu() {
               </Link>
             </li>
             <li>
+              <Link href="/height" passHref>
+                <StyledNavLink
+                  active={pathname === "/height"}
+                  onClick={toggleHamburgerMenu}
+                >
+                  Height
+                </StyledNavLink>
+              </Link>
+            </li>
+            <li>
+              <Link href="/feedingtime" passHref>
+                <StyledNavLink
+                  active={pathname === "/feedingtime"}
+                  onClick={toggleHamburgerMenu}
+                >
+                  Feeding
+                </StyledNavLink>
+              </Link>
+            </li>
+            <li>
               <SignOutButton
                 onClick={() => {
                   signOut(), toggleHamburgerMenu();
@@ -109,6 +129,7 @@ const BurgerMenu = styled.ul`
   li:last-child {
     border-bottom-left-radius: 9px;
     border-bottom-right-radius: 9px;
+    padding-top: 0.2em;
     padding-bottom: 0.4em;
     border-top: var(--not-white) 1px solid;
   }
