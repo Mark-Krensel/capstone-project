@@ -78,7 +78,7 @@ export default function Card({
           <AttributeList>
             {feastTimes.map((feastTime) => (
               <li key={feastTime._id}>
-                {feastTime.value.substr(2, 2)}:{feastTime.value.substr(4, 2)}{" "}
+                {feastTime.value.substr(2, 2)}:{feastTime.value.substr(4, 2)}
                 min
                 {pathname === "/" && (
                   <DeleteSingleButton
@@ -90,7 +90,13 @@ export default function Card({
                     <X fontSize="1.5em" alt="x" />
                   </DeleteSingleButton>
                 )}
-                <TimeStamp> --{calcTime(feastTime.timeStamp)}</TimeStamp>
+                <TimeStamp>
+                  --{calcTime(feastTime.timeStamp)}
+                  {/* {new Date(parseInt(weight.timeStamp)).toLocaleTimeString([], {
+                hour: "2-digit",
+                minute: "2-digit",
+              })} */}
+                </TimeStamp>
               </li>
             ))}
           </AttributeList>

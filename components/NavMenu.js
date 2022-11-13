@@ -79,8 +79,8 @@ const NavWrapper = styled.nav`
   position: absolute;
   right: 0;
   background-color: var(--not-black);
-  border-bottom-left-radius: 7px;
-  border-top-left-radius: 7px;
+  border-bottom-left-radius: 9px;
+  border-top-left-radius: 9px;
 `;
 
 const NavButton = styled(Button)`
@@ -99,15 +99,16 @@ const BurgerMenu = styled.ul`
     width: auto;
     height: auto;
     text-align: right;
-    padding: 0.2em 0.8em;
+    padding: 0.2em 0.3em;
+    margin: 0 0.5em;
 
     &:hover {
       background-color: var(--background-hover);
     }
   }
   li:last-child {
-    border-bottom-left-radius: 7px;
-    border-bottom-right-radius: 7px;
+    border-bottom-left-radius: 9px;
+    border-bottom-right-radius: 9px;
     padding-bottom: 0.4em;
     border-top: var(--not-white) 1px solid;
   }

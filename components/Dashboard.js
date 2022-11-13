@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { Button } from "./Button";
 import { useRouter } from "next/router";
+import { AttributeBoard } from "./AttributeBoard";
 
 export default function Dashboard({
   date,
@@ -26,47 +27,105 @@ export default function Dashboard({
       <DashboardHeading>Status</DashboardHeading>
       {weight && (
         <>
-          <AttributeText>Weight</AttributeText>
-          <AttributeList>
-            <li>{weight.value} kg</li>
-          </AttributeList>
+          <WeightBoard>
+            {weight.value} kg
+            {/* {new Date(parseInt(weight.timeStamp)).getDate()}.
+              {new Date(parseInt(weight.timeStamp)).getMonth() + 1} */}
+            <DateStamp>
+              {new Date(parseInt(weight.timeStamp)).toLocaleDateString(
+                "en-US",
+                {
+                  weekday: "short",
+                }
+              )}
+              {new Date(parseInt(weight.timeStamp)).toLocaleString(undefined, {
+                month: "numeric",
+                day: "numeric",
+              })}
+            </DateStamp>
+          </WeightBoard>
         </>
       )}
       {height && (
         <>
-          <AttributeText>Weight</AttributeText>
-          <AttributeList>
-            <li>{height.value} kg</li>
-          </AttributeList>
+          <HeightBoard>
+            {height.value} cm
+            <DateStamp>
+              {new Date(parseInt(height.timeStamp)).toLocaleDateString(
+                "en-US",
+                {
+                  weekday: "short",
+                }
+              )}
+              {new Date(parseInt(height.timeStamp)).toLocaleString(undefined, {
+                month: "numeric",
+                day: "numeric",
+              })}
+            </DateStamp>
+          </HeightBoard>
         </>
       )}
       {feastTime && (
         <>
-          <AttributeText>Feeding Time</AttributeText>
-
-          <AttributeList>
-            <li>
-              {feastTime.value.substr(2, 2)}:{feastTime.value.substr(4, 2)}
-              min
-              <TimeStamp> --{calcTime(feastTime.timeStamp)}</TimeStamp>
-            </li>
-          </AttributeList>
+          <FeedingTimeBoard>
+            {feastTime.value.substr(2, 2)}:{feastTime.value.substr(4, 2)}
+            min
+            <TimeStamp>
+              <span>--{calcTime(feastTime.timeStamp)}</span>
+              <InlineRightText>
+                {new Date(parseInt(feastTime.timeStamp)).toLocaleDateString(
+                  "en-US",
+                  {
+                    weekday: "short",
+                  }
+                )}
+                {new Date(parseInt(feastTime.timeStamp)).toLocaleString(
+                  undefined,
+                  {
+                    month: "numeric",
+                    day: "numeric",
+                  }
+                )}
+              </InlineRightText>
+            </TimeStamp>
+          </FeedingTimeBoard>
         </>
       )}
     </DashboardCard>
   );
 }
 
+// const DashboardCard = styled.article`
+//   padding: 0.5em;
+//   border: 1px solid var(--text-primary);
+//   color: var(--text-primary);
+//   border-radius: 1em;
+//   box-shadow: var(--shadow-elevation);
+//   height: auto;
+//   max-height: auto;
+//   width: 85%;
+//   max-width: 30em;
+//   backdrop-filter: blur(10px);
+//   background: var(--background-secondary-blur);
+// `;
 const DashboardCard = styled.article`
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr 1fr;
+  grid-template-areas:
+    "header header header header"
+    "feedingTime feedingTime feedingTime feedingTime"
+    "weight weight height height";
+  gap: 0.2em 0.2em;
   padding: 0.5em;
   border: 1px solid var(--text-primary);
   color: var(--text-primary);
   border-radius: 1em;
   box-shadow: var(--shadow-elevation);
   height: auto;
-  max-height: auto;
-  width: 85%;
-  max-width: 30em;
+  max-height: 12.5em;
+  width: 95%;
+  max-width: 32em;
   backdrop-filter: blur(10px);
   background: var(--background-secondary-blur);
 `;
@@ -83,19 +142,37 @@ const DashboardHeading = styled.h2`
   text-align: center;
   font-weight: bold;
   padding-bottom: 0.2em;
+  grid-area: header;
+  border-bottom: var(--not-white) solid 1px;
 `;
 
-const AttributeList = styled.ul`
-  margin: 0 1em;
-
-  li {
-    font-size: 1.3rem;
-    margin: 0.3em 0;
-  }
+const HeightBoard = styled(AttributeBoard)`
+  grid-area: height;
+  border-left: var(--not-white) solid 1px;
 `;
+const WeightBoard = styled(AttributeBoard)`
+  grid-area: weight;
+`;
+const FeedingTimeBoard = styled(AttributeBoard)`
+  grid-area: feedingTime;
+  border-bottom: var(--not-white) solid 1px;
+`;
+
 const TimeStamp = styled.p`
   text-align: left;
   font-size: 1rem;
   color: var(--not-black);
   margin-bottom: 1em;
+`;
+
+const DateStamp = styled.p`
+  text-align: right;
+  font-size: 1rem;
+  color: var(--not-black);
+  margin-bottom: 1em;
+`;
+
+const InlineRightText = styled.span`
+  position: absolute;
+  right: 0.7em;
 `;
