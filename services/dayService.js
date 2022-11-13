@@ -39,8 +39,11 @@ export async function getDayById(id, userEmail) {
 export async function checkAndGetDate(dateToBeChecked, userEmail) {
   await dbConnect();
 
-  const day = await Day.findOne({ date: dateToBeChecked });
-  if (day && day.userEmail === userEmail) {
+  const day = await Day.findOne({
+    date: dateToBeChecked,
+    userEmail: userEmail,
+  });
+  if (day) {
     const sanitizedDay = {
       id: day.id,
       date: day.date,
