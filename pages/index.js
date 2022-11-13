@@ -8,6 +8,7 @@ import { getAllDays } from "../services/dayService";
 import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/router";
 import styled from "styled-components";
+import Dashboard from "../components/Dashboard";
 
 export async function getServerSideProps(context) {
   const session = await unstable_getServerSession(
@@ -68,8 +69,16 @@ export default function Home({ days }) {
 
   //----- Session -----
   const { data: session } = useSession();
+
   if (session) {
-    console.log(session);
+    const latestWeight = days.find((element) => element.weights.length !== 0)
+      ?.weights[0];
+    const latestHeight = days.find((element) => element.heights.length !== 0)
+      ?.heights[0];
+    const latestFeastTime = days.find((element) => element.feastTimes !== 0)
+      ?.feastTimes[0];
+    // console.log(latestWeight.weights[0].value);
+
     return (
       <CardContainer>
         {days.length === 0 && (
@@ -80,6 +89,12 @@ export default function Home({ days }) {
             <LottieContainer ref={container} />
           </>
         )}
+        <Dashboard
+          weight={latestWeight}
+          height={latestHeight}
+          feastTime={latestFeastTime}
+        />
+
         {days.map((day) => (
           <Card
             key={day.id}
