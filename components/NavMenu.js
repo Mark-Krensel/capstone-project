@@ -66,6 +66,8 @@ export default function NavMenu() {
               </Link>
             </li>
             <li>
+              {/* <Link href="/" passHref>
+                <StyledNavLink> */}
               <SignOutButton
                 onClick={() => {
                   signOut(), toggleHamburgerMenu();
@@ -74,6 +76,8 @@ export default function NavMenu() {
                 <StyledSignOut />
                 {` sign out`}
               </SignOutButton>
+              {/* </StyledNavLink>
+              </Link> */}
             </li>
           </BurgerMenu>
         )}
