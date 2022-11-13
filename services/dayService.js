@@ -1,10 +1,10 @@
 import dbConnect from "../lib/dbConnect";
 import Day from "../models/Day";
 
-export async function getAllDays() {
+export async function getAllDays(userEmail) {
   await dbConnect();
 
-  const days = await Day.find();
+  const days = await Day.find({ userEmail: userEmail });
 
   const sortedDays = days.sort((a, b) => (a.date < b.date ? 1 : -1));
 
@@ -19,10 +19,11 @@ export async function getAllDays() {
   return sanitizedDays;
 }
 
-export async function getDayById(id) {
+export async function getDayById(id, userEmail) {
   await dbConnect();
 
-  const day = await Day.findById(id);
+  // const day = await Day.findById(id);
+  const day = await Day.findOne({ _id: id, userEmail: userEmail });
 
   const sanitizedDay = {
     id: day.id,
@@ -35,10 +36,13 @@ export async function getDayById(id) {
   return sanitizedDay;
 }
 
-export async function checkAndGetDate(dateToBeChecked) {
+export async function checkAndGetDate(dateToBeChecked, userEmail) {
   await dbConnect();
 
-  const day = await Day.findOne({ date: dateToBeChecked });
+  const day = await Day.findOne({
+    date: dateToBeChecked,
+    userEmail: userEmail,
+  });
   if (day) {
     const sanitizedDay = {
       id: day.id,

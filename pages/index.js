@@ -1,3 +1,6 @@
+import { useSession, signIn } from "next-auth/react";
+import { unstable_getServerSession } from "next-auth/next";
+import { authOptions } from "./api/auth/[...nextauth]";
 import { CardContainer } from "../components/CardContainer";
 import lottie from "lottie-web";
 import Card from "../components/Card";
@@ -6,11 +9,18 @@ import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/router";
 import styled from "styled-components";
 
-export async function getServerSideProps() {
-  const days = await getAllDays();
-  return {
-    props: { days: JSON.parse(JSON.stringify(days)) },
-  };
+export async function getServerSideProps(context) {
+  const session = await unstable_getServerSession(
+    context.req,
+    context.res,
+    authOptions
+  );
+  if (session) {
+    const days = await getAllDays(session.user.email);
+    return {
+      props: { days: JSON.parse(JSON.stringify(days)) },
+    };
+  } else return { props: {} };
 }
 
 export default function Home({ days }) {
@@ -43,39 +53,54 @@ export default function Home({ days }) {
     }
   }
 
+  //----- LottieFile -----
   const container = useRef(null);
   useEffect(() => {
-    const instance = lottie.loadAnimation({
+    // const instance =
+    lottie.loadAnimation({
       container: container.current,
       renderer: "svg",
       loop: false,
       animationData: require("../public/MomBaby.json"),
     });
-    return () => instance.destroy();
+    // return () => instance.destroy();
   }, []);
 
+  //----- Session -----
+  const { data: session } = useSession();
+  if (session) {
+    console.log(session);
+    return (
+      <CardContainer>
+        {days.length === 0 && (
+          <>
+            <EmptyHeading>
+              {"You don't have any data saved right now"}
+            </EmptyHeading>
+            <LottieContainer ref={container} />
+          </>
+        )}
+        {days.map((day) => (
+          <Card
+            key={day.id}
+            id={day.id}
+            date={day.date}
+            weights={day.weights}
+            heights={day.heights}
+            feastTimes={day.feastTimes}
+            handleDelete={handleDelete}
+          />
+        ))}
+      </CardContainer>
+    );
+  }
   return (
-    <CardContainer>
-      {days.length === 0 && (
-        <>
-          <EmptyHeading>
-            {"You don't have any data saved right now"}
-          </EmptyHeading>
-          <LottieContainer ref={container} />
-        </>
-      )}
-      {days.map((day) => (
-        <Card
-          key={day.id}
-          id={day.id}
-          date={day.date}
-          weights={day.weights}
-          heights={day.heights}
-          feastTimes={day.feastTimes}
-          handleDelete={handleDelete}
-        />
-      ))}
-    </CardContainer>
+    <>
+      <CardContainer>
+        <p>Not signed in</p>
+        <button onClick={() => signIn()}>Sign in</button>
+      </CardContainer>
+    </>
   );
 }
 

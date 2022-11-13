@@ -1,4 +1,6 @@
 import dbConnect from "../../../lib/dbConnect";
+import { unstable_getServerSession } from "next-auth/next";
+import { authOptions } from "../auth/[...nextauth]";
 import Day from "../../../models/Day";
 import {
   getAllDays,
@@ -7,6 +9,11 @@ import {
 } from "../../../services/dayService";
 
 export default async function handler(request, response) {
+  const session = await unstable_getServerSession(
+    request,
+    response,
+    authOptions
+  );
   await dbConnect();
   const id = request.query.id;
   const dataPointId = request.query.dataPointId;
@@ -20,7 +27,10 @@ export default async function handler(request, response) {
     case "POST":
       const postData = JSON.parse(request.body);
       const dateToBeChecked = postData.date;
-      const existingDay = await checkAndGetDate(dateToBeChecked);
+      const existingDay = await checkAndGetDate(
+        dateToBeChecked,
+        postData.userEmail
+      );
 
       if (existingDay) {
         const updatedWeight = postData.weight
@@ -60,6 +70,7 @@ export default async function handler(request, response) {
       } else {
         const newPostData = {
           date: postData.date,
+          userEmail: postData.userEmail,
           weights: postData.weight
             ? [{ value: postData.weight, timeStamp: postData.timeStamp }]
             : [],
@@ -86,7 +97,7 @@ export default async function handler(request, response) {
           .json({ message: "Entry deleted", deletedId: id });
       } else {
         await Day.updateMany({ $pull: { [attribute]: { _id: dataPointId } } });
-        const day = await getDayById(id);
+        const day = await getDayById(id, session.user.email);
         if (
           day.heights.length === 0 &&
           day.weights.length === 0 &&

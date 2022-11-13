@@ -1,3 +1,6 @@
+import { useSession, signIn } from "next-auth/react";
+import { unstable_getServerSession } from "next-auth/next";
+import { authOptions } from "./api/auth/[...nextauth]";
 import { CardContainer } from "../components/CardContainer";
 import Card from "../components/Card";
 import { getAllDays } from "../services/dayService";
@@ -5,11 +8,18 @@ import { getAllDays } from "../services/dayService";
 import { CanvasContainer } from "../components/CanvasContainer";
 import LineChart from "../components/charts/LineChart";
 
-export async function getServerSideProps() {
-  const days = await getAllDays();
-  return {
-    props: { days: JSON.parse(JSON.stringify(days)) },
-  };
+export async function getServerSideProps(context) {
+  const session = await unstable_getServerSession(
+    context.req,
+    context.res,
+    authOptions
+  );
+  if (session) {
+    const days = await getAllDays(session.user.email);
+    return {
+      props: { days: JSON.parse(JSON.stringify(days)) },
+    };
+  } else return { props: {} };
 }
 
 export default function WeightPage({ days }) {
@@ -32,10 +42,10 @@ export default function WeightPage({ days }) {
 
   return (
     <>
-      <CanvasContainer>
-        <LineChart labels={labels} chartData={meanChartData} title={title} />
-      </CanvasContainer>
       <CardContainer>
+        <CanvasContainer>
+          <LineChart labels={labels} chartData={meanChartData} title={title} />
+        </CanvasContainer>
         {filteredDays.map((filteredDay) => (
           <Card
             key={filteredDay.id}
