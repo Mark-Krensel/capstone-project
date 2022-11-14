@@ -6,14 +6,15 @@ export default function Background() {
     <>
       <StyledBackground>
         <Image
-          src="/images/pictures/background-flower.jpg"
+          src="/images/pictures/background-stripes2.jpg"
           alt="background with flower"
           // layout="responsive"
           layout="fill"
           objectFit="cover"
+          quality={100}
           priority
-          // width={3664}
-          // height={5496}
+          // width={6000}
+          // height={4000}
         />
       </StyledBackground>
     </>

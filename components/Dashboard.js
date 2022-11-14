@@ -29,8 +29,6 @@ export default function Dashboard({
         <>
           <WeightBoard>
             {weight.value} kg
-            {/* {new Date(parseInt(weight.timeStamp)).getDate()}.
-              {new Date(parseInt(weight.timeStamp)).getMonth() + 1} */}
             <DateStamp>
               {new Date(parseInt(weight.timeStamp)).toLocaleDateString(
                 "en-US",
@@ -95,29 +93,16 @@ export default function Dashboard({
   );
 }
 
-// const DashboardCard = styled.article`
-//   padding: 0.5em;
-//   border: 1px solid var(--text-primary);
-//   color: var(--text-primary);
-//   border-radius: 1em;
-//   box-shadow: var(--shadow-elevation);
-//   height: auto;
-//   max-height: auto;
-//   width: 85%;
-//   max-width: 30em;
-//   backdrop-filter: blur(10px);
-//   background: var(--background-secondary-blur);
-// `;
 const DashboardCard = styled.article`
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  grid-template-rows: 1fr 1fr 1fr 1fr;
+  grid-template-columns: repeat(1fr 4);
+  grid-template-rows: repeat(1fr 3);
   grid-template-areas:
     "header header header header"
     "feedingTime feedingTime feedingTime feedingTime"
     "weight weight height height";
   gap: 0.2em 0.2em;
-  padding: 0.5em;
+  padding: 0.5em 1em;
   border: 1px solid var(--text-primary);
   color: var(--text-primary);
   border-radius: 1em;
@@ -128,14 +113,6 @@ const DashboardCard = styled.article`
   max-width: 32em;
   backdrop-filter: blur(10px);
   background: var(--background-secondary-blur);
-`;
-
-const AttributeText = styled.h3`
-  text-align: center;
-  border-top: 1px var(--not-white) solid;
-  margin: 0.2em 0.6em;
-  padding-top: 0.5em;
-  font-size: 1.3em;
 `;
 
 const DashboardHeading = styled.h2`
@@ -174,5 +151,5 @@ const DateStamp = styled.p`
 
 const InlineRightText = styled.span`
   position: absolute;
-  right: 0.7em;
+  right: 1.2em;
 `;

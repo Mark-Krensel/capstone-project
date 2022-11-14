@@ -4,8 +4,8 @@ import { authOptions } from "./api/auth/[...nextauth]";
 import styled from "styled-components";
 import { CardContainer } from "../components/CardContainer";
 import Card from "../components/Card";
-import { SignInButton } from "../components/SignInButton";
 import { getAllDays } from "../services/dayService";
+import { SignInButton } from "../components/SignInButton";
 
 import { CanvasContainer } from "../components/CanvasContainer";
 import LineChart from "../components/charts/LineChart";
@@ -24,10 +24,12 @@ export async function getServerSideProps(context) {
   } else return { props: {} };
 }
 
-export default function WeightPage({ days }) {
+export default function FeedingTimePage({ days }) {
+  //----- Session -----
   const { data: session } = useSession();
+
   if (session) {
-    const filteredDays = days.filter((day) => day.weights.length > 0);
+    const filteredDays = days.filter((day) => day.feastTimes.length > 0);
 
     const ascendingFilteredDays = Array.from(filteredDays).reverse();
 
@@ -38,13 +40,13 @@ export default function WeightPage({ days }) {
           .substr(5, 2)}`
     );
     const chartData = ascendingFilteredDays.map((day) =>
-      day.weights.map((weight) => weight.value)
+      day.feastTimes.map((feastTime) => parseInt(feastTime.value))
     );
 
     const meanChartData = chartData.map(
       (array) => array.reduce((a, b) => a + b, 0) / array.length
     );
-    const title = "Average Weight";
+    const title = "Average Feeding Time";
 
     return (
       <>
@@ -60,16 +62,15 @@ export default function WeightPage({ days }) {
             <Card
               key={filteredDay.id}
               date={filteredDay.date}
-              weights={filteredDay.weights}
+              feastTimes={filteredDay.feastTimes}
               heights={[]}
-              feastTimes={[]}
+              weights={[]}
             />
           ))}
         </CardContainer>
       </>
     );
   }
-
   return (
     <>
       {/* <CardContainer>
