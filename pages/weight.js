@@ -27,7 +27,7 @@ export async function getServerSideProps(context) {
 export default function WeightPage({ days }) {
   const { data: session } = useSession();
   if (session) {
-    const filteredDays = days.filter((day) => Boolean(day.weights.length > 0));
+    const filteredDays = days.filter((day) => day.weights.length > 0);
 
     const ascendingFilteredDays = Array.from(filteredDays).reverse();
 
@@ -72,11 +72,11 @@ export default function WeightPage({ days }) {
 
   return (
     <>
-      <CardContainer>
+      {/* <CardContainer>
         <StyledText>You are not signed in</StyledText>
         <SignInButton onClick={() => signIn()}>Sign in</SignInButton>
         <LottieContainer ref={container} />
-      </CardContainer>
+      </CardContainer> */}
     </>
   );
 }

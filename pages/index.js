@@ -115,7 +115,7 @@ export default function Home({ days }) {
     <>
       <CardContainer>
         <StyledText>You are not signed in</StyledText>
-        <SignInButton onClick={() => signIn()}>Sign in</SignInButton>
+        <SignInButton onClick={() => signIn("github")}>Sign in</SignInButton>
         <LottieContainer ref={container} />
       </CardContainer>
     </>

@@ -2,35 +2,35 @@ import { createGlobalStyle } from "styled-components";
 
 const GlobalStyle = createGlobalStyle`
       :root {
-          --text-primary: #08428C;
-          --text-secondary:#6393A6;
-          --background-primary: #F2AEBB;
-          --background-secondary:#F2CBBD;
+          --text-primary: #605DA8;
+          --text-secondary:#605DA8;
+          --background-primary: #bbdfd7;
+          --background-secondary:#bbdfd7;
           --background-secondary-blur: rgba(242, 203, 189, 0.1);
           --not-black:#323E40;
           --not-white:#F2F2F2;
           --background-hover: #4B4952;
 
           --iconSize:4rem;
-          --form-fontSize:2rem;
+          --form-fontSize:rem;
 
           
           --shadow-color: 341deg 7% 56%;
           --shadow-elevation:
-          0.6px 0.5px 0.9px hsl(var(--shadow-color) / 0.36),
-          1.8px 1.6px 2.7px -0.8px hsl(var(--shadow-color) / 0.36),
-          4.5px 4.1px 6.8px -1.7px hsl(var(--shadow-color) / 0.36),
-          11px 9.9px 16.6px -2.5px hsl(var(--shadow-color) / 0.36);
+          0.3px 0.5px 0.7px hsl(var(--shadow-color) / 0.36),
+    0.8px 1.6px 2px -0.8px hsl(var(--shadow-color) / 0.36),
+    2.1px 4.1px 5.2px -1.7px hsl(var(--shadow-color) / 0.36),
+    5px 10px 12.6px -2.5px hsl(var(--shadow-color) / 0.36);
 
           --shadow-elevation-intens:
           0.3px 0.5px 0.7px hsl(var(--shadow-color) / 0.34),
-          1.5px 2.9px 3.7px -0.4px hsl(var(--shadow-color) / 0.34),
-          2.7px 5.4px 6.8px -0.7px hsl(var(--shadow-color) / 0.34),
-          4.5px 8.9px 11.2px -1.1px hsl(var(--shadow-color) / 0.34),
-          7.1px 14.3px 18px -1.4px hsl(var(--shadow-color) / 0.34),
-          11.2px 22.3px 28.1px -1.8px hsl(var(--shadow-color) / 0.34),
-          17px 33.9px 42.7px -2.1px hsl(var(--shadow-color) / 0.34),
-          25px 50px 62.9px -2.5px hsl(var(--shadow-color) / 0.34);
+    1.5px 2.9px 3.7px -0.4px hsl(var(--shadow-color) / 0.34),
+    2.7px 5.4px 6.8px -0.7px hsl(var(--shadow-color) / 0.34),
+    4.5px 8.9px 11.2px -1.1px hsl(var(--shadow-color) / 0.34),
+    7.1px 14.3px 18px -1.4px hsl(var(--shadow-color) / 0.34),
+    11.2px 22.3px 28.1px -1.8px hsl(var(--shadow-color) / 0.34),
+    17px 33.9px 42.7px -2.1px hsl(var(--shadow-color) / 0.34),
+    25px 50px 62.9px -2.5px hsl(var(--shadow-color) / 0.34);
       }
 
       /* noto-sans-regular - latin */

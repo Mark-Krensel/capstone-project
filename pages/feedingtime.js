@@ -29,9 +29,7 @@ export default function FeedingTimePage({ days }) {
   const { data: session } = useSession();
 
   if (session) {
-    const filteredDays = days.filter((day) =>
-      Boolean(day.feastTimes.length > 0)
-    );
+    const filteredDays = days.filter((day) => day.feastTimes.length > 0);
 
     const ascendingFilteredDays = Array.from(filteredDays).reverse();
 
@@ -42,7 +40,7 @@ export default function FeedingTimePage({ days }) {
           .substr(5, 2)}`
     );
     const chartData = ascendingFilteredDays.map((day) =>
-      day.feastTimes.map((feastTime) => feastTime.value)
+      day.feastTimes.map((feastTime) => parseInt(feastTime.value))
     );
 
     const meanChartData = chartData.map(
@@ -75,11 +73,11 @@ export default function FeedingTimePage({ days }) {
   }
   return (
     <>
-      <CardContainer>
+      {/* <CardContainer>
         <StyledText>You are not signed in</StyledText>
         <SignInButton onClick={() => signIn()}>Sign in</SignInButton>
         <LottieContainer ref={container} />
-      </CardContainer>
+      </CardContainer> */}
     </>
   );
 }

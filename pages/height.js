@@ -1,4 +1,4 @@
-import { useSession } from "next-auth/react";
+import { useSession, signIn } from "next-auth/react";
 import { unstable_getServerSession } from "next-auth/next";
 import { authOptions } from "./api/auth/[...nextauth]";
 import styled from "styled-components";
@@ -9,7 +9,6 @@ import { SignInButton } from "../components/SignInButton";
 
 import { CanvasContainer } from "../components/CanvasContainer";
 import LineChart from "../components/charts/LineChart";
-import { redirect } from "next/dist/server/api-utils";
 
 export async function getServerSideProps(context) {
   const session = await unstable_getServerSession(
@@ -31,7 +30,7 @@ export async function getServerSideProps(context) {
 export default function HeightPage({ days }) {
   const { data: session } = useSession();
   if (session) {
-    const filteredDays = days.filter((day) => Boolean(day.heights.length > 0));
+    const filteredDays = days.filter((day) => day.heights.length > 0);
 
     const ascendingFilteredDays = Array.from(filteredDays).reverse();
 
@@ -76,11 +75,11 @@ export default function HeightPage({ days }) {
 
   return (
     <>
-      <CardContainer>
+      {/* <CardContainer>
         <StyledText>You are not signed in</StyledText>
         <SignInButton onClick={() => signIn()}>Sign in</SignInButton>
         <LottieContainer ref={container} />
-      </CardContainer>
+      </CardContainer> */}
     </>
   );
 }

@@ -29,8 +29,6 @@ export default function Dashboard({
         <>
           <WeightBoard>
             {weight.value} kg
-            {/* {new Date(parseInt(weight.timeStamp)).getDate()}.
-              {new Date(parseInt(weight.timeStamp)).getMonth() + 1} */}
             <DateStamp>
               {new Date(parseInt(weight.timeStamp)).toLocaleDateString(
                 "en-US",
