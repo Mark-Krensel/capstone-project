@@ -10,7 +10,7 @@ const SvgStop = (props) => (
     height="1em"
     fill="currentColor"
     stroke="black"
-    stroke-width="20"
+    strokeWidth="20"
     {...props}
   >
     <path d="M384 128v255.1c0 35.35-28.65 64-64 64H64c-35.35 0-64-28.65-64-64V128c0-35.35 28.65-64 64-64h256c35.3 0 64 28.65 64 64z" />
