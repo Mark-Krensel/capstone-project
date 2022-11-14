@@ -1,9 +1,11 @@
 import { useSession } from "next-auth/react";
 import { unstable_getServerSession } from "next-auth/next";
 import { authOptions } from "./api/auth/[...nextauth]";
+import styled from "styled-components";
 import { CardContainer } from "../components/CardContainer";
 import Card from "../components/Card";
 import { getAllDays } from "../services/dayService";
+import { SignInButton } from "../components/SignInButton";
 
 import { CanvasContainer } from "../components/CanvasContainer";
 import LineChart from "../components/charts/LineChart";
@@ -22,10 +24,6 @@ export async function getServerSideProps(context) {
     };
   } else
     return {
-      // redirect: {
-      //   destination: "/",
-      //   permanent: false,
-      // },
       props: {},
     };
 }
@@ -76,5 +74,25 @@ export default function HeightPage({ days }) {
     );
   }
 
-  return <p>You are not logged in</p>;
+  return (
+    <>
+      <CardContainer>
+        <StyledText>You are not signed in</StyledText>
+        <SignInButton onClick={() => signIn()}>Sign in</SignInButton>
+        <LottieContainer ref={container} />
+      </CardContainer>
+    </>
+  );
 }
+
+const LottieContainer = styled.div`
+  width: 100%;
+  max-width: 35em;
+  margin: 1em 5em;
+`;
+
+const StyledText = styled.h2`
+  width: 100%;
+  text-align: center;
+  margin-top: 2em;
+`;

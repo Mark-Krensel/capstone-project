@@ -4,7 +4,7 @@ import { authOptions } from "./api/auth/[...nextauth]";
 import { CardContainer } from "../components/CardContainer";
 import lottie from "lottie-web";
 import Card from "../components/Card";
-import { Button } from "../components/Button";
+import { SignInButton } from "../components/SignInButton";
 import { getAllDays } from "../services/dayService";
 import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/router";
@@ -24,10 +24,6 @@ export async function getServerSideProps(context) {
     };
   } else
     return {
-      // redirect: {
-      //   destination: "/",
-      //   permanent: true,
-      // },
       props: {},
     };
 }
@@ -134,16 +130,6 @@ const LottieContainer = styled.div`
 const EmptyHeading = styled.h2`
   width: 100%;
   text-align: center;
-`;
-
-const SignInButton = styled(Button)`
-  font-size: 1.5em;
-  background-color: var(--background-primary);
-  padding: 0.2em 1em;
-  margin: 1em;
-  border-radius: 1em;
-  border: 0.1em var(--text-secondary) solid;
-  box-shadow: var(--shadow-elevation);
 `;
 
 const StyledText = styled.h2`
