@@ -12,31 +12,44 @@ const DynamicStopwatch = dynamic(() => import('./Stopwatch'), {
 
 export default function Form({ onSubmit, setShownAttribute, shownAttribute }) {
   const [stoppedTime, setStoppedTime] = useState();
-  const [selectedFoodSource, setSelectedFoodSource] = useState(0);
+  const [selectedFoodSource, setSelectedFoodSource] = useState();
   const { data: session } = useSession();
 
   function sendForm(event) {
     event.preventDefault();
     const formData = new FormData(event.target);
     const timeStamp = new Date().getTime();
-    const { weight, date, height, feastTime } = Object.fromEntries(formData);
+    const { weight, date, height, feastTime, foodSource } = Object.fromEntries(formData);
 
     const userEmail = session.user.email;
     const weightInput = typeof weight !== 'undefined' ? weight : '';
     const heightInput = typeof height !== 'undefined' ? height : '';
     const timeInput = typeof feastTime !== 'undefined' ? feastTime : '';
+    const foodSourceInput = typeof foodSource !== 'undefined' ? foodSource : '';
 
-    if (weightInput == '' && heightInput == '' && timeInput == '') {
-      alert('empty');
+    if (shownAttribute === 'weight' && weightInput == '') {
+      alert('How much does the baby weight?');
+      return false;
+    } else if (shownAttribute === 'height' && heightInput == '') {
+      alert('What is the babys the height.');
+      return false;
+    } else if (shownAttribute === 'feastTime' && timeInput == '') {
+      alert('How long did you feed the baby?');
+      return false;
+    } else if (shownAttribute === 'feastTime' && foodSourceInput == '') {
+      alert('On which side did you feed the baby, or did you use a bottle?');
       return false;
     }
 
-    onSubmit({ weight, date, height, feastTime, timeStamp, userEmail });
+    // -- check formData key-value pairs
+    formData.forEach((value, key) => {
+      console.log(key + value);
+    });
+
+    onSubmit({ weight, date, height, feastTime, foodSource, timeStamp, userEmail });
     setShownAttribute('');
     event.target.reset();
   }
-
-  console.log(selectedFoodSource);
 
   return (
     <FormElement aria-label="Add weight and date" onSubmit={sendForm}>
@@ -71,10 +84,11 @@ export default function Form({ onSubmit, setShownAttribute, shownAttribute }) {
           step="0.1"
         />
       )}
-      <input type="hidden" value={stoppedTime} defaultValue={null} name="feastTime" />
       {shownAttribute === 'feastTime' && (
         <>
-          <RadioButton>
+          <input type="hidden" value={stoppedTime} defaultValue={null} name="feastTime" />
+
+          <RadioButtonSection>
             <input
               type="radio"
               name="foodSource"
@@ -107,7 +121,7 @@ export default function Form({ onSubmit, setShownAttribute, shownAttribute }) {
             <StyledLabel htmlFor="foodSource-bottle" checked={selectedFoodSource === 'bottle' ? 1 : 0}>
               bottle
             </StyledLabel>
-          </RadioButton>
+          </RadioButtonSection>
           <Suspense fallback={`Loading...`}>
             <DynamicStopwatch setStoppedTime={setStoppedTime} stoppedTime={stoppedTime} />
           </Suspense>
@@ -169,7 +183,7 @@ const CheckButton = styled(Button)`
   box-shadow: var(--shadow-elevation);
 `;
 
-const RadioButton = styled.div`
+const RadioButtonSection = styled.div`
   width: 100%;
   font-size: var(--form-fontSize);
   font-family: 'Noto Sans';
