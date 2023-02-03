@@ -1,22 +1,13 @@
-import styled from "styled-components";
-import { Button } from "./Button";
-import { useRouter } from "next/router";
-import { AttributeBoard } from "./AttributeBoard";
+import styled from 'styled-components';
+import { Button } from './Button';
+import { useRouter } from 'next/router';
+import { AttributeBoard } from './AttributeBoard';
 
-export default function Dashboard({
-  date,
-  id,
-  weight,
-  handleDelete,
-  height,
-  feastTime,
-}) {
+export default function Dashboard({ date, id, weight, handleDelete, height, feastTime }) {
   const { pathname } = useRouter();
 
   function calcTime(timeStamp) {
-    const h = Math.floor(
-      (timeStamp % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-    );
+    const h = Math.floor((timeStamp % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
     const m = Math.floor((timeStamp % (1000 * 60 * 60)) / (1000 * 60));
     const time = ` @${h}:${m}h`;
     return time;
@@ -30,15 +21,12 @@ export default function Dashboard({
           <WeightBoard>
             {weight.value} kg
             <DateStamp>
-              {new Date(parseInt(weight.timeStamp)).toLocaleDateString(
-                "en-US",
-                {
-                  weekday: "short",
-                }
-              )}
+              {new Date(parseInt(weight.timeStamp)).toLocaleDateString('en-US', {
+                weekday: 'short',
+              })}
               {new Date(parseInt(weight.timeStamp)).toLocaleString(undefined, {
-                month: "numeric",
-                day: "numeric",
+                month: 'numeric',
+                day: 'numeric',
               })}
             </DateStamp>
           </WeightBoard>
@@ -49,15 +37,12 @@ export default function Dashboard({
           <HeightBoard>
             {height.value} cm
             <DateStamp>
-              {new Date(parseInt(height.timeStamp)).toLocaleDateString(
-                "en-US",
-                {
-                  weekday: "short",
-                }
-              )}
+              {new Date(parseInt(height.timeStamp)).toLocaleDateString('en-US', {
+                weekday: 'short',
+              })}
               {new Date(parseInt(height.timeStamp)).toLocaleString(undefined, {
-                month: "numeric",
-                day: "numeric",
+                month: 'numeric',
+                day: 'numeric',
               })}
             </DateStamp>
           </HeightBoard>
@@ -69,21 +54,23 @@ export default function Dashboard({
             {feastTime.value.substr(2, 2)}:{feastTime.value.substr(4, 2)}
             min
             <TimeStamp>
-              <span>--{calcTime(feastTime.timeStamp)}</span>
+              <span>
+                --
+                {new Date(parseInt(feastTime.timeStamp)).toLocaleTimeString([], {
+                  hour12: false,
+                  hour: '2-digit',
+                  minute: '2-digit',
+                })}
+                h
+              </span>
               <InlineRightText>
-                {new Date(parseInt(feastTime.timeStamp)).toLocaleDateString(
-                  "en-US",
-                  {
-                    weekday: "short",
-                  }
-                )}
-                {new Date(parseInt(feastTime.timeStamp)).toLocaleString(
-                  undefined,
-                  {
-                    month: "numeric",
-                    day: "numeric",
-                  }
-                )}
+                {new Date(parseInt(feastTime.timeStamp)).toLocaleDateString('en-US', {
+                  weekday: 'short',
+                })}
+                {new Date(parseInt(feastTime.timeStamp)).toLocaleString(undefined, {
+                  month: 'numeric',
+                  day: 'numeric',
+                })}
               </InlineRightText>
             </TimeStamp>
           </FeedingTimeBoard>
@@ -98,9 +85,9 @@ const DashboardCard = styled.article`
   grid-template-columns: repeat(1fr 4);
   grid-template-rows: repeat(1fr 3);
   grid-template-areas:
-    "header header header header"
-    "feedingTime feedingTime feedingTime feedingTime"
-    "weight weight height height";
+    'header header header header'
+    'feedingTime feedingTime feedingTime feedingTime'
+    'weight weight height height';
   gap: 0.2em 0.2em;
   padding: 0.5em 1em;
   border: 1px solid var(--text-primary);
