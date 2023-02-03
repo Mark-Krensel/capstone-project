@@ -1,17 +1,18 @@
-import styled from "styled-components";
-import { useState } from "react";
-import { useSession } from "next-auth/react";
+import styled from 'styled-components';
+import { useState } from 'react';
+import { useSession } from 'next-auth/react';
 
 //----- import dynamic component to not get hydration error -----
-import dynamic from "next/dynamic";
-import { Suspense } from "react";
-import { Button } from "../Button";
-const DynamicStopwatch = dynamic(() => import("./Stopwatch"), {
+import dynamic from 'next/dynamic';
+import { Suspense } from 'react';
+import { Button } from '../Button';
+const DynamicStopwatch = dynamic(() => import('./Stopwatch'), {
   ssr: false,
 });
 
 export default function Form({ onSubmit, setShownAttribute, shownAttribute }) {
   const [stoppedTime, setStoppedTime] = useState();
+  const [selectedFoodSource, setSelectedFoodSource] = useState(0);
   const { data: session } = useSession();
 
   function sendForm(event) {
@@ -21,19 +22,21 @@ export default function Form({ onSubmit, setShownAttribute, shownAttribute }) {
     const { weight, date, height, feastTime } = Object.fromEntries(formData);
 
     const userEmail = session.user.email;
-    const weightInput = typeof weight !== "undefined" ? weight : "";
-    const heightInput = typeof height !== "undefined" ? height : "";
-    const timeInput = typeof feastTime !== "undefined" ? feastTime : "";
+    const weightInput = typeof weight !== 'undefined' ? weight : '';
+    const heightInput = typeof height !== 'undefined' ? height : '';
+    const timeInput = typeof feastTime !== 'undefined' ? feastTime : '';
 
-    if (weightInput == "" && heightInput == "" && timeInput == "") {
-      alert("empty");
+    if (weightInput == '' && heightInput == '' && timeInput == '') {
+      alert('empty');
       return false;
     }
 
     onSubmit({ weight, date, height, feastTime, timeStamp, userEmail });
-    setShownAttribute("");
+    setShownAttribute('');
     event.target.reset();
   }
+
+  console.log(selectedFoodSource);
 
   return (
     <FormElement aria-label="Add weight and date" onSubmit={sendForm}>
@@ -46,7 +49,7 @@ export default function Form({ onSubmit, setShownAttribute, shownAttribute }) {
         min="2021-01-01"
         required
       />
-      {shownAttribute === "weight" && (
+      {shownAttribute === 'weight' && (
         <input
           placeholder="-- kg --"
           type="number"
@@ -57,7 +60,7 @@ export default function Form({ onSubmit, setShownAttribute, shownAttribute }) {
           aria-label="weight input"
         />
       )}
-      {shownAttribute === "height" && (
+      {shownAttribute === 'height' && (
         <input
           aria-label="height input"
           placeholder="-- cm --"
@@ -68,19 +71,45 @@ export default function Form({ onSubmit, setShownAttribute, shownAttribute }) {
           step="0.1"
         />
       )}
-      <input
-        type="hidden"
-        value={stoppedTime}
-        defaultValue={null}
-        name="feastTime"
-      />
-      {shownAttribute === "feastTime" && (
+      <input type="hidden" value={stoppedTime} defaultValue={null} name="feastTime" />
+      {shownAttribute === 'feastTime' && (
         <>
-          <Suspense fallback={`Loading...`}>
-            <DynamicStopwatch
-              setStoppedTime={setStoppedTime}
-              stoppedTime={stoppedTime}
+          <RadioButton>
+            <input
+              type="radio"
+              name="foodSource"
+              value="left"
+              id="foodSource-left"
+              onClick={(event) => setSelectedFoodSource(event.target.value)}
+              required
             />
+            <StyledLabel htmlFor="foodSource-left" checked={selectedFoodSource === 'left' ? 1 : 0}>
+              left
+            </StyledLabel>
+
+            <input
+              type="radio"
+              name="foodSource"
+              value="right"
+              id="foodSource-right"
+              onClick={(event) => setSelectedFoodSource(event.target.value)}
+            />
+            <StyledLabel htmlFor="foodSource-right" checked={selectedFoodSource === 'right' ? 1 : 0}>
+              right
+            </StyledLabel>
+            <input
+              type="radio"
+              name="foodSource"
+              value="bottle"
+              id="foodSource-bottle"
+              onClick={(event) => setSelectedFoodSource(event.target.value)}
+            />
+            <StyledLabel htmlFor="foodSource-bottle" checked={selectedFoodSource === 'bottle' ? 1 : 0}>
+              bottle
+            </StyledLabel>
+          </RadioButton>
+          <Suspense fallback={`Loading...`}>
+            <DynamicStopwatch setStoppedTime={setStoppedTime} stoppedTime={stoppedTime} />
           </Suspense>
         </>
       )}
@@ -111,7 +140,7 @@ const FormElement = styled.form`
     max-height: 2em;
     border-radius: 0.5em;
     font-size: var(--form-fontSize);
-    font-family: "Noto Sans";
+    font-family: 'Noto Sans';
     color: var(--not-black);
     margin: 0.5em 0.5em;
     padding: 0 0.2em;
@@ -138,4 +167,31 @@ const CheckButton = styled(Button)`
   border-radius: 1em;
   border: 0.1em var(--text-secondary) solid;
   box-shadow: var(--shadow-elevation);
+`;
+
+const RadioButton = styled.div`
+  width: 100%;
+  font-size: var(--form-fontSize);
+  font-family: 'Noto Sans';
+  color: var(--not-black);
+  text-align: center;
+  font-size: var(--form-fontSize);
+  margin: 0.5em;
+
+  // make radio button disappear
+  input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+  }
+`;
+
+const StyledLabel = styled.label`
+  cursor: pointer;
+  border-radius: 1em;
+  padding: 0.5em 1em;
+  margin: 500px 0.5em;
+  text-decoration: ${({ checked }) => (checked ? 'underline' : 'none')};
+  background-color: ${({ checked }) => (checked ? 'pink' : 'normal')};
+  font-weight: ${({ checked }) => (checked ? 'bold' : 'normal')};
 `;
