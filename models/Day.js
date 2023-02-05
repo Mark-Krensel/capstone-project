@@ -1,5 +1,5 @@
-import mongoose from "mongoose";
-import nanoid from "nanoid";
+import mongoose from 'mongoose';
+import nanoid from 'nanoid';
 
 const { Schema } = mongoose;
 
@@ -18,6 +18,7 @@ const heightSchema = new Schema({
 const feastTimeSchema = new Schema({
   timeStamp: { type: String },
   value: { type: String },
+  source: { type: String },
   id: { type: mongoose.Types.ObjectId },
 });
 
@@ -32,6 +33,6 @@ const daySchema = new Schema(
   { versionKey: false }
 );
 
-const Day = mongoose.models.Day || mongoose.model("Day", daySchema);
+const Day = mongoose.models.Day || mongoose.model('Day', daySchema);
 
 export default Day;

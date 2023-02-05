@@ -1,53 +1,36 @@
-import dbConnect from "../../../lib/dbConnect";
-import { unstable_getServerSession } from "next-auth/next";
-import { authOptions } from "../auth/[...nextauth]";
-import Day from "../../../models/Day";
-import {
-  getAllDays,
-  checkAndGetDate,
-  getDayById,
-} from "../../../services/dayService";
+import dbConnect from '../../../lib/dbConnect';
+import { unstable_getServerSession } from 'next-auth/next';
+import { authOptions } from '../auth/[...nextauth]';
+import Day from '../../../models/Day';
+import { getAllDays, checkAndGetDate, getDayById } from '../../../services/dayService';
 
 export default async function handler(request, response) {
-  const session = await unstable_getServerSession(
-    request,
-    response,
-    authOptions
-  );
+  const session = await unstable_getServerSession(request, response, authOptions);
   await dbConnect();
   const id = request.query.id;
   const dataPointId = request.query.dataPointId;
   const attribute = request.query.attribute;
 
   switch (request.method) {
-    case "GET":
+    case 'GET':
       const days = await getAllDays();
       return response.status(200).json(days);
 
-    case "POST":
+    case 'POST':
       const postData = JSON.parse(request.body);
       const dateToBeChecked = postData.date;
-      const existingDay = await checkAndGetDate(
-        dateToBeChecked,
-        postData.userEmail
-      );
+      const existingDay = await checkAndGetDate(dateToBeChecked, postData.userEmail);
 
       if (existingDay) {
         const updatedWeight = postData.weight
-          ? [
-              { value: postData.weight, timeStamp: postData.timeStamp },
-              ...existingDay.weights,
-            ]
+          ? [{ value: postData.weight, timeStamp: postData.timeStamp }, ...existingDay.weights]
           : [...existingDay.weights];
         const updatedHeight = postData.height
-          ? [
-              { value: postData.height, timeStamp: postData.timeStamp },
-              ...existingDay.heights,
-            ]
+          ? [{ value: postData.height, timeStamp: postData.timeStamp }, ...existingDay.heights]
           : [...existingDay.heights];
         const updatedFeastTime = postData.feastTime
           ? [
-              { value: postData.feastTime, timeStamp: postData.timeStamp },
+              { value: postData.feastTime, timeStamp: postData.timeStamp, source: postData.foodSource },
               ...existingDay.feastTimes,
             ]
           : [...existingDay.feastTimes];
@@ -59,63 +42,40 @@ export default async function handler(request, response) {
           feastTimes: updatedFeastTime,
         };
 
-        const updatedDayInDb = await Day.findByIdAndUpdate(
-          existingDay.id,
-          updatedDay
-        );
+        const updatedDayInDb = await Day.findByIdAndUpdate(existingDay.id, updatedDay);
 
-        return response
-          .status(201)
-          .json({ message: "Data saved", updatedId: updatedDayInDb.id });
+        return response.status(201).json({ message: 'Data saved', updatedId: updatedDayInDb.id });
       } else {
         const newPostData = {
           date: postData.date,
           userEmail: postData.userEmail,
-          weights: postData.weight
-            ? [{ value: postData.weight, timeStamp: postData.timeStamp }]
-            : [],
-          heights: postData.height
-            ? [{ value: postData.height, timeStamp: postData.timeStamp }]
-            : [],
+          weights: postData.weight ? [{ value: postData.weight, timeStamp: postData.timeStamp }] : [],
+          heights: postData.height ? [{ value: postData.height, timeStamp: postData.timeStamp }] : [],
           feastTimes: postData.feastTime
-            ? [{ value: postData.feastTime, timeStamp: postData.timeStamp }]
+            ? [{ value: postData.feastTime, timeStamp: postData.timeStamp, source: postData.foodSource }]
             : [],
         };
 
         const newDay = await Day.create(newPostData);
 
-        return response
-          .status(201)
-          .json({ message: "Data saved", createdId: newDay.id });
+        return response.status(201).json({ message: 'Data saved', createdId: newDay.id });
       }
 
-    case "DELETE":
+    case 'DELETE':
       if (!dataPointId) {
         await Day.findByIdAndDelete(id);
-        return response
-          .status(200)
-          .json({ message: "Entry deleted", deletedId: id });
+        return response.status(200).json({ message: 'Entry deleted', deletedId: id });
       } else {
         await Day.updateMany({ $pull: { [attribute]: { _id: dataPointId } } });
         const day = await getDayById(id, session.user.email);
-        if (
-          day.heights.length === 0 &&
-          day.weights.length === 0 &&
-          day.feastTimes.length === 0
-        ) {
+        if (day.heights.length === 0 && day.weights.length === 0 && day.feastTimes.length === 0) {
           await Day.findByIdAndDelete(id);
-          return response
-            .status(200)
-            .json({ message: "Entry deleted", deletedId: id });
+          return response.status(200).json({ message: 'Entry deleted', deletedId: id });
         }
-        return response
-          .status(200)
-          .json({ message: "Entry deleted", deletedId: dataPointId });
+        return response.status(200).json({ message: 'Entry deleted', deletedId: dataPointId });
       }
 
     default:
-      return response
-        .status(405)
-        .json({ message: "HTTP method is not allowed" });
+      return response.status(405).json({ message: 'HTTP method is not allowed' });
   }
 }

@@ -1,23 +1,14 @@
-import styled from "styled-components";
-import { Button } from "./Button";
-import Delete from "./icons/Delete";
-import X from "./icons/X";
-import { useRouter } from "next/router";
+import styled from 'styled-components';
+import { Button } from './Button';
+import Delete from './icons/Delete';
+import X from './icons/X';
+import { useRouter } from 'next/router';
 
-export default function Card({
-  date,
-  id,
-  weights,
-  handleDelete,
-  heights,
-  feastTimes,
-}) {
+export default function Card({ date, id, weights, handleDelete, heights, feastTimes }) {
   const { pathname } = useRouter();
 
   function calcTime(timeStamp) {
-    const h = Math.floor(
-      (timeStamp % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-    );
+    const h = Math.floor((timeStamp % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
     const m = Math.floor((timeStamp % (1000 * 60 * 60)) / (1000 * 60));
     const time = ` @${h}:${m}h`;
     return time;
@@ -25,7 +16,7 @@ export default function Card({
 
   return (
     <CardElement>
-      {pathname === "/" && (
+      {pathname === '/' && (
         <DeleteButton aria-label="delete data" onClick={() => handleDelete(id)}>
           <Delete fontSize="1.5em" alt="bin" />
         </DeleteButton>
@@ -38,10 +29,10 @@ export default function Card({
             {weights.map((weight) => (
               <li key={weight._id}>
                 {weight.value} kg
-                {pathname === "/" && (
+                {pathname === '/' && (
                   <DeleteSingleButton
                     aria-label="delete single data point"
-                    onClick={() => handleDelete(id, weight._id, "weights")}
+                    onClick={() => handleDelete(id, weight._id, 'weights')}
                   >
                     <X fontSize="1.5em" alt="x" />
                   </DeleteSingleButton>
@@ -58,10 +49,10 @@ export default function Card({
             {heights.map((height) => (
               <li key={height._id}>
                 {height.value} cm
-                {pathname === "/" && (
+                {pathname === '/' && (
                   <DeleteSingleButton
                     aria-label="delete single data point"
-                    onClick={() => handleDelete(id, height._id, "heights")}
+                    onClick={() => handleDelete(id, height._id, 'heights')}
                   >
                     <X fontSize="1.5em" alt="x" />
                   </DeleteSingleButton>
@@ -80,22 +71,24 @@ export default function Card({
               <li key={feastTime._id}>
                 {feastTime.value.substr(2, 2)}:{feastTime.value.substr(4, 2)}
                 min
-                {pathname === "/" && (
+                <FoodSourceStamp> -{feastTime.source}-</FoodSourceStamp>
+                {pathname === '/' && (
                   <DeleteSingleButton
                     aria-label="delete single data point"
-                    onClick={() =>
-                      handleDelete(id, feastTime._id, "feastTimes")
-                    }
+                    onClick={() => handleDelete(id, feastTime._id, 'feastTimes')}
                   >
                     <X fontSize="1.5em" alt="x" />
                   </DeleteSingleButton>
                 )}
                 <TimeStamp>
-                  --{calcTime(feastTime.timeStamp)}
-                  {/* {new Date(parseInt(weight.timeStamp)).toLocaleTimeString([], {
-                hour: "2-digit",
-                minute: "2-digit",
-              })} */}
+                  {/* --{calcTime(feastTime.timeStamp)} */}
+                  --
+                  {new Date(parseInt(feastTime.timeStamp)).toLocaleTimeString([], {
+                    hour12: false,
+                    hour: '2-digit',
+                    minute: '2-digit',
+                  })}
+                  h
                 </TimeStamp>
               </li>
             ))}
@@ -158,4 +151,10 @@ const TimeStamp = styled.p`
   font-size: 1rem;
   color: var(--not-black);
   margin-bottom: 1em;
+`;
+
+const FoodSourceStamp = styled.span`
+  text-align: center;
+  position: absolute;
+  left: 43%;
 `;
