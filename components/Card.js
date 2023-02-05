@@ -71,7 +71,7 @@ export default function Card({ date, id, weights, handleDelete, heights, feastTi
               <li key={feastTime._id}>
                 {feastTime.value.substr(2, 2)}:{feastTime.value.substr(4, 2)}
                 min
-                <FoodSourceStamp> --{feastTime.source}</FoodSourceStamp>
+                <FoodSourceStamp> -{feastTime.source}-</FoodSourceStamp>
                 {pathname === '/' && (
                   <DeleteSingleButton
                     aria-label="delete single data point"
@@ -156,5 +156,5 @@ const TimeStamp = styled.p`
 const FoodSourceStamp = styled.span`
   text-align: center;
   position: absolute;
-  right: 42%;
+  left: 43%;
 `;

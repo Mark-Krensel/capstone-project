@@ -53,6 +53,7 @@ export default function Dashboard({ date, id, weight, handleDelete, height, feas
           <FeedingTimeBoard>
             {feastTime.value.substr(2, 2)}:{feastTime.value.substr(4, 2)}
             min
+            <FoodSourceStamp> -{feastTime.source}-</FoodSourceStamp>
             <TimeStamp>
               <span>
                 --
@@ -139,4 +140,9 @@ const DateStamp = styled.p`
 const InlineRightText = styled.span`
   position: absolute;
   right: 1.2em;
+`;
+const FoodSourceStamp = styled.span`
+  text-align: center;
+  position: absolute;
+  left: 45%;
 `;

@@ -31,7 +31,7 @@ export default function Form({ onSubmit, setShownAttribute, shownAttribute }) {
       alert('How much does the baby weight?');
       return false;
     } else if (shownAttribute === 'height' && heightInput == '') {
-      alert('What is the babys the height.');
+      alert('What is the babys height.');
       return false;
     } else if (shownAttribute === 'feastTime' && timeInput == '') {
       alert('How long did you feed the baby?');
@@ -185,12 +185,9 @@ const CheckButton = styled(Button)`
 
 const RadioButtonSection = styled.div`
   width: 100%;
-  font-size: var(--form-fontSize);
-  font-family: 'Noto Sans';
-  color: var(--not-black);
+  font-size: 1.2rem;
   text-align: center;
-  font-size: var(--form-fontSize);
-  margin: 0.5em;
+  margin: 1em;
 
   // make radio button disappear
   input {
@@ -203,8 +200,11 @@ const RadioButtonSection = styled.div`
 const StyledLabel = styled.label`
   cursor: pointer;
   border-radius: 1em;
+  border-width: 1px;
+  border-style: solid;
+  box-shadow: var(--shadow-elevation);
   padding: 0.5em 1em;
-  margin: 500px 0.5em;
+  margin: 0.5em;
   text-decoration: ${({ checked }) => (checked ? 'underline' : 'none')};
   background-color: ${({ checked }) => (checked ? 'pink' : 'normal')};
   font-weight: ${({ checked }) => (checked ? 'bold' : 'normal')};
