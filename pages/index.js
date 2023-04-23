@@ -1,5 +1,5 @@
 import { useSession, signIn } from 'next-auth/react';
-import { unstable_getServerSession } from 'next-auth/next';
+import { getServerSession } from 'next-auth/next';
 import { authOptions } from './api/auth/[...nextauth]';
 import { CardContainer } from '../components/CardContainer';
 import lottie from 'lottie-web';
@@ -12,7 +12,7 @@ import styled from 'styled-components';
 import Dashboard from '../components/Dashboard';
 
 export async function getServerSideProps(context) {
-  const session = await unstable_getServerSession(context.req, context.res, authOptions);
+  const session = await getServerSession(context.req, context.res, authOptions);
   if (session) {
     const days = await getAllDays(session.user.email);
     return {

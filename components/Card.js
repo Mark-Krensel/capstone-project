@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { Button } from './Button';
+import { ColorRoundCase } from './ColorRoundCase';
 import Delete from './icons/Delete';
 import X from './icons/X';
 import { useRouter } from 'next/router';
@@ -101,7 +102,7 @@ export default function Card({ date, id, weights, handleDelete, heights, feastTi
           <AttributeList>
             {diaperColors.map((diaperColor) => (
               <li key={diaperColor._id}>
-                {diaperColor.value} kg
+                {diaperColor.value}
                 {pathname === '/' && (
                   <DeleteSingleButton
                     aria-label="delete single data point"
@@ -110,6 +111,7 @@ export default function Card({ date, id, weights, handleDelete, heights, feastTi
                     <X fontSize="1.5em" alt="x" />
                   </DeleteSingleButton>
                 )}
+                <ColorRoundCase inputColor={diaperColor.value} />
               </li>
             ))}
           </AttributeList>
