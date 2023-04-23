@@ -4,7 +4,7 @@ import Delete from './icons/Delete';
 import X from './icons/X';
 import { useRouter } from 'next/router';
 
-export default function Card({ date, id, weights, handleDelete, heights, feastTimes }) {
+export default function Card({ date, id, weights, handleDelete, heights, feastTimes, diaperColors }) {
   const { pathname } = useRouter();
 
   function calcTime(timeStamp) {
@@ -90,6 +90,26 @@ export default function Card({ date, id, weights, handleDelete, heights, feastTi
                   })}
                   h
                 </TimeStamp>
+              </li>
+            ))}
+          </AttributeList>
+        </>
+      )}
+      {diaperColors.length !== 0 && (
+        <>
+          <AttributeText>Diaper Color</AttributeText>
+          <AttributeList>
+            {diaperColors.map((diaperColor) => (
+              <li key={diaperColor._id}>
+                {diaperColor.value} kg
+                {pathname === '/' && (
+                  <DeleteSingleButton
+                    aria-label="delete single data point"
+                    onClick={() => handleDelete(id, diaperColor._id, 'diaperColor')}
+                  >
+                    <X fontSize="1.5em" alt="x" />
+                  </DeleteSingleButton>
+                )}
               </li>
             ))}
           </AttributeList>

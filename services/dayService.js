@@ -14,6 +14,7 @@ export async function getAllDays(userEmail) {
     weights: day.weights,
     heights: day.heights,
     feastTimes: day.feastTimes,
+    diaperColors: day.diaperColors,
   }));
 
   return sanitizedDays;
@@ -31,6 +32,7 @@ export async function getDayById(id, userEmail) {
     weights: day.weights,
     heights: day.heights,
     feastTimes: day.feastTimes,
+    diaperColors: day.diaperColors,
   };
 
   return sanitizedDay;

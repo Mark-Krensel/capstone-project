@@ -75,6 +75,7 @@ export default function AddMenu() {
               toggleAddMenu();
             }}
           >
+            {/* TODO: replace <p> with svg */}
             <StyledP>C</StyledP>
           </Button>
         </>
@@ -99,7 +100,6 @@ const MenuContainer = styled.div`
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
-  /* flex-direction: column; */
   gap: 3em;
 `;
 
