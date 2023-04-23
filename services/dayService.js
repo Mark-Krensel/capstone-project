@@ -1,5 +1,5 @@
-import dbConnect from "../lib/dbConnect";
-import Day from "../models/Day";
+import dbConnect from '../lib/dbConnect';
+import Day from '../models/Day';
 
 export async function getAllDays(userEmail) {
   await dbConnect();
@@ -49,6 +49,7 @@ export async function checkAndGetDate(dateToBeChecked, userEmail) {
       date: day.date,
       weights: day.weights,
       heights: day.heights,
+      diaperColors: day.diaperColors,
       feastTimes: day.feastTimes,
     };
     return sanitizedDay;

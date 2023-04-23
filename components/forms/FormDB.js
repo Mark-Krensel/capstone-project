@@ -19,13 +19,14 @@ export default function Form({ onSubmit, setShownAttribute, shownAttribute }) {
     event.preventDefault();
     const formData = new FormData(event.target);
     const timeStamp = new Date().getTime();
-    const { weight, date, height, feastTime, foodSource } = Object.fromEntries(formData);
+    const { weight, date, height, feastTime, foodSource, diaperColor } = Object.fromEntries(formData);
 
     const userEmail = session.user.email;
     const weightInput = typeof weight !== 'undefined' ? weight : '';
     const heightInput = typeof height !== 'undefined' ? height : '';
     const timeInput = typeof feastTime !== 'undefined' ? feastTime : '';
     const foodSourceInput = typeof foodSource !== 'undefined' ? foodSource : '';
+    const diaperColorInput = typeof diaperColor !== 'undefined' ? diaperColor : '';
 
     if (shownAttribute === 'weight' && weightInput == '') {
       alert('How much does the baby weight?');
@@ -39,6 +40,9 @@ export default function Form({ onSubmit, setShownAttribute, shownAttribute }) {
     } else if (shownAttribute === 'feastTime' && foodSourceInput == '') {
       alert('On which side did you feed the baby, or did you use a bottle?');
       return false;
+    } else if (shownAttribute === 'diaper' && diaperColorInput == '') {
+      alert('With which diaper substance color have you been surprised with?');
+      return false;
     }
 
     // -- check formData key-value pairs
@@ -46,7 +50,7 @@ export default function Form({ onSubmit, setShownAttribute, shownAttribute }) {
       console.log(key + value);
     });
 
-    onSubmit({ weight, date, height, feastTime, foodSource, timeStamp, userEmail });
+    onSubmit({ weight, date, height, feastTime, foodSource, diaperColor, timeStamp, userEmail });
     setShownAttribute('');
     event.target.reset();
   }
@@ -84,6 +88,7 @@ export default function Form({ onSubmit, setShownAttribute, shownAttribute }) {
           step="0.1"
         />
       )}
+      {shownAttribute === 'diaper' && <input aria-label="diaper color input" type="color" name="diaperColor" />}
       {shownAttribute === 'feastTime' && (
         <>
           <input type="hidden" value={stoppedTime} defaultValue={null} name="feastTime" />
