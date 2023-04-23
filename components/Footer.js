@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import AddMenu from "./AddMenu";
+import styled from 'styled-components';
+import AddMenu from './AddMenu';
 
 export default function Footer() {
   return (
@@ -10,11 +10,8 @@ export default function Footer() {
 }
 
 const FooterWrapper = styled.footer`
-  display: flex;
-  justify-content: center;
   position: fixed;
   z-index: 10;
   bottom: 2em;
   width: 100%;
-  margin: 0 auto;
 `;
