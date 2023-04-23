@@ -100,6 +100,7 @@ export default function Card({ date, id, weights, handleDelete, heights, feastTi
 }
 
 const CardElement = styled.article`
+  position: relative;
   padding: 0.5em;
   border: 1px solid var(--text-primary);
   color: var(--text-primary);

@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 const CardContainer = styled.div`
+  position: relative;
   display: flex;
   gap: 1em;
   flex-wrap: wrap;
