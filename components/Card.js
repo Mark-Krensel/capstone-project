@@ -106,7 +106,7 @@ export default function Card({ date, id, weights, handleDelete, heights, feastTi
                 {pathname === '/' && (
                   <DeleteSingleButton
                     aria-label="delete single data point"
-                    onClick={() => handleDelete(id, diaperColor._id, 'diaperColor')}
+                    onClick={() => handleDelete(id, diaperColor._id, 'diaperColors')}
                   >
                     <X fontSize="1.5em" alt="x" />
                   </DeleteSingleButton>

@@ -6,6 +6,7 @@ import { useSession } from 'next-auth/react';
 import dynamic from 'next/dynamic';
 import { Suspense } from 'react';
 import { Button } from '../Button';
+import { ColorRoundCase } from '../ColorRoundCase';
 const DynamicStopwatch = dynamic(() => import('./Stopwatch'), {
   ssr: false,
 });
@@ -55,6 +56,9 @@ export default function Form({ onSubmit, setShownAttribute, shownAttribute }) {
     event.target.reset();
   }
 
+  const [selectedDiaperColor, setSelectedDiaperColor] = useState();
+  const presetDiaperColors = ['#f9f06b', '#f6d32d', '#ffbe6f', '#e5a50a', '#cdab8f', '#986a44'];
+
   return (
     <FormElement aria-label="Add weight and date" onSubmit={sendForm}>
       <input
@@ -88,7 +92,19 @@ export default function Form({ onSubmit, setShownAttribute, shownAttribute }) {
           step="0.1"
         />
       )}
-      {shownAttribute === 'diaper' && <input aria-label="diaper color input" type="color" name="diaperColor" />}
+      {shownAttribute === 'diaper' && (
+        <NakedFieldset aria-label="selection of diaper contet colors">
+          <input type="hidden" name="diaperColor" value={selectedDiaperColor} />
+          {presetDiaperColors.map((color, index) => (
+            <StyledColorRoundCase
+              as="button"
+              key={index}
+              inputColor={color}
+              onClick={() => setSelectedDiaperColor(color)}
+            />
+          ))}
+        </NakedFieldset>
+      )}
       {shownAttribute === 'feastTime' && (
         <>
           <input type="hidden" value={stoppedTime} defaultValue={null} name="feastTime" />
@@ -213,4 +229,20 @@ const StyledLabel = styled.label`
   text-decoration: ${({ checked }) => (checked ? 'underline' : 'none')};
   background-color: ${({ checked }) => (checked ? 'pink' : 'normal')};
   font-weight: ${({ checked }) => (checked ? 'bold' : 'normal')};
+`;
+
+const StyledColorRoundCase = styled(ColorRoundCase)`
+  border-color: var(--not-black);
+  width: 4em;
+  height: 4em;
+  cursor: pointer;
+  margin: 2em 0;
+`;
+
+const NakedFieldset = styled.fieldset`
+  border: 0;
+  width: 100%;
+  margin: 0 1em;
+  display: flex;
+  justify-content: space-around;
 `;
