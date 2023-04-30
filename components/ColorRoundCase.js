@@ -6,6 +6,7 @@ const ColorRoundCase = styled.div`
   border: 2px var(--not-white) solid;
   height: 2em;
   width: 2em;
+  margin: 0.5em 0;
 `;
 
 export { ColorRoundCase };

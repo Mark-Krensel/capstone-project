@@ -10,7 +10,7 @@ const SvgClock = (props) => (
     width="1em"
     height="1em"
     fill="currentColor"
-    stroke="black"
+    // stroke="black"
     {...props}
   >
     <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.6 0 12 0zm0 21c-5 0-9-4-9-9s4-9 9-9 9 4 9 9-4 9-9 9z" />

@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { Button } from './Button';
 import { ColorRoundCase } from './ColorRoundCase';
+import { SrOnly } from './SrOnly';
 import Delete from './icons/Delete';
 import X from './icons/X';
 import { useRouter } from 'next/router';
@@ -8,12 +9,21 @@ import { useRouter } from 'next/router';
 export default function Card({ date, id, weights, handleDelete, heights, feastTimes, diaperColors }) {
   const { pathname } = useRouter();
 
-  function calcTime(timeStamp) {
-    const h = Math.floor((timeStamp % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const m = Math.floor((timeStamp % (1000 * 60 * 60)) / (1000 * 60));
-    const time = ` @${h}:${m}h`;
-    return time;
-  }
+  // function calcTime(timeStamp) {
+  //   const h = Math.floor((timeStamp % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  //   const m = Math.floor((timeStamp % (1000 * 60 * 60)) / (1000 * 60));
+  //   const time = ` @${h}:${m}h`;
+  //   return time;
+  // }
+
+  const parseTime = (timeInMilli) => {
+    const parsedTime = new Date(parseInt(timeInMilli)).toLocaleTimeString([], {
+      hour12: false,
+      hour: '2-digit',
+      minute: '2-digit',
+    });
+    return parsedTime;
+  };
 
   return (
     <CardElement>
@@ -99,22 +109,26 @@ export default function Card({ date, id, weights, handleDelete, heights, feastTi
       {diaperColors.length !== 0 && (
         <>
           <AttributeText>Diaper Color</AttributeText>
-          <AttributeList>
+          <AttributeColorList>
             {diaperColors.map((diaperColor) => (
-              <li key={diaperColor._id}>
-                {diaperColor.value}
+              <AttributeColorListItem key={diaperColor._id}>
                 {pathname === '/' && (
-                  <DeleteSingleButton
+                  <DeleteSingleColor
+                    inputColor={diaperColor.value}
                     aria-label="delete single data point"
                     onClick={() => handleDelete(id, diaperColor._id, 'diaperColors')}
                   >
-                    <X fontSize="1.5em" alt="x" />
-                  </DeleteSingleButton>
+                    <X fontSize="1.5em" alt="delete" />
+                  </DeleteSingleColor>
                 )}
-                <ColorRoundCase inputColor={diaperColor.value} />
-              </li>
+                <ColorRoundCase inputColor={diaperColor.value}>
+                  {/* ToDo swap hex number for color name */}
+                  <SrOnly>{diaperColor.value}</SrOnly>
+                </ColorRoundCase>
+                <TimeStamp>{parseTime(diaperColor.timeStamp)}h</TimeStamp>
+              </AttributeColorListItem>
             ))}
-          </AttributeList>
+          </AttributeColorList>
         </>
       )}
     </CardElement>
@@ -169,6 +183,9 @@ const AttributeList = styled.ul`
     margin: 0.3em 0;
   }
 `;
+
+// --------------  FeedingTime styled components ------------------
+
 const TimeStamp = styled.p`
   text-align: left;
   font-size: 1rem;
@@ -180,4 +197,32 @@ const FoodSourceStamp = styled.span`
   text-align: center;
   position: absolute;
   left: 43%;
+`;
+
+// -------------- DiaperColor styled components ------------------
+
+const AttributeColorList = styled.ul`
+  display: flex;
+  gap: 3em;
+  justify-content: flex-start;
+  margin: 0 1em;
+`;
+
+const AttributeColorListItem = styled.li`
+  position: relative;
+  font-size: 1.3rem;
+  margin: 0.3em 0 0.3em 0;
+  gap: 1em;
+`;
+
+const DeleteSingleColor = styled(Button)`
+  position: absolute;
+  padding: 0;
+  right: -0.6em;
+  top: -0.2em;
+  border: 2px solid var(--not-black);
+  border-radius: 50%;
+  height: 1.5em;
+  width: 1.5em;
+  background-color: var(--not-white);
 `;

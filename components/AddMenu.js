@@ -5,10 +5,7 @@ import FormDB from '../components/forms/FormDB';
 import { CardContainer } from '../components/CardContainer';
 import { Button } from './Button';
 import Modal from './modal';
-import Add from './icons/Add';
-import Clock from './icons/XClock';
-import Ruler from './icons/XRuler';
-import Scale from './icons/XScale';
+import { Add, Clock, Diaper, Ruler, Scale } from './icons';
 
 export default function AddMenu() {
   const router = useRouter();
@@ -75,8 +72,7 @@ export default function AddMenu() {
               toggleAddMenu();
             }}
           >
-            {/* TODO: replace <p> with svg */}
-            <StyledP>C</StyledP>
+            <Diaper fontSize="3rem" alt="diaper" />
           </Button>
         </>
       )}
