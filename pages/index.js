@@ -69,7 +69,7 @@ export default function Home({ days }) {
   if (session) {
     const latestWeight = days.find((element) => element.weights.length !== 0)?.weights[0];
     const latestHeight = days.find((element) => element.heights.length !== 0)?.heights[0];
-    const latestFeastTime = days.find((element) => element.feastTimes !== 0)?.feastTimes[0];
+    const latestFeastTime = days.find((element) => element.feastTimes.length !== 0)?.feastTimes[0];
 
     return (
       <CardContainer>
@@ -109,8 +109,8 @@ export default function Home({ days }) {
 
 const LottieContainer = styled.div`
   width: 100%;
-  max-width: 35em;
-  margin: 1em 5em;
+  max-height: 500px;
+  margin: 1em auto;
 `;
 const EmptyHeading = styled.h2`
   width: 100%;

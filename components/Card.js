@@ -205,6 +205,7 @@ const AttributeColorList = styled.ul`
   display: flex;
   gap: 3em;
   justify-content: flex-start;
+  flex-wrap: wrap;
   margin: 0 1em;
 `;
 
