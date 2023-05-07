@@ -22,12 +22,19 @@ const feastTimeSchema = new Schema({
   id: { type: mongoose.Types.ObjectId },
 });
 
+const diaperColorSchema = new Schema({
+  timeStamp: { type: String },
+  value: { type: String },
+  id: { type: mongoose.Types.ObjectId },
+});
+
 const daySchema = new Schema(
   {
     date: { type: String, required: true },
     userEmail: { type: String, required: true },
     weights: [weightSchema],
     heights: [heightSchema],
+    diaperColors: [diaperColorSchema],
     feastTimes: [feastTimeSchema],
   },
   { versionKey: false }

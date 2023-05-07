@@ -1,11 +1,11 @@
 import dbConnect from '../../../lib/dbConnect';
-import { unstable_getServerSession } from 'next-auth/next';
+import { getServerSession } from 'next-auth/next';
 import { authOptions } from '../auth/[...nextauth]';
 import Day from '../../../models/Day';
 import { getAllDays, checkAndGetDate, getDayById } from '../../../services/dayService';
 
 export default async function handler(request, response) {
-  const session = await unstable_getServerSession(request, response, authOptions);
+  const session = await getServerSession(request, response, authOptions);
   await dbConnect();
   const id = request.query.id;
   const dataPointId = request.query.dataPointId;
@@ -28,6 +28,9 @@ export default async function handler(request, response) {
         const updatedHeight = postData.height
           ? [{ value: postData.height, timeStamp: postData.timeStamp }, ...existingDay.heights]
           : [...existingDay.heights];
+        const updatedDiaperColor = postData.diaperColor
+          ? [{ value: postData.diaperColor, timeStamp: postData.timeStamp }, ...existingDay.diaperColors]
+          : [...existingDay.diaperColors];
         const updatedFeastTime = postData.feastTime
           ? [
               { value: postData.feastTime, timeStamp: postData.timeStamp, source: postData.foodSource },
@@ -39,6 +42,7 @@ export default async function handler(request, response) {
           ...existingDay,
           weights: updatedWeight,
           heights: updatedHeight,
+          diaperColors: updatedDiaperColor,
           feastTimes: updatedFeastTime,
         };
 
@@ -51,6 +55,7 @@ export default async function handler(request, response) {
           userEmail: postData.userEmail,
           weights: postData.weight ? [{ value: postData.weight, timeStamp: postData.timeStamp }] : [],
           heights: postData.height ? [{ value: postData.height, timeStamp: postData.timeStamp }] : [],
+          diaperColors: postData.diaperColor ? [{ value: postData.diaperColor, timeStamp: postData.timeStamp }] : [],
           feastTimes: postData.feastTime
             ? [{ value: postData.feastTime, timeStamp: postData.timeStamp, source: postData.foodSource }]
             : [],
@@ -68,7 +73,12 @@ export default async function handler(request, response) {
       } else {
         await Day.updateMany({ $pull: { [attribute]: { _id: dataPointId } } });
         const day = await getDayById(id, session.user.email);
-        if (day.heights.length === 0 && day.weights.length === 0 && day.feastTimes.length === 0) {
+        if (
+          day.heights.length === 0 &&
+          day.weights.length === 0 &&
+          day.diaperColors.length === 0 &&
+          day.feastTimes.length === 0
+        ) {
           await Day.findByIdAndDelete(id);
           return response.status(200).json({ message: 'Entry deleted', deletedId: id });
         }

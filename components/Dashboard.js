@@ -82,6 +82,7 @@ export default function Dashboard({ date, id, weight, handleDelete, height, feas
 }
 
 const DashboardCard = styled.article`
+  position: relative;
   display: grid;
   grid-template-columns: repeat(1fr 4);
   grid-template-rows: repeat(1fr 3);
@@ -91,14 +92,14 @@ const DashboardCard = styled.article`
     'weight weight height height';
   gap: 0.2em 0.2em;
   padding: 0.5em 1em;
-  border: 1px solid var(--text-primary);
+  border: 2px solid var(--text-primary);
   color: var(--text-primary);
   border-radius: 1em;
   box-shadow: var(--shadow-elevation);
   height: auto;
   max-height: 12.5em;
   width: 95%;
-  max-width: 32em;
+  max-width: 500px;
   backdrop-filter: blur(10px);
   background: var(--background-secondary-blur);
 `;

@@ -1,21 +1,17 @@
-import { useSession, signIn } from "next-auth/react";
-import { unstable_getServerSession } from "next-auth/next";
-import { authOptions } from "./api/auth/[...nextauth]";
-import styled from "styled-components";
-import { CardContainer } from "../components/CardContainer";
-import Card from "../components/Card";
-import { SignInButton } from "../components/SignInButton";
-import { getAllDays } from "../services/dayService";
+import { useSession, signIn } from 'next-auth/react';
+import { getServerSession } from 'next-auth/next';
+import { authOptions } from './api/auth/[...nextauth]';
+import styled from 'styled-components';
+import { CardContainer } from '../components/CardContainer';
+import Card from '../components/Card';
+import { SignInButton } from '../components/SignInButton';
+import { getAllDays } from '../services/dayService';
 
-import { CanvasContainer } from "../components/CanvasContainer";
-import LineChart from "../components/charts/LineChart";
+import { CanvasContainer } from '../components/CanvasContainer';
+import LineChart from '../components/charts/LineChart';
 
 export async function getServerSideProps(context) {
-  const session = await unstable_getServerSession(
-    context.req,
-    context.res,
-    authOptions
-  );
+  const session = await getServerSession(context.req, context.res, authOptions);
   if (session) {
     const days = await getAllDays(session.user.email);
     return {
@@ -32,29 +28,18 @@ export default function WeightPage({ days }) {
     const ascendingFilteredDays = Array.from(filteredDays).reverse();
 
     const labels = ascendingFilteredDays.map(
-      (day) =>
-        `${day.date.toString().substr(8, 2)}.${day.date
-          .toString()
-          .substr(5, 2)}`
+      (day) => `${day.date.toString().substr(8, 2)}.${day.date.toString().substr(5, 2)}`
     );
-    const chartData = ascendingFilteredDays.map((day) =>
-      day.weights.map((weight) => weight.value)
-    );
+    const chartData = ascendingFilteredDays.map((day) => day.weights.map((weight) => weight.value));
 
-    const meanChartData = chartData.map(
-      (array) => array.reduce((a, b) => a + b, 0) / array.length
-    );
-    const title = "Average Weight";
+    const meanChartData = chartData.map((array) => array.reduce((a, b) => a + b, 0) / array.length);
+    const title = 'Average Weight';
 
     return (
       <>
         <CardContainer>
           <CanvasContainer>
-            <LineChart
-              labels={labels}
-              chartData={meanChartData}
-              title={title}
-            />
+            <LineChart labels={labels} chartData={meanChartData} title={title} />
           </CanvasContainer>
           {filteredDays.map((filteredDay) => (
             <Card

@@ -1,5 +1,5 @@
-import dbConnect from "../lib/dbConnect";
-import Day from "../models/Day";
+import dbConnect from '../lib/dbConnect';
+import Day from '../models/Day';
 
 export async function getAllDays(userEmail) {
   await dbConnect();
@@ -14,6 +14,7 @@ export async function getAllDays(userEmail) {
     weights: day.weights,
     heights: day.heights,
     feastTimes: day.feastTimes,
+    diaperColors: day.diaperColors,
   }));
 
   return sanitizedDays;
@@ -31,6 +32,7 @@ export async function getDayById(id, userEmail) {
     weights: day.weights,
     heights: day.heights,
     feastTimes: day.feastTimes,
+    diaperColors: day.diaperColors,
   };
 
   return sanitizedDay;
@@ -49,6 +51,7 @@ export async function checkAndGetDate(dateToBeChecked, userEmail) {
       date: day.date,
       weights: day.weights,
       heights: day.heights,
+      diaperColors: day.diaperColors,
       feastTimes: day.feastTimes,
     };
     return sanitizedDay;

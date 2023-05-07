@@ -1,18 +1,29 @@
 import styled from 'styled-components';
 import { Button } from './Button';
+import { ColorRoundCase } from './ColorRoundCase';
+import { SrOnly } from './SrOnly';
 import Delete from './icons/Delete';
 import X from './icons/X';
 import { useRouter } from 'next/router';
 
-export default function Card({ date, id, weights, handleDelete, heights, feastTimes }) {
+export default function Card({ date, id, weights, handleDelete, heights, feastTimes, diaperColors }) {
   const { pathname } = useRouter();
 
-  function calcTime(timeStamp) {
-    const h = Math.floor((timeStamp % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const m = Math.floor((timeStamp % (1000 * 60 * 60)) / (1000 * 60));
-    const time = ` @${h}:${m}h`;
-    return time;
-  }
+  // function calcTime(timeStamp) {
+  //   const h = Math.floor((timeStamp % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  //   const m = Math.floor((timeStamp % (1000 * 60 * 60)) / (1000 * 60));
+  //   const time = ` @${h}:${m}h`;
+  //   return time;
+  // }
+
+  const parseTime = (timeInMilli) => {
+    const parsedTime = new Date(parseInt(timeInMilli)).toLocaleTimeString([], {
+      hour12: false,
+      hour: '2-digit',
+      minute: '2-digit',
+    });
+    return parsedTime;
+  };
 
   return (
     <CardElement>
@@ -31,7 +42,7 @@ export default function Card({ date, id, weights, handleDelete, heights, feastTi
                 {weight.value} kg
                 {pathname === '/' && (
                   <DeleteSingleButton
-                    aria-label="delete single data point"
+                    aria-label="delete single weight"
                     onClick={() => handleDelete(id, weight._id, 'weights')}
                   >
                     <X fontSize="1.5em" alt="x" />
@@ -51,7 +62,7 @@ export default function Card({ date, id, weights, handleDelete, heights, feastTi
                 {height.value} cm
                 {pathname === '/' && (
                   <DeleteSingleButton
-                    aria-label="delete single data point"
+                    aria-label="delete single height"
                     onClick={() => handleDelete(id, height._id, 'heights')}
                   >
                     <X fontSize="1.5em" alt="x" />
@@ -74,7 +85,7 @@ export default function Card({ date, id, weights, handleDelete, heights, feastTi
                 <FoodSourceStamp> -{feastTime.source}-</FoodSourceStamp>
                 {pathname === '/' && (
                   <DeleteSingleButton
-                    aria-label="delete single data point"
+                    aria-label="delete single feeding time"
                     onClick={() => handleDelete(id, feastTime._id, 'feastTimes')}
                   >
                     <X fontSize="1.5em" alt="x" />
@@ -95,11 +106,35 @@ export default function Card({ date, id, weights, handleDelete, heights, feastTi
           </AttributeList>
         </>
       )}
+      {diaperColors.length !== 0 && (
+        <>
+          <AttributeText>Diaper Color</AttributeText>
+          <AttributeColorList>
+            {diaperColors.map((diaperColor) => (
+              <AttributeColorListItem key={diaperColor._id}>
+                {pathname === '/' && (
+                  <DeleteSingleColor
+                    inputColor={diaperColor.value}
+                    aria-label="delete single color"
+                    onClick={() => handleDelete(id, diaperColor._id, 'diaperColors')}
+                  >
+                    <X fontSize="1.5em" alt="delete" />
+                  </DeleteSingleColor>
+                )}
+                {/* ToDo swap hex number for color name also in form input*/}
+                <ColorRoundCase inputColor={diaperColor.value} aria-label={diaperColor.value} />
+                <TimeStamp>{parseTime(diaperColor.timeStamp)}h</TimeStamp>
+              </AttributeColorListItem>
+            ))}
+          </AttributeColorList>
+        </>
+      )}
     </CardElement>
   );
 }
 
 const CardElement = styled.article`
+  position: relative;
   padding: 0.5em;
   border: 1px solid var(--text-primary);
   color: var(--text-primary);
@@ -146,6 +181,9 @@ const AttributeList = styled.ul`
     margin: 0.3em 0;
   }
 `;
+
+// --------------  FeedingTime styled components ------------------
+
 const TimeStamp = styled.p`
   text-align: left;
   font-size: 1rem;
@@ -157,4 +195,33 @@ const FoodSourceStamp = styled.span`
   text-align: center;
   position: absolute;
   left: 43%;
+`;
+
+// -------------- DiaperColor styled components ------------------
+
+const AttributeColorList = styled.ul`
+  display: flex;
+  gap: 3em;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  margin: 0 1em;
+`;
+
+const AttributeColorListItem = styled.li`
+  position: relative;
+  font-size: 1.3rem;
+  margin: 0.3em 0 0.3em 0;
+  gap: 1em;
+`;
+
+const DeleteSingleColor = styled(Button)`
+  position: absolute;
+  padding: 0;
+  right: -0.6em;
+  top: -0.2em;
+  border: 2px solid var(--not-black);
+  border-radius: 50%;
+  height: 1.5em;
+  width: 1.5em;
+  background-color: var(--not-white);
 `;

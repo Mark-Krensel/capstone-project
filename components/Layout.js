@@ -1,7 +1,7 @@
-import Head from "next/head";
-import Header from "./Header";
-import Background from "./Background";
-import Footer from "./Footer";
+import Head from 'next/head';
+import Header from './Header';
+import Background from './Background';
+import Footer from './Footer';
 
 const Layout = ({ children }) => {
   return (
