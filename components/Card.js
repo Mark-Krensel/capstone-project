@@ -42,7 +42,7 @@ export default function Card({ date, id, weights, handleDelete, heights, feastTi
                 {weight.value} kg
                 {pathname === '/' && (
                   <DeleteSingleButton
-                    aria-label="delete single data point"
+                    aria-label="delete single weight"
                     onClick={() => handleDelete(id, weight._id, 'weights')}
                   >
                     <X fontSize="1.5em" alt="x" />
@@ -62,7 +62,7 @@ export default function Card({ date, id, weights, handleDelete, heights, feastTi
                 {height.value} cm
                 {pathname === '/' && (
                   <DeleteSingleButton
-                    aria-label="delete single data point"
+                    aria-label="delete single height"
                     onClick={() => handleDelete(id, height._id, 'heights')}
                   >
                     <X fontSize="1.5em" alt="x" />
@@ -85,7 +85,7 @@ export default function Card({ date, id, weights, handleDelete, heights, feastTi
                 <FoodSourceStamp> -{feastTime.source}-</FoodSourceStamp>
                 {pathname === '/' && (
                   <DeleteSingleButton
-                    aria-label="delete single data point"
+                    aria-label="delete single feeding time"
                     onClick={() => handleDelete(id, feastTime._id, 'feastTimes')}
                   >
                     <X fontSize="1.5em" alt="x" />
@@ -115,16 +115,14 @@ export default function Card({ date, id, weights, handleDelete, heights, feastTi
                 {pathname === '/' && (
                   <DeleteSingleColor
                     inputColor={diaperColor.value}
-                    aria-label="delete single data point"
+                    aria-label="delete single color"
                     onClick={() => handleDelete(id, diaperColor._id, 'diaperColors')}
                   >
                     <X fontSize="1.5em" alt="delete" />
                   </DeleteSingleColor>
                 )}
-                <ColorRoundCase inputColor={diaperColor.value}>
-                  {/* ToDo swap hex number for color name */}
-                  <SrOnly>{diaperColor.value}</SrOnly>
-                </ColorRoundCase>
+                {/* ToDo swap hex number for color name also in form input*/}
+                <ColorRoundCase inputColor={diaperColor.value} aria-label={diaperColor.value} />
                 <TimeStamp>{parseTime(diaperColor.timeStamp)}h</TimeStamp>
               </AttributeColorListItem>
             ))}

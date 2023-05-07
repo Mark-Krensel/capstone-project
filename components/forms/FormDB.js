@@ -93,10 +93,11 @@ export default function Form({ onSubmit, setShownAttribute, shownAttribute }) {
         />
       )}
       {shownAttribute === 'diaper' && (
-        <NakedFieldset aria-label="selection of diaper contet colors">
+        <NakedFieldset aria-label="selection of diaper content colors">
           <input type="hidden" name="diaperColor" value={selectedDiaperColor} />
           {presetDiaperColors.map((color, index) => (
             <StyledColorRoundCase
+              aria-label={color}
               as="button"
               key={index}
               inputColor={color}
@@ -245,4 +246,6 @@ const NakedFieldset = styled.fieldset`
   margin: 0 1em;
   display: flex;
   justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 0 1em;
 `;

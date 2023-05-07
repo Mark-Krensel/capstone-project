@@ -82,7 +82,7 @@ export default function Dashboard({ date, id, weight, handleDelete, height, feas
 }
 
 const DashboardCard = styled.article`
-position: relative;
+  position: relative;
   display: grid;
   grid-template-columns: repeat(1fr 4);
   grid-template-rows: repeat(1fr 3);
@@ -99,7 +99,7 @@ position: relative;
   height: auto;
   max-height: 12.5em;
   width: 95%;
-  max-width: 500px
+  max-width: 500px;
   backdrop-filter: blur(10px);
   background: var(--background-secondary-blur);
 `;

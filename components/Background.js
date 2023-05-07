@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import Image from "next/image";
+import styled from 'styled-components';
+import Image from 'next/image';
 
 export default function Background() {
   return (
@@ -7,7 +7,7 @@ export default function Background() {
       <StyledBackground>
         <Image
           src="/images/pictures/background-stripes2.jpg"
-          alt="background with flower"
+          alt="background with colorful stripes"
           // layout="responsive"
           layout="fill"
           objectFit="cover"
@@ -25,7 +25,7 @@ const StyledBackground = styled.div`
   position: absolute;
   width: 100%;
   height: 100%;
-  overflow-y: hidden;
+  overflow: hidden;
   top: 0;
   left: 0;
   z-index: -10;
