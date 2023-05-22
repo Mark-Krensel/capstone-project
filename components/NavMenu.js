@@ -25,6 +25,21 @@ export default function NavMenu() {
     setSettingsIsOpen(false);
   };
 
+  const router = useRouter();
+
+  async function handleSubmit(data) {
+    try {
+      const response = await fetch('/api/Users', {
+        method: 'POST',
+        body: JSON.stringify(data),
+      });
+      const result = await response.json();
+      router.push(`/`);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   if (session) {
     return (
       <NavWrapper>
@@ -85,7 +100,7 @@ export default function NavMenu() {
             </li>
           </BurgerMenu>
         )}
-        {settingsIsOpen && <Settings closeDialog={closeDialog} />}
+        {settingsIsOpen && <Settings closeDialog={closeDialog} onSubmit={handleSubmit} />}
       </NavWrapper>
     );
   }
