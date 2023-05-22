@@ -8,5 +8,6 @@ export { default as Send } from './Send';
 export { default as Settings } from './Settings';
 export { default as SignIn } from './SignIn';
 export { default as SignOut } from './SignOut';
+export { default as HamburgerMenu } from './XHamburgerMenu';
 export { default as Ruler } from './XRuler';
 export { default as Scale } from './XScale';

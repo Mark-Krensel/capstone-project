@@ -96,12 +96,9 @@ const DashboardCard = styled.article`
   color: var(--text-primary);
   border-radius: 1em;
   box-shadow: var(--shadow-elevation);
-  height: auto;
-  max-height: 12.5em;
-  width: 95%;
-  max-width: 500px;
   backdrop-filter: blur(10px);
   background: var(--background-secondary-blur);
+  flex-basis: 80%;
 `;
 
 const DashboardHeading = styled.h2`

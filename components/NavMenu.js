@@ -1,12 +1,10 @@
-import Link from "next/link";
-import { signOut, useSession, signIn } from "next-auth/react";
-import { useState } from "react";
-import styled from "styled-components";
-import { useRouter } from "next/router";
-import HamburgerMenu from "./icons/XHamburgerMenu";
-import SignIn from "./icons/SignIn";
-import SignOut from "./icons/SignOut";
-import { Button } from "./Button";
+import Link from 'next/link';
+import { signOut, useSession, signIn } from 'next-auth/react';
+import { useState } from 'react';
+import styled from 'styled-components';
+import { useRouter } from 'next/router';
+import { SignIn, SignOut, HamburgerMenu } from './icons';
+import { Button, Settings } from './';
 
 export default function NavMenu() {
   const { pathname } = useRouter();
@@ -15,6 +13,16 @@ export default function NavMenu() {
   const [showHamburgerMenu, setHamburgerMenu] = useState(false);
   const toggleHamburgerMenu = () => {
     setHamburgerMenu(!showHamburgerMenu);
+  };
+
+  const [settingsIsOpen, setSettingsIsOpen] = useState(false);
+
+  const openDialog = () => {
+    setSettingsIsOpen(true);
+  };
+
+  const closeDialog = () => {
+    setSettingsIsOpen(false);
   };
 
   if (session) {
@@ -27,41 +35,41 @@ export default function NavMenu() {
           <BurgerMenu>
             <li>
               <Link href="/" passHref>
-                <StyledNavLink
-                  active={pathname === "/"}
-                  onClick={toggleHamburgerMenu}
-                >
+                <StyledNavLink active={pathname === '/'} onClick={toggleHamburgerMenu}>
                   Home
                 </StyledNavLink>
               </Link>
             </li>
             <li>
               <Link href="/weight" passHref>
-                <StyledNavLink
-                  active={pathname === "/weight"}
-                  onClick={toggleHamburgerMenu}
-                >
+                <StyledNavLink active={pathname === '/weight'} onClick={toggleHamburgerMenu}>
                   Weight
                 </StyledNavLink>
               </Link>
             </li>
             <li>
               <Link href="/height" passHref>
-                <StyledNavLink
-                  active={pathname === "/height"}
-                  onClick={toggleHamburgerMenu}
-                >
+                <StyledNavLink active={pathname === '/height'} onClick={toggleHamburgerMenu}>
                   Height
                 </StyledNavLink>
               </Link>
             </li>
             <li>
               <Link href="/feedingtime" passHref>
-                <StyledNavLink
-                  active={pathname === "/feedingtime"}
-                  onClick={toggleHamburgerMenu}
-                >
+                <StyledNavLink active={pathname === '/feedingtime'} onClick={toggleHamburgerMenu}>
                   Feeding
+                </StyledNavLink>
+              </Link>
+            </li>
+            <li>
+              <Link href="" passHref>
+                <StyledNavLink
+                  // active={pathname === ''}
+                  onClick={() => {
+                    openDialog(), toggleHamburgerMenu();
+                  }}
+                >
+                  Settings
                 </StyledNavLink>
               </Link>
             </li>
@@ -77,18 +85,14 @@ export default function NavMenu() {
             </li>
           </BurgerMenu>
         )}
+        {settingsIsOpen && <Settings closeDialog={closeDialog} />}
       </NavWrapper>
     );
   }
   return (
     <NavWrapper>
       <SignInNavButton>
-        <SignIn
-          alt="sign in"
-          aria-label="sign in"
-          fontSize="2.5rem"
-          onClick={signIn}
-        />
+        <SignIn alt="sign in" aria-label="sign in" fontSize="2.5rem" onClick={signIn} />
       </SignInNavButton>
     </NavWrapper>
   );
@@ -136,7 +140,7 @@ const BurgerMenu = styled.ul`
 `;
 const StyledNavLink = styled.a`
   color: var(--not-white);
-  text-decoration: ${({ active }) => (active ? "underline" : "none")};
+  text-decoration: ${({ active }) => (active ? 'underline' : 'none')};
 `;
 
 const SignInNavButton = styled(Button)`
