@@ -168,6 +168,7 @@ const AttributeText = styled.h3`
 `;
 
 const DateText = styled.h2`
+  font-size: 1.5rem;
   text-align: center;
   font-weight: bold;
   padding-bottom: 0.2em;

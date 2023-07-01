@@ -102,6 +102,7 @@ const DashboardCard = styled.article`
 `;
 
 const DashboardHeading = styled.h2`
+  font-size: 1.5rem;
   text-align: center;
   font-weight: bold;
   padding-bottom: 0.2em;

@@ -77,13 +77,8 @@ export default function NavMenu() {
               </Link>
             </li>
             <li>
-              <Link href="" passHref>
-                <StyledNavLink
-                  // active={pathname === ''}
-                  onClick={() => {
-                    openDialog(), toggleHamburgerMenu();
-                  }}
-                >
+              <Link href="/settings" passHref>
+                <StyledNavLink active={pathname === '/settings'} onClick={toggleHamburgerMenu}>
                   Settings
                 </StyledNavLink>
               </Link>
@@ -100,7 +95,6 @@ export default function NavMenu() {
             </li>
           </BurgerMenu>
         )}
-        {settingsIsOpen && <Settings closeDialog={closeDialog} onSubmit={handleSubmit} />}
       </NavWrapper>
     );
   }
