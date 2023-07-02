@@ -47,18 +47,28 @@ export default async function handler(request, response) {
 
     case 'PUT': {
       // Update a user
+      console.log(request.body);
       const { id, firstName, lastName, email, babyName, babyBirthday } = request.body;
 
       try {
         const user = await User.findByIdAndUpdate(
-          id,
+          { _id: id },
           { firstName, lastName, email, babyName, babyBirthday },
           { new: true }
         );
-        response.status(200).json({ success: true, user });
+        if (!user) {
+          response.status(404).json({ success: false, message: 'User not found' }); // If no user found
+        } else {
+          response.status(200).json({ success: true, user });
+        }
       } catch (error) {
-        response.status(400).json({ success: false });
+        console.error(error); // log the error
+        response.status(400).json({ success: false, error: error.message }); // send back the error message
       }
+      //   response.status(200).json({ success: true, user });
+      // } catch (error) {
+      //   response.status(400).json({ success: false });
+      // }
       break;
     }
 

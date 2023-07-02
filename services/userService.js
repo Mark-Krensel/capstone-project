@@ -13,6 +13,7 @@ export async function getUserSettings(userEmail) {
       babyName: userSettings.babyName,
       babyBirthday: userSettings.babyBirthday,
       email: userSettings.email,
+      id: userSettings.id,
     };
     return sanitizedUserSettings;
   }
