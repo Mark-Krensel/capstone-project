@@ -4,15 +4,18 @@ import User from '../models/User';
 export async function getUserSettings(userEmail) {
   await dbConnect();
 
-  const userSettings = await User.find({ email: userEmail });
+  const userSettings = await User.findOne({ email: userEmail });
 
-  const sanitizedUserSettings = userSettings.map((setting) => ({
-    firstName: setting.firstName,
-    lastName: setting.lastName,
-    babyName: setting.babyName,
-    babyBirthday: setting.babyBirthday,
-    email: setting.email,
-  }));
+  if (userSettings) {
+    const sanitizedUserSettings = {
+      firstName: userSettings.firstName,
+      lastName: userSettings.lastName,
+      babyName: userSettings.babyName,
+      babyBirthday: userSettings.babyBirthday,
+      email: userSettings.email,
+    };
+    return sanitizedUserSettings;
+  }
 
-  return sanitizedUserSettings;
+  return null;
 }
