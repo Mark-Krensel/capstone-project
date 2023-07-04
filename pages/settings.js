@@ -11,29 +11,55 @@ import { CardContainer } from '../components/CardContainer';
 export async function getServerSideProps(context) {
   const session = await getServerSession(context.req, context.res, authOptions);
   if (session) {
-    const user = await getUserSettings(session.user.email);
+    const fetchedUser = await getUserSettings(session.user.email);
+    let user = { _id: '', firstName: '', lastName: '', email: session.user.email, babyName: '', babyBirthday: '' }; // default user
+    let userExists = true; //use flag to decide later if PUT or POST request needs to be triggered
+    if (!fetchedUser) {
+      userExists = false;
+    } else {
+      user = fetchedUser;
+    }
+    console.log('user: ', user);
     return {
-      props: { user: JSON.parse(JSON.stringify(user)) },
+      props: {
+        user: JSON.parse(JSON.stringify(user)),
+      },
     };
   } else
     return {
       props: {},
     };
 }
-
-// function classNames(...classes) {
-//   return classes.filter(Boolean).join(' ');
-// }
-
-export default function Settings({ user }) {
+export default function Settings({ user, userExists }) {
   // const [automaticTimezoneEnabled, setAutomaticTimezoneEnabled] = useState(true);
 
   //----- Session -----
   const { data: session } = useSession();
 
-  const { firstName, lastName, babyName, babyBirthday, email } = user;
+  const [formData, setFormData] = useState({
+    id: '',
+    firstName: '',
+    lastName: '',
+    email: '',
+    babyName: '',
+    babyBirthday: '',
+  });
 
-  const [formData, setFormData] = useState(user);
+  useEffect(() => {
+    if (user) {
+      setFormData({
+        id: user._id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        babyName: user.babyName,
+        babyBirthday: user.babyBirthday,
+      });
+    } else if (session) {
+      setFormData((currentData) => ({ ...currentData, email: session.user.email }));
+    }
+  }, [user, session]);
+
   const [editing, setEditing] = useState(null);
 
   const handleChange = (e) => {
@@ -54,7 +80,7 @@ export default function Settings({ user }) {
   const handleSave = async () => {
     try {
       const response = await fetch('/api/Users', {
-        method: 'PUT',
+        method: userExists ? 'PUT' : 'POST', // decide on method based on whether user exists or not
         headers: {
           'Content-Type': 'application/json',
         },
@@ -81,7 +107,6 @@ export default function Settings({ user }) {
     setEditing(null); // stop editing after saving
   };
 
-  console.log(user);
   if (session) {
     return (
       <CardContainer>
@@ -95,11 +120,10 @@ export default function Settings({ user }) {
                 </p>
 
                 <dl className="mt-6 space-y-6 divide-y divide-gray-100 border-t border-gray-200 text-sm leading-6">
-                  {/* // -------------------------- try ----------------------------- */}
                   <div className="pt-6 sm:flex">
                     <dt className="font-medium text-gray-900 sm:w-64 sm:flex-none sm:pr-6">Full name</dt>
                     <dd className="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
-                      {editing === 'fullName' ? ( // added
+                      {editing === 'fullName' ? (
                         <>
                           <input name="firstName" value={formData.firstName} onChange={handleChange} />
                           <input name="lastName" value={formData.lastName} onChange={handleChange} />
@@ -132,38 +156,83 @@ export default function Settings({ user }) {
                       )}
                     </dd>
                   </div>
-                  {/* //---------------------------------------------- */}
-                  <div className="pt-6 sm:flex">
-                    <dt className="font-medium text-gray-900 sm:w-64 sm:flex-none sm:pr-6">Full name</dt>
-                    <dd className="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
-                      <div className="text-gray-900">{`${firstName} ${lastName}`}</div>
-                      <button type="button" className="font-semibold text-indigo-600 hover:text-indigo-500">
-                        Update
-                      </button>
-                    </dd>
-                  </div>
                   <div className="pt-6 sm:flex">
                     <dt className="font-medium text-gray-900 sm:w-64 sm:flex-none sm:pr-6">Babys Name</dt>
                     <dd className="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
-                      <div className="text-gray-900">{babyName}</div>
-                      <button type="button" className="font-semibold text-indigo-600 hover:text-indigo-500">
-                        Update
-                      </button>
+                      {editing === 'babyName' ? (
+                        <>
+                          <input name="babyName" value={formData.babyName} onChange={handleChange} />
+
+                          <button
+                            type="button"
+                            onClick={handleSave}
+                            className="font-semibold text-indigo-600 hover:text-indigo-500"
+                          >
+                            Save
+                          </button>
+                          <button
+                            type="button"
+                            onClick={handleCancel}
+                            className="font-semibold text-indigo-600 hover:text-indigo-500"
+                          >
+                            Cancel
+                          </button>
+                        </>
+                      ) : (
+                        <>
+                          <div className="text-gray-900">{formData.babyName}</div>
+                          <button
+                            type="button"
+                            onClick={() => handleUpdate('babyName')}
+                            className="font-semibold text-indigo-600 hover:text-indigo-500"
+                          >
+                            Update
+                          </button>
+                        </>
+                      )}
                     </dd>
                   </div>
                   <div className="pt-6 sm:flex">
                     <dt className="font-medium text-gray-900 sm:w-64 sm:flex-none sm:pr-6">Babys Birthday</dt>
                     <dd className="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
-                      <div className="text-gray-900">{babyBirthday}</div>
-                      <button type="button" className="font-semibold text-indigo-600 hover:text-indigo-500">
-                        Update
-                      </button>
+                      {editing === 'babyBirthday' ? (
+                        <>
+                          <input name="babyBirthday" value={formData.babyBirthday} onChange={handleChange} />
+
+                          <button
+                            type="button"
+                            onClick={handleSave}
+                            className="font-semibold text-indigo-600 hover:text-indigo-500"
+                          >
+                            Save
+                          </button>
+                          <button
+                            type="button"
+                            onClick={handleCancel}
+                            className="font-semibold text-indigo-600 hover:text-indigo-500"
+                          >
+                            Cancel
+                          </button>
+                        </>
+                      ) : (
+                        <>
+                          <div className="text-gray-900">{formData.babyBirthday}</div>
+                          <button
+                            type="button"
+                            onClick={() => handleUpdate('babyBirthday')}
+                            className="font-semibold text-indigo-600 hover:text-indigo-500"
+                          >
+                            Update
+                          </button>
+                        </>
+                      )}
                     </dd>
                   </div>
+
                   <div className="pt-6 sm:flex">
                     <dt className="font-medium text-gray-900 sm:w-64 sm:flex-none sm:pr-6">Email address</dt>
                     <dd className="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
-                      <div className="text-gray-900">{email}</div>
+                      <div className="text-gray-900">{user.email}</div>
                     </dd>
                   </div>
                 </dl>

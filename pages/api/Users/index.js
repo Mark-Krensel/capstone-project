@@ -9,9 +9,9 @@ export default async function handler(request, response) {
 
   switch (request.method) {
     case 'POST': {
-      console.log('hello');
       // Create a user
-      const postData = JSON.parse(request.body);
+      console.log(request.body);
+      const postData = request.body; // If request.body is already an object, no need to parse it.
       //   const { firstName, lastName, email, babyName, babyBirthday } = JSON.parse(request.body);
 
       try {
