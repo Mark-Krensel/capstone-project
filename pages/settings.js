@@ -12,7 +12,7 @@ export async function getServerSideProps(context) {
   const session = await getServerSession(context.req, context.res, authOptions);
   if (session) {
     const fetchedUser = await getUserSettings(session.user.email);
-    let user = { _id: '', firstName: '', lastName: '', email: session.user.email, babyName: '', babyBirthday: '' }; // default user
+    let user = { id: '', firstName: '', lastName: '', email: session.user.email, babyName: '', babyBirthday: '' }; // default user
     let userExists = true; //use flag to decide later if PUT or POST request needs to be triggered
     if (!fetchedUser) {
       userExists = false;
@@ -23,6 +23,8 @@ export async function getServerSideProps(context) {
     return {
       props: {
         user: JSON.parse(JSON.stringify(user)),
+        // user: user,
+        userExists: userExists,
       },
     };
   } else
@@ -30,11 +32,13 @@ export async function getServerSideProps(context) {
       props: {},
     };
 }
-export default function Settings({ user, userExists }) {
+export default function Settings({ user, userExists: initialUserExists }) {
   // const [automaticTimezoneEnabled, setAutomaticTimezoneEnabled] = useState(true);
 
   //----- Session -----
   const { data: session } = useSession();
+
+  const [userExists, setUserExists] = useState(initialUserExists);
 
   const [formData, setFormData] = useState({
     id: '',
@@ -57,6 +61,7 @@ export default function Settings({ user, userExists }) {
       });
     } else if (session) {
       setFormData((currentData) => ({ ...currentData, email: session.user.email }));
+      console.log('currentData:', currentData);
     }
   }, [user, session]);
 
@@ -84,7 +89,7 @@ export default function Settings({ user, userExists }) {
         headers: {
           'Content-Type': 'application/json',
         },
-        // body: JSON.stringify(formData),
+
         body: JSON.stringify({
           id: formData.id, // the user _id is included here
           firstName: formData.firstName,
@@ -94,13 +99,18 @@ export default function Settings({ user, userExists }) {
           babyBirthday: formData.babyBirthday,
         }),
       });
+      if (response.ok) {
+        const data = await response.json();
+        console.log('data:', data);
 
-      if (!response.ok) {
+        if (!userExists) {
+          // Update userExists to true after creating a new user
+          setUserExists(true);
+          setFormData((prevData) => ({ ...prevData, id: data.newUser._id })); // assuming the id comes as _id in the response
+        }
+      } else {
         throw new Error('Network response was not ok');
       }
-
-      const data = await response.json();
-      console.log(data);
     } catch (error) {
       console.error('Error:', error);
     }
@@ -125,8 +135,8 @@ export default function Settings({ user, userExists }) {
                     <dd className="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
                       {editing === 'fullName' ? (
                         <>
-                          <input name="firstName" value={formData.firstName} onChange={handleChange} />
-                          <input name="lastName" value={formData.lastName} onChange={handleChange} />
+                          <input type="text" name="firstName" value={formData.firstName} onChange={handleChange} />
+                          <input type="text" name="lastName" value={formData.lastName} onChange={handleChange} />
                           <button
                             type="button"
                             onClick={handleSave}
@@ -161,7 +171,7 @@ export default function Settings({ user, userExists }) {
                     <dd className="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
                       {editing === 'babyName' ? (
                         <>
-                          <input name="babyName" value={formData.babyName} onChange={handleChange} />
+                          <input type="text" name="babyName" value={formData.babyName} onChange={handleChange} />
 
                           <button
                             type="button"
@@ -197,7 +207,12 @@ export default function Settings({ user, userExists }) {
                     <dd className="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
                       {editing === 'babyBirthday' ? (
                         <>
-                          <input name="babyBirthday" value={formData.babyBirthday} onChange={handleChange} />
+                          <input
+                            type="date"
+                            name="babyBirthday"
+                            value={formData.babyBirthday}
+                            onChange={handleChange}
+                          />
 
                           <button
                             type="button"

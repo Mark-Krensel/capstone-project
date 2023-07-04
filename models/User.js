@@ -5,11 +5,9 @@ const userSchema = new Schema(
   {
     firstName: {
       type: String,
-      required: true,
     },
     lastName: {
       type: String,
-      required: true,
     },
     email: {
       type: String,
@@ -18,11 +16,9 @@ const userSchema = new Schema(
     },
     babyName: {
       type: String,
-      required: true,
     },
     babyBirthday: {
       type: Date,
-      required: true,
     },
   },
   { versionKey: false }
