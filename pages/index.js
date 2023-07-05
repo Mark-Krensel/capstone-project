@@ -97,13 +97,11 @@ export default function Home({ days }) {
     );
   }
   return (
-    <>
-      <CardContainer>
-        <StyledText>You are not signed in</StyledText>
-        <SignInButton onClick={() => signIn('github')}>Sign in</SignInButton>
-        <LottieContainer ref={container} />
-      </CardContainer>
-    </>
+    <CardContainer>
+      <StyledText>You are not signed in</StyledText>
+      <SignInButton onClick={() => signIn('github')}>Sign in</SignInButton>
+      <LottieContainer ref={container} />
+    </CardContainer>
   );
 }
 
