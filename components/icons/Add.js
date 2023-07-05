@@ -3,6 +3,7 @@ const SvgAdd = (props) => (
   <svg
     style={{
       enableBackground: 'new 0 0 24 24',
+      display: 'unset',
     }}
     viewBox="0 0 24 24"
     xmlSpace="preserve"

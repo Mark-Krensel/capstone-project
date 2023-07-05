@@ -97,12 +97,14 @@ const MenuContainer = styled.div`
   align-items: center;
   flex-wrap: wrap;
   gap: 3em;
+  width: 100vw;
 `;
 
 const MenuButton = styled(Button)`
   width: 100%;
   margin: 0.8em auto;
   text-align: center;
+  display: inline;
 `;
 
 const StyledP = styled.p`
