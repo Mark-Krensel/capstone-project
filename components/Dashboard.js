@@ -51,18 +51,17 @@ export default function Dashboard({ date, id, weight, handleDelete, height, feas
       {feastTime && (
         <>
           <FeedingTimeBoard>
-            {feastTime.value.substr(2, 2)}:{feastTime.value.substr(4, 2)}
-            min
-            <FoodSourceStamp> -{feastTime.source}-</FoodSourceStamp>
+            {new Date(parseInt(feastTime.timeStamp)).toLocaleTimeString([], {
+              hour12: false,
+              hour: '2-digit',
+              minute: '2-digit',
+            })}
+            h<FoodSourceStamp> -{feastTime.source}-</FoodSourceStamp>
             <TimeStamp>
               <span>
                 --
-                {new Date(parseInt(feastTime.timeStamp)).toLocaleTimeString([], {
-                  hour12: false,
-                  hour: '2-digit',
-                  minute: '2-digit',
-                })}
-                h
+                {feastTime.value.substr(2, 2)}:{feastTime.value.substr(4, 2)}
+                min
               </span>
               <InlineRightText>
                 {new Date(parseInt(feastTime.timeStamp)).toLocaleDateString('en-US', {

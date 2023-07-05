@@ -80,9 +80,12 @@ export default function Card({ date, id, weights, handleDelete, heights, feastTi
           <AttributeList>
             {feastTimes.map((feastTime) => (
               <li key={feastTime._id}>
-                {feastTime.value.substr(2, 2)}:{feastTime.value.substr(4, 2)}
-                min
-                <FoodSourceStamp> -{feastTime.source}-</FoodSourceStamp>
+                {new Date(parseInt(feastTime.timeStamp)).toLocaleTimeString([], {
+                  hour12: false,
+                  hour: '2-digit',
+                  minute: '2-digit',
+                })}
+                h<FoodSourceStamp> -{feastTime.source}-</FoodSourceStamp>
                 {pathname === '/' && (
                   <DeleteSingleButton
                     aria-label="delete single feeding time"
@@ -92,14 +95,9 @@ export default function Card({ date, id, weights, handleDelete, heights, feastTi
                   </DeleteSingleButton>
                 )}
                 <TimeStamp>
-                  {/* --{calcTime(feastTime.timeStamp)} */}
                   --
-                  {new Date(parseInt(feastTime.timeStamp)).toLocaleTimeString([], {
-                    hour12: false,
-                    hour: '2-digit',
-                    minute: '2-digit',
-                  })}
-                  h
+                  {feastTime.value.substr(2, 2)}:{feastTime.value.substr(4, 2)}
+                  min
                 </TimeStamp>
               </li>
             ))}
