@@ -57,7 +57,7 @@ export default function Settings({ user, userExists: initialUserExists }) {
         lastName: user.lastName,
         email: user.email,
         babyName: user.babyName,
-        babyBirthday: user.babyBirthday,
+        babyBirthday: user.babyBirthday ? user.babyBirthday : '',
       });
     } else if (session) {
       setFormData((currentData) => ({ ...currentData, email: session.user.email }));
@@ -66,6 +66,7 @@ export default function Settings({ user, userExists: initialUserExists }) {
   }, [user, session]);
 
   const [editing, setEditing] = useState(null);
+  const [originalData, setOriginalData] = useState(formData);
 
   const handleChange = (e) => {
     setFormData({
@@ -75,10 +76,12 @@ export default function Settings({ user, userExists: initialUserExists }) {
   };
 
   const handleUpdate = async (field) => {
+    setOriginalData(formData);
     setEditing(field);
   };
 
   const handleCancel = async () => {
+    setFormData(originalData);
     setEditing(null);
   };
 
@@ -231,7 +234,9 @@ export default function Settings({ user, userExists: initialUserExists }) {
                         </>
                       ) : (
                         <>
-                          <div className="text-gray-900">{formData.babyBirthday}</div>
+                          <div className="text-gray-900">
+                            {formData.babyBirthday ? new Date(formData.babyBirthday).toISOString().split('T')[0] : ''}
+                          </div>
                           <button
                             type="button"
                             onClick={() => handleUpdate('babyBirthday')}
