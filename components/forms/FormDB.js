@@ -206,6 +206,9 @@ const CheckButton = styled(Button)`
 `;
 
 const RadioButtonSection = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
   width: 100%;
   font-size: 1.2rem;
   text-align: center;
