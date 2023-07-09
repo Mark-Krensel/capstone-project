@@ -5,6 +5,8 @@ import { useSession } from 'next-auth/react';
 //----- import dynamic component to not get hydration error -----
 import dynamic from 'next/dynamic';
 import { Suspense } from 'react';
+
+import StyledInput from './StyledInput';
 import { Button } from '../Button';
 import { ColorRoundCase } from '../ColorRoundCase';
 const DynamicStopwatch = dynamic(() => import('./Stopwatch'), {
@@ -61,7 +63,7 @@ export default function Form({ onSubmit, setShownAttribute, shownAttribute }) {
 
   return (
     <FormElement aria-label="Add weight and date" onSubmit={sendForm}>
-      <input
+      <StyledInput
         aria-label="date input"
         type="date"
         name="date"
@@ -71,7 +73,7 @@ export default function Form({ onSubmit, setShownAttribute, shownAttribute }) {
         required
       />
       {shownAttribute === 'weight' && (
-        <input
+        <StyledInput
           placeholder="-- kg --"
           type="number"
           name="weight"
@@ -82,7 +84,7 @@ export default function Form({ onSubmit, setShownAttribute, shownAttribute }) {
         />
       )}
       {shownAttribute === 'height' && (
-        <input
+        <StyledInput
           aria-label="height input"
           placeholder="-- cm --"
           type="number"
@@ -94,7 +96,7 @@ export default function Form({ onSubmit, setShownAttribute, shownAttribute }) {
       )}
       {shownAttribute === 'diaper' && (
         <NakedFieldset aria-label="selection of diaper content colors">
-          <input type="hidden" name="diaperColor" value={selectedDiaperColor} />
+          <StyledInput type="hidden" name="diaperColor" value={selectedDiaperColor} />
           {presetDiaperColors.map((color, index) => (
             <StyledColorRoundCase
               aria-label={color}
@@ -167,24 +169,10 @@ const FormElement = styled.form`
   position: relative;
   flex-wrap: wrap;
   justify-content: center;
+  align-items: center;
   gap: 0 0.5em;
   margin: 2em 1em 6em 1em;
-  padding-top: 1em;
-
-  input {
-    width: 8em;
-    max-height: 2em;
-    border-radius: 0.5em;
-    font-size: var(--form-fontSize);
-    font-family: 'Noto Sans';
-    color: var(--not-black);
-    margin: 0.5em 0.5em;
-    padding: 0 0.2em;
-
-    ::placeholder {
-      text-align: center;
-    }
-  }
+  padding: 1em;
 
   p {
     max-height: 2em;

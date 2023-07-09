@@ -35,6 +35,9 @@ export default function WeightPage({ days }) {
     const meanChartData = chartData.map((array) => array.reduce((a, b) => a + b, 0) / array.length);
     const title = 'Average Weight';
 
+    console.log('chartData:', chartData);
+    console.log('meanChartData:', meanChartData);
+
     return (
       <>
         <CardContainer>
@@ -48,6 +51,7 @@ export default function WeightPage({ days }) {
               weights={filteredDay.weights}
               heights={[]}
               feastTimes={[]}
+              diaperColors={[]}
             />
           ))}
         </CardContainer>

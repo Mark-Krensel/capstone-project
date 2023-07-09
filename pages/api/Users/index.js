@@ -10,7 +10,8 @@ export default async function handler(request, response) {
   switch (request.method) {
     case 'POST': {
       // Create a user
-      console.log('request.body:', request.body);
+      console.log(' POST request.body:', request.body);
+      console.log('POST babyGender: ', request.body.babyGender);
       const postData = request.body; // If request.body is already an object, no need to parse it.
 
       try {
@@ -19,6 +20,7 @@ export default async function handler(request, response) {
           lastName: postData.lastName,
           email: postData.email,
           babyName: postData.babyName,
+          babyGender: postData.babyGender,
           babyBirthday: postData.babyBirthday,
         };
 
@@ -26,7 +28,7 @@ export default async function handler(request, response) {
         const newUser = await User.create(newPostData);
         response.status(201).json({ success: true, newUser });
       } catch (error) {
-        response.status(400).json({ success: false });
+        response.status(400).json({ success: false, message: error.message });
       }
       break;
     }
@@ -46,13 +48,13 @@ export default async function handler(request, response) {
 
     case 'PUT': {
       // Update a user
-      console.log(request.body);
-      const { id, firstName, lastName, email, babyName, babyBirthday } = request.body;
+      console.log(' PUT request.body:', request.body);
+      const { id, firstName, lastName, email, babyName, babyBirthday, babyGender } = request.body;
 
       try {
         const user = await User.findByIdAndUpdate(
           { _id: id },
-          { firstName, lastName, email, babyName, babyBirthday },
+          { firstName, lastName, email, babyName, babyBirthday, babyGender },
           { new: true }
         );
         if (!user) {
