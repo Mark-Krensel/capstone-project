@@ -16,9 +16,9 @@ export default function Stopwatch({ setStoppedTime, stoppedTime }) {
 
   useEffect(() => {
     if (stoppedTime) {
-      setInputValue(`${stoppedTime.substr(2, 2)}:${stoppedTime.substr(4, 2)}`);
+      setInputValue(`${stoppedTime.substr(0, 2)}:${stoppedTime.substr(2, 2)}:${stoppedTime.substr(4, 2)}`);
     } else {
-      setInputValue('00:00');
+      setInputValue('00:00:00');
     }
   }, [stoppedTime]);
 
@@ -50,23 +50,32 @@ export default function Stopwatch({ setStoppedTime, stoppedTime }) {
 
   const formatInputValue = (input) => {
     const rawValue = input.replace(/[^0-9]/g, ''); // remove non-digits
-    let m, s;
-    if (rawValue.length >= 4) {
+    let h, m, s;
+    if (rawValue.length >= 6) {
+      h = rawValue.slice(-6, -4);
+      m = rawValue.slice(-4, -2);
+      s = rawValue.slice(-2);
+    } else if (rawValue.length >= 4) {
+      h = '00';
       m = rawValue.slice(-4, -2);
       s = rawValue.slice(-2);
     } else if (rawValue.length >= 2) {
+      h = '00';
       m = '00';
       s = rawValue.slice(-2);
     } else {
+      h = '00';
       m = '00';
       s = '0' + rawValue;
     }
 
-    // Limit minutes and seconds to 59
+    // Limit minutes and seconds to 59 and hours to 24
+
+    h = Math.min(h, 24);
     m = Math.min(m, 59);
     s = Math.min(s, 59);
 
-    return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+    return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
   };
 
   return (
@@ -84,20 +93,16 @@ export default function Stopwatch({ setStoppedTime, stoppedTime }) {
             }}
             onBlur={() => {
               setEditing(false);
-              const [m, s] = inputValue.split(':').map(Number);
-              const h = Math.floor(m / 60);
-              const remMins = m % 60;
-              setStoppedTime(
-                `${String(h).padStart(2, '0')}${String(remMins).padStart(2, '0')}${String(s).padStart(2, '0')}`
-              );
+              const [h, m, s] = inputValue.split(':').map(Number);
+              setStoppedTime(`${String(h).padStart(2, '0')}${String(m).padStart(2, '0')}${String(s).padStart(2, '0')}`);
             }}
           />
         ) : startTime ? (
           `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`
         ) : stoppedTime ? (
-          `${stoppedTime.substr(2, 2)}:${stoppedTime.substr(4, 2)}`
+          `${stoppedTime.substr(0, 2)}:${stoppedTime.substr(2, 2)}:${stoppedTime.substr(4, 2)}`
         ) : (
-          '00:00'
+          '00:00:00'
         )}
       </TimeWrapper>
       {startTime ? (
