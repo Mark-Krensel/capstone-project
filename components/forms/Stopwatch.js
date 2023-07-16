@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Button } from '../Button';
 import styled from 'styled-components';
+import StyledInput from './StyledInput';
 import Play from '../icons/XPlay';
 import Stop from '../icons/XStop';
 
@@ -86,7 +87,8 @@ export default function Stopwatch({ setStoppedTime, stoppedTime }) {
         }}
       >
         {editing ? (
-          <input
+          <StyledInput
+            class="text-center"
             value={inputValue}
             onChange={(e) => {
               setInputValue(formatInputValue(e.target.value));
