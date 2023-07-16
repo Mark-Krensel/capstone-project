@@ -5,21 +5,29 @@ import { authOptions } from './api/auth/[...nextauth]';
 import styled from 'styled-components';
 import { getUserSettings } from '../services/userService';
 import { CardContainer } from '../components/CardContainer';
-// import { Dialog, Switch } from '@headlessui/react';
-// import { Bars3Icon } from '@heroicons/react/20/solid';
+import StyledInput from '../components/forms/StyledInput';
+import SelectComponent from '../components/forms/SelectComponent';
 
 export async function getServerSideProps(context) {
   const session = await getServerSession(context.req, context.res, authOptions);
   if (session) {
     const fetchedUser = await getUserSettings(session.user.email);
-    let user = { id: '', firstName: '', lastName: '', email: session.user.email, babyName: '', babyBirthday: '' }; // default user
+    let user = {
+      id: '',
+      firstName: '',
+      lastName: '',
+      email: session.user.email,
+      babyName: '',
+      babyBirthday: '',
+      babyGender: '',
+    }; // default user
     let userExists = true; //use flag to decide later if PUT or POST request needs to be triggered
     if (!fetchedUser) {
       userExists = false;
     } else {
       user = fetchedUser;
     }
-    console.log('user: ', user);
+
     return {
       props: {
         user: JSON.parse(JSON.stringify(user)),
@@ -47,6 +55,7 @@ export default function Settings({ user, userExists: initialUserExists }) {
     email: '',
     babyName: '',
     babyBirthday: '',
+    babyGender: '',
   });
 
   useEffect(() => {
@@ -57,6 +66,7 @@ export default function Settings({ user, userExists: initialUserExists }) {
         lastName: user.lastName,
         email: user.email,
         babyName: user.babyName,
+        babyGender: user.babyGender,
         babyBirthday: user.babyBirthday ? user.babyBirthday : '',
       });
     } else if (session) {
@@ -68,10 +78,21 @@ export default function Settings({ user, userExists: initialUserExists }) {
   const [editing, setEditing] = useState(null);
   const [originalData, setOriginalData] = useState(formData);
 
+  // const handleChange = (e) => {
+  //   setFormData({
+  //     ...formData,
+  //     [e.target.name]: e.target.value,
+  //   });
+  // };
+
   const handleChange = (e) => {
+    let value;
+
+    value = e.target.value;
+
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value,
+      [e.target.name]: value,
     });
   };
 
@@ -100,6 +121,7 @@ export default function Settings({ user, userExists: initialUserExists }) {
           email: formData.email,
           babyName: formData.babyName,
           babyBirthday: formData.babyBirthday,
+          babyGender: formData.babyGender,
         }),
       });
       if (response.ok) {
@@ -138,8 +160,20 @@ export default function Settings({ user, userExists: initialUserExists }) {
                     <dd className="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
                       {editing === 'fullName' ? (
                         <>
-                          <input type="text" name="firstName" value={formData.firstName} onChange={handleChange} />
-                          <input type="text" name="lastName" value={formData.lastName} onChange={handleChange} />
+                          <StyledInput
+                            type="text"
+                            name="firstName"
+                            value={formData.firstName}
+                            onChange={handleChange}
+                            placeholder="Your first name"
+                          />
+                          <StyledInput
+                            type="text"
+                            name="lastName"
+                            value={formData.lastName}
+                            onChange={handleChange}
+                            placeholder="Your last name"
+                          />
                           <button
                             type="button"
                             onClick={handleSave}
@@ -174,7 +208,13 @@ export default function Settings({ user, userExists: initialUserExists }) {
                     <dd className="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
                       {editing === 'babyName' ? (
                         <>
-                          <input type="text" name="babyName" value={formData.babyName} onChange={handleChange} />
+                          <StyledInput
+                            type="text"
+                            name="babyName"
+                            value={formData.babyName}
+                            onChange={handleChange}
+                            placeholder="Your babies name"
+                          />
 
                           <button
                             type="button"
@@ -210,11 +250,12 @@ export default function Settings({ user, userExists: initialUserExists }) {
                     <dd className="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
                       {editing === 'babyBirthday' ? (
                         <>
-                          <input
+                          <StyledInput
                             type="date"
                             name="babyBirthday"
                             value={formData.babyBirthday}
                             onChange={handleChange}
+                            placeholder="Your babies birthday"
                           />
 
                           <button
@@ -248,6 +289,41 @@ export default function Settings({ user, userExists: initialUserExists }) {
                       )}
                     </dd>
                   </div>
+                  <div className="pt-6 sm:flex">
+                    <dt className="font-medium text-gray-900 sm:w-64 sm:flex-none sm:pr-6">Babys Gender</dt>
+                    <dd className="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
+                      <div className="text-gray-900">{formData.babyGender}</div>
+                      {editing === 'babyGender' ? (
+                        <>
+                          <SelectComponent name="babyGender" placeholder="Your Babys Gender" onChange={handleChange} />
+                          <button
+                            type="button"
+                            onClick={handleSave}
+                            className="font-semibold text-indigo-600 hover:text-indigo-500"
+                          >
+                            Save
+                          </button>
+                          <button
+                            type="button"
+                            onClick={handleCancel}
+                            className="font-semibold text-indigo-600 hover:text-indigo-500"
+                          >
+                            Cancel
+                          </button>
+                        </>
+                      ) : (
+                        <>
+                          <button
+                            type="button"
+                            onClick={() => handleUpdate('babyGender')}
+                            className="font-semibold text-indigo-600 hover:text-indigo-500"
+                          >
+                            Update
+                          </button>
+                        </>
+                      )}
+                    </dd>
+                  </div>
 
                   <div className="pt-6 sm:flex">
                     <dt className="font-medium text-gray-900 sm:w-64 sm:flex-none sm:pr-6">Email address</dt>
@@ -257,7 +333,6 @@ export default function Settings({ user, userExists: initialUserExists }) {
                   </div>
                 </dl>
               </div>
-
               {/* <div>
               <h2 className="text-base font-semibold leading-7 text-gray-900">Bank accounts</h2>
               <p className="mt-1 text-sm leading-6 text-gray-500">Connect bank accounts to your account.</p>

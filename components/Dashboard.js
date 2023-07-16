@@ -60,6 +60,7 @@ export default function Dashboard({ date, id, weight, handleDelete, height, feas
             <TimeStamp>
               <span>
                 --
+                {feastTime.value.substr(0, 2) !== '00' && `${feastTime.value.substr(0, 2)}h & `}
                 {feastTime.value.substr(2, 2)}:{feastTime.value.substr(4, 2)}
                 min
               </span>

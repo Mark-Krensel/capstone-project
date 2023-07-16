@@ -96,6 +96,7 @@ export default function Card({ date, id, weights, handleDelete, heights, feastTi
                 )}
                 <TimeStamp>
                   --
+                  {feastTime.value.substr(0, 2) !== '00' && `${feastTime.value.substr(0, 2)}h & `}
                   {feastTime.value.substr(2, 2)}:{feastTime.value.substr(4, 2)}
                   min
                 </TimeStamp>

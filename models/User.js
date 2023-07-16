@@ -20,6 +20,9 @@ const userSchema = new Schema(
     babyBirthday: {
       type: Date,
     },
+    babyGender: {
+      type: String,
+    },
   },
   { versionKey: false }
 );
