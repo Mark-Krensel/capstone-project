@@ -27,7 +27,8 @@ export async function getServerSideProps(context) {
 
 export default function WeightPage({ days, user }) {
   const { data: session } = useSession();
-  let babyBirthday = null;
+  const [loading, setLoading] = useState(true);
+  const babyBirthday = user.babyBirthday ? user.babyBirthday : null;
   let currentWeek = null;
 
   const [chartData, setChartData] = useState({});
@@ -47,7 +48,6 @@ export default function WeightPage({ days, user }) {
   };
 
   if (user && user.babyBirthday) {
-    babyBirthday = new Date(user.babyBirthday);
     currentWeek = getWeeksFromBirth(babyBirthday, new Date());
   }
 
@@ -98,6 +98,7 @@ export default function WeightPage({ days, user }) {
         labels,
         datasets,
       });
+      setLoading(false); // data is now ready, stop showing loading indicator
     }
     fetchData();
   }, []);
@@ -107,25 +108,29 @@ export default function WeightPage({ days, user }) {
 
     return (
       <>
-        <CardContainer>
-          <CanvasContainer>
-            {babyBirthday && (
-              <CanvasContainer>
-                <ChartComponent data={chartData} currentWeek={currentWeek} />
-              </CanvasContainer>
-            )}
-          </CanvasContainer>
-          {filteredDays.map((filteredDay) => (
-            <Card
-              key={filteredDay.id}
-              date={filteredDay.date}
-              weights={filteredDay.weights}
-              heights={[]}
-              feastTimes={[]}
-              diaperColors={[]}
-            />
-          ))}
-        </CardContainer>
+        {loading ? (
+          <p>Loading...</p>
+        ) : (
+          <CardContainer>
+            <CanvasContainer>
+              {babyBirthday && (
+                <CanvasContainer>
+                  <ChartComponent data={chartData} currentWeek={currentWeek} />
+                </CanvasContainer>
+              )}
+            </CanvasContainer>
+            {filteredDays.map((filteredDay) => (
+              <Card
+                key={filteredDay.id}
+                date={filteredDay.date}
+                weights={filteredDay.weights}
+                heights={[]}
+                feastTimes={[]}
+                diaperColors={[]}
+              />
+            ))}
+          </CardContainer>
+        )}
       </>
     );
   }
