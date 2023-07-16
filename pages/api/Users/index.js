@@ -11,7 +11,6 @@ export default async function handler(request, response) {
     case 'POST': {
       // Create a user
       console.log(' POST request.body:', request.body);
-      console.log('POST babyGender: ', request.body.babyGender);
       const postData = request.body; // If request.body is already an object, no need to parse it.
 
       try {

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { Line } from 'react-chartjs-2';
 import 'hammerjs'; // needed for chartjs-plugin-zoom
 import zoomPlugin from 'chartjs-plugin-zoom';
@@ -7,7 +7,17 @@ import { Chart, LineController, LinearScale, CategoryScale } from 'chart.js';
 
 Chart.register(LineController, LinearScale, CategoryScale);
 
-const ChartComponent = ({ data }) => {
+const ChartComponent = ({ data, currentWeek }) => {
+  const chartRef = useRef();
+  useEffect(() => {
+    if (chartRef && chartRef.current) {
+      const chartInstance = chartRef.current;
+      chartInstance.options.plugins.zoom.zoom.rangeMin = { x: 0.5, y: 0.5 };
+      chartInstance.options.plugins.zoom.zoom.rangeMax = { x: 0.5, y: 0.5 };
+      chartInstance.update();
+    }
+  }, [chartRef]);
+
   const colors = {
     purple: {
       default: 'rgba(149, 76, 233, 1)',
@@ -22,10 +32,16 @@ const ChartComponent = ({ data }) => {
   };
 
   const options = {
+    scales: {
+      x: {
+        min: currentWeek - 4, //starting point for initial zoom
+        max: currentWeek, // end point for initial zoom scale
+      },
+    },
     plugins: {
       zoom: {
         limits: {
-          x: { min: 0, max: 60, minRange: 5 },
+          x: { min: 0, max: 70, minRange: 5 },
           y: { min: 0, max: 35, minRange: 5 },
         },
         pan: {
@@ -50,7 +66,7 @@ const ChartComponent = ({ data }) => {
     },
   };
 
-  return <Line data={data} options={options} plugins={[zoomPlugin]} />;
+  return <Line ref={chartRef} data={data} options={options} plugins={[zoomPlugin]} />;
 };
 
 export default ChartComponent;

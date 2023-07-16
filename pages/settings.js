@@ -27,7 +27,7 @@ export async function getServerSideProps(context) {
     } else {
       user = fetchedUser;
     }
-    console.log('user: ', user);
+
     return {
       props: {
         user: JSON.parse(JSON.stringify(user)),

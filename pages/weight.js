@@ -10,63 +10,89 @@ import { CardContainer } from '../components/CardContainer';
 import Card from '../components/Card';
 import { SignInButton } from '../components/SignInButton';
 import { getAllDays } from '../services/dayService';
+import { getUserSettings } from '../services/userService';
 
 import { CanvasContainer } from '../components/CanvasContainer';
-// import LineChart from '../components/charts/LineChart';
 
 export async function getServerSideProps(context) {
   const session = await getServerSession(context.req, context.res, authOptions);
   if (session) {
     const days = await getAllDays(session.user.email);
+    const user = await getUserSettings(session.user.email);
     return {
-      props: { days: JSON.parse(JSON.stringify(days)) },
+      props: { days: JSON.parse(JSON.stringify(days)), user: JSON.parse(JSON.stringify(user)) },
     };
   } else return { props: {} };
 }
 
-export default function WeightPage({ days }) {
+export default function WeightPage({ days, user }) {
   const { data: session } = useSession();
+  let babyBirthday = null;
+  let currentWeek = null;
 
   const [chartData, setChartData] = useState({});
 
   const ChartComponent = dynamic(() => import('../components/charts/ChartComponent'), { ssr: false });
 
+  const getWeeksFromBirth = (birthDate, dateString) => {
+    if (!birthDate) {
+      return null;
+    }
+    const endDate = new Date(dateString);
+    const startDate = new Date(birthDate);
+
+    const timeDiff = endDate.getTime() - startDate.getTime();
+    const diffWeeks = Math.floor(timeDiff / (1000 * 60 * 60 * 24 * 7));
+    return diffWeeks;
+  };
+
+  if (user && user.babyBirthday) {
+    babyBirthday = new Date(user.babyBirthday);
+    currentWeek = getWeeksFromBirth(babyBirthday, new Date());
+  }
+
+  const weightData = days
+    .map((item) => {
+      const weeks = getWeeksFromBirth(babyBirthday, item.date);
+      return item.weights.map((w) => ({ week: weeks, weight: w.value }));
+    })
+    .flat();
+
   useEffect(() => {
     async function fetchData() {
-      //TODO maybe covert data inside jason and just replace first 3 months manually
-      const response = await fetch('/tables/girls0To5Years.json');
-      const response2 = await fetch('/tables/girls0To13Weeks.json');
+      const response = await fetch('/tables/girlsCombined.json');
       const dataMonths = await response.json();
-      const dataWeeks = await response2.json();
-      const convertedWeekData = dataWeeks.map((item) => ({ ...item, Month: item.Week / 4 }));
-      const combinedData = convertedWeekData.concat(dataMonths.slice(3));
-      console.log(combinedData);
+      const labels = dataMonths.map((item) =>
+        item.Week !== undefined ? `${item.Week} weeks` : `${item.Month} months`
+      );
+      // create an array filled with nulls that's the same length as labels
+      const weightDataArray = new Array(labels.length).fill(null);
+      // populate the array with your weight data at the appropriate indices
+      weightData.forEach((w) => {
+        weightDataArray[w.week] = w.weight;
+      });
 
-      const labels = combinedData.map((item) => item.Month);
-
-      // const datasets = Object.keys(dataMonths[0])
-      //   .filter((key) => key !== 'Month')
-      //   .map((key) => {
-      //     return {
-      //       label: key,
-      //       data: dataMonths.map((item) => item[key]),
-      //       borderColor: '#' + Math.floor(Math.random() * 16777215).toString(16), // random color for each line
-      //       fill: false,
-      //       lineTension: 0.3,
-      //     };
-      //   });
-
-      const datasets = Object.keys(combinedData[0])
+      const datasets = Object.keys(dataMonths[0])
         .filter((key) => key !== 'Month' && key !== 'Week')
         .map((key) => {
           return {
             label: key,
-            data: combinedData.map((item) => item[key]),
-            borderColor: '#' + Math.floor(Math.random() * 16777215).toString(16), // random color for each line
+            data: dataMonths.map((item) => item[key]),
+            borderColor: '#6629cf',
             fill: false,
             lineTension: 0.3,
           };
         });
+
+      datasets.push({
+        label: 'Weights',
+        data: weightDataArray,
+        backgroundColor: '#BF40BF',
+        fill: false,
+        showLine: false, // this ensures only points are shown
+        pointRadius: 8, // adjusts the size of the points
+        pointHoverRadius: 10, // adjusts the size of the points when hovered
+      });
 
       setChartData({
         labels,
@@ -79,25 +105,15 @@ export default function WeightPage({ days }) {
   if (session) {
     const filteredDays = days.filter((day) => day.weights.length > 0);
 
-    const ascendingFilteredDays = Array.from(filteredDays).reverse();
-
-    // const labels = ascendingFilteredDays.map(
-    //   (day) => `${day.date.toString().substr(8, 2)}.${day.date.toString().substr(5, 2)}`
-    // );
-    // const chartData = ascendingFilteredDays.map((day) => day.weights.map((weight) => weight.value));
-
-    // const meanChartData = chartData.map((array) => array.reduce((a, b) => a + b, 0) / array.length);
-    // const title = 'Average Weight';
-
-    // console.log('chartData:', chartData);
-    // console.log('meanChartData:', meanChartData);
-
     return (
       <>
         <CardContainer>
           <CanvasContainer>
-            <ChartComponent data={chartData} />
-            {/* <LineChart labels={labels} chartData={meanChartData} title={title} /> */}
+            {babyBirthday && (
+              <CanvasContainer>
+                <ChartComponent data={chartData} currentWeek={currentWeek} />
+              </CanvasContainer>
+            )}
           </CanvasContainer>
           {filteredDays.map((filteredDay) => (
             <Card
