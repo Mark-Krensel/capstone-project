@@ -9,6 +9,7 @@ const StyledInput = styled.input`
   color: var(--not-black);
   margin: 0.5em 0.5em;
   padding: 0 0.2em;
+  text-align: center;
 
   ::placeholder {
     text-align: center;
